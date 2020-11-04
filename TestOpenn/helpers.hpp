@@ -1,5 +1,5 @@
 #pragma once
-#include "pch.h"
+#include "gtest/gtest.h"
 
 inline void AssertInRange(double val, double min = 0.0, double max = 1.0)
 {
@@ -10,7 +10,7 @@ inline void AssertInRange(double val, double min = 0.0, double max = 1.0)
 
 inline int rand_int(int min, int max)
 {
-	return rand()%100;
+	return rand()%(max-min+1)+min;
 }
 
 template<typename T>
