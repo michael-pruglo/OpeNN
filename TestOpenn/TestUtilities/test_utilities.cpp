@@ -1,6 +1,5 @@
-#include "pch.h"
-#include "helpers.hpp"
-#include "../OpeNN/utility.hpp"
+#include "../helpers.hpp"
+#include "../../OpeNN/utility.hpp"
 
 namespace openn
 {
