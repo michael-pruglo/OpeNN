@@ -48,18 +48,23 @@ std::ostream& openn::operator<<(std::ostream& os, const NeuralNetwork& nn)
 	);
 	const auto& height = it_to_longest->size();
 
+	constexpr size_t HGAP = 5, LAYER_W = 9;
+	const size_t TOTAL_W = (HGAP+LAYER_W)*nn.layers.size();
+
+	os << std::string(TOTAL_W + HGAP, '=') << "\n";
 	for (size_t i = 0; i < height; ++i)
 	{
 		for (const auto& layer: nn.layers)
 		{
-			os << "     ";
+			os << std::string(HGAP, ' ');
 			if (i < layer.size())
 				os << "(" << std::setw(2) << layer[i].w.size() << ") " << std::fixed << std::setprecision(2) << layer[i].val;
 			else 
-				os << "         ";
+				os << std::string(LAYER_W, ' ');
 		}
 		os << "\n";
 	}
+	os << std::string(TOTAL_W + HGAP, '=') << "\n";
 
 	return os;
 }
