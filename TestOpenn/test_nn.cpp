@@ -38,8 +38,9 @@ namespace openn
 			testNode( Node(i), i );
 	}
 	
-	TEST(NeuralNetworkTest, Constructor)
+	class NNConstructorFixture : public ::testing::Test
 	{
+	protected:
 		std::vector<std::pair<size_t, size_t>> testcases = {
 			{ 0, 0 },
 			{ 0, 1 },
@@ -48,20 +49,37 @@ namespace openn
 			{ 1, 2 },
 			{ 1, 100 },
 			{ 100, 1 },
-			{ 100, 100 },
 			{ 5, 1 },
 			{ 1, 5 },
+			{ 100, 100 },
 		};
-		for (int i = 0; i < 50; ++i)
-			testcases.emplace_back(rand_int(0,100), rand_int(0,100));
 
-
-		for (const auto& [i, j] : testcases)
+		void SetUp() override
 		{
-			NeuralNetwork nn(i, j);
-			testNet(nn, {i, j});
+			for (int i = 0; i < 50; ++i)
+				testcases.emplace_back(rand_int(0,100), rand_int(0,100));
 		}
-	}
+		
+		void runCases(size_t start, size_t finish)
+		{
+			for (size_t i = start; i < finish; ++i)
+				runCase(i);
+		}
+
+		void runCase(size_t i)
+		{
+			const auto& [x, y] = testcases[i];
+			NeuralNetwork nn(x, y);
+			testNet(nn, {x, y});
+		}
+	};
+
+	TEST_F(NNConstructorFixture, Constructor00) { runCase(0); }
+	TEST_F(NNConstructorFixture, Constructor0) { runCases(1, 3); }
+	TEST_F(NNConstructorFixture, Constructor1x) { runCases(3, 9); }
+	TEST_F(NNConstructorFixture, Constructor100100) { runCase(9); }
+	TEST_F(NNConstructorFixture, ConstructorRnd) { runCases(10, testcases.size()); }
+
 
 	class NNAddLayerFixture : public ::testing::Test
 	{
@@ -95,11 +113,9 @@ namespace openn
 			{ 2, {0, 0, 0, 0, 0, 0}, 4 },
 		};
 
-		const int RAND_CNT = 50;
-
 		void SetUp() override
 		{
-			for (int i = 0; i < RAND_CNT; ++i)
+			for (int i = 0; i < 50; ++i)
 			{
 				std::vector<size_t> gen_ins(rand_int(1, 30));
 				for (auto& ins: gen_ins) ins = rand_int(0, 20);
