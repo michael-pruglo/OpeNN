@@ -21,10 +21,21 @@ NeuralNetwork::NeuralNetwork(size_t input_size, size_t output_size)
 {
 }
 
-void NeuralNetwork::addLayer(size_t size)
+void NeuralNetwork::addLayer(size_t layer_size)
 {
-	assert(layers.size() > 1);
-	const auto& it_last_pre_output = layers.end() - 1;
-	const Layer new_layer(size, Node(it_last_pre_output->size()));
-	layers.insert(it_last_pre_output, new_layer);
+	const auto& last_pre_output_idx = layers.size() - 2;
+	addLayer(layer_size, last_pre_output_idx);
+}
+
+void NeuralNetwork::addLayer(size_t layer_size, size_t pos)
+{
+	assert(pos >= 0 && pos < layers.size()-1);
+
+	auto it = layers.begin() + pos;
+	const Layer new_layer( layer_size, Node(it->size()) );
+	it = layers.insert(it, new_layer);
+
+	const auto& it_next_layer = it+1;
+	for (auto& node: *it_next_layer)
+		node = Node(layer_size);
 }
