@@ -63,8 +63,9 @@ namespace openn
 		}
 	}
 
-	TEST(NeuralNetworkTest, AddLayer)
+	class NNAddLayerFixture : public ::testing::Test
 	{
+	protected:
 		struct Testcase
 		{
 			size_t in;
@@ -93,29 +94,52 @@ namespace openn
 			{ 2, {7, 19, 20, 0, 1}, 4 },
 			{ 2, {0, 0, 0, 0, 0, 0}, 4 },
 		};
-		for (int i = 0; i < 50; ++i)
+
+		const int RAND_CNT = 50;
+
+		void SetUp() override
 		{
-			std::vector<size_t> gen_ins(rand_int(1, 30));
-			for (auto& ins: gen_ins) ins = rand_int(0, 20);
-			testcases.push_back({
-				static_cast<size_t>(rand_int(0, 20)),
-				gen_ins, 
-				static_cast<size_t>(rand_int(0, 20))
-			});
+			for (int i = 0; i < RAND_CNT; ++i)
+			{
+				std::vector<size_t> gen_ins(rand_int(1, 30));
+				for (auto& ins: gen_ins) ins = rand_int(0, 20);
+				testcases.push_back({
+					static_cast<size_t>(rand_int(0, 20)),
+					gen_ins, 
+					static_cast<size_t>(rand_int(0, 20))
+				});
+			}
 		}
 
-		for (const auto& tcas: testcases)
+		void runCases(size_t start, size_t finish)
 		{
+			for (size_t i = start; i < finish; ++i)
+				runCase(i);
+		}
+
+		void runCase(size_t i)
+		{
+			const auto& tcas = testcases[i];
 			NeuralNetwork nn(tcas.in, tcas.out);
-			std::vector<size_t> curr_config = { tcas.in, tcas.out };
+			std::vector<size_t> curr_config = { tcas.in };
 			for (const auto& ins: tcas.insertions)
 			{
 				nn.addLayer(ins);
-				curr_config.pop_back();
 				curr_config.push_back(ins);
-				curr_config.push_back(tcas.out);
-				testNet(nn, curr_config);
 			}
+			curr_config.push_back(tcas.out);
+
+			testNet(nn, curr_config);
 		}
-	}
+	};
+
+	TEST_F(NNAddLayerFixture, AddLayerIns1Zeros1) { runCases(0, 3); }
+	TEST_F(NNAddLayerFixture, AddLayerIns1Zeros2) { runCases(3, 6); }
+	TEST_F(NNAddLayerFixture, AddLayerIns1Zeros3) { runCase(6); }
+	TEST_F(NNAddLayerFixture, AddLayerIns1Regular) { runCases(7, 9); }
+	TEST_F(NNAddLayerFixture, AddLayerIns2Regular) { runCases(9, 11); }
+	TEST_F(NNAddLayerFixture, AddLayerIns2Zeros) { runCases(12, 17); }
+	TEST_F(NNAddLayerFixture, AddLayerIns2ZerosAll) { runCase(17); }
+	TEST_F(NNAddLayerFixture, AddLayerInsMultiple) { runCases(18, 20); }
+	TEST_F(NNAddLayerFixture, AddLayerRnd) { runCases(20, testcases.size()); }
 }
