@@ -38,7 +38,24 @@ namespace openn
 			testNode( Node(i), i );
 	}
 	
-	class NNConstructorFixture : public ::testing::Test
+	class TestWithTestcases : public ::testing::Test
+	{
+	protected:
+		virtual ~TestWithTestcases() = default;
+
+		void SetUp() override { for (int i = 0; i < 50; ++i) addRandCase(); }
+		virtual void addRandCase() {}
+
+		void runCases(size_t start, size_t finish)
+		{
+			for (size_t i = start; i < finish; ++i)
+				runCase(i);
+		}
+
+		virtual void runCase(size_t i) const {}
+	};
+
+	class NNConstructorFixture : public openn::TestWithTestcases
 	{
 	protected:
 		std::vector<std::pair<size_t, size_t>> testcases = {
@@ -54,19 +71,12 @@ namespace openn
 			{ 100, 100 },
 		};
 
-		void SetUp() override
+		void addRandCase() override
 		{
-			for (int i = 0; i < 50; ++i)
-				testcases.emplace_back(rand_int(0,100), rand_int(0,100));
-		}
-		
-		void runCases(size_t start, size_t finish)
-		{
-			for (size_t i = start; i < finish; ++i)
-				runCase(i);
+			testcases.emplace_back(rand_int(0,100), rand_int(0,100));
 		}
 
-		void runCase(size_t i)
+		void runCase(size_t i) const override
 		{
 			const auto& [x, y] = testcases[i];
 			NeuralNetwork nn(x, y);
@@ -81,7 +91,7 @@ namespace openn
 	TEST_F(NNConstructorFixture, ConstructorRnd) { runCases(10, testcases.size()); }
 
 
-	class NNAddLayerFixture : public ::testing::Test
+	class NNAddLayerFixture : public openn::TestWithTestcases
 	{
 	protected:
 		struct Testcase
@@ -113,27 +123,18 @@ namespace openn
 			{ 2, {0, 0, 0, 0, 0, 0}, 4 },
 		};
 
-		void SetUp() override
+		void addRandCase() override
 		{
-			for (int i = 0; i < 50; ++i)
-			{
-				std::vector<size_t> gen_ins(rand_int(1, 30));
-				for (auto& ins: gen_ins) ins = rand_int(0, 20);
-				testcases.push_back({
-					static_cast<size_t>(rand_int(0, 20)),
-					gen_ins, 
-					static_cast<size_t>(rand_int(0, 20))
-				});
-			}
+			std::vector<size_t> gen_ins(rand_int(1, 30));
+			for (auto& ins: gen_ins) ins = rand_int(0, 20);
+			testcases.push_back({
+				static_cast<size_t>(rand_int(0, 20)),
+				gen_ins, 
+				static_cast<size_t>(rand_int(0, 20))
+			});
 		}
 
-		void runCases(size_t start, size_t finish)
-		{
-			for (size_t i = start; i < finish; ++i)
-				runCase(i);
-		}
-
-		void runCase(size_t i)
+		void runCase(size_t i) const override
 		{
 			const auto& tcas = testcases[i];
 			NeuralNetwork nn(tcas.in, tcas.out);
