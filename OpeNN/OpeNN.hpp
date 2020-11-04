@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ostream>
 #include <vector>
 
 namespace openn
@@ -26,4 +27,6 @@ namespace openn
 
 		std::vector<Layer> layers;
 	};
+
+	std::ostream& operator<<(std::ostream & os, const NeuralNetwork& nn);
 }

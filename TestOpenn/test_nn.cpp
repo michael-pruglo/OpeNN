@@ -73,8 +73,7 @@ namespace openn
 		};
 
 		std::vector<Testcase> testcases = {
-			{ 2, {3}, 2 },
-			{ 2, {3, 5}, 0 },
+			{ 0, {7}, 9 },
 		};
 
 		for (const auto& tcas: testcases)
