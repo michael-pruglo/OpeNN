@@ -37,15 +37,33 @@ namespace openn
 		for (size_t i = 0; i < 100; ++i)
 			testNode( Node(i), i );
 	}
-
+	
 	TEST(NeuralNetworkTest, Constructor)
 	{
-		const size_t N = 10;
-		for (size_t i = 0; i < N; ++i)
-			for (size_t j = 0; j < N; ++j)
-			{
-				NeuralNetwork nn(i, j);
-				testNet(nn, {i, j});
-			}
+		std::vector<std::pair<size_t, size_t>> testcases = {
+			{ 0, 0 },
+			{ 0, 1 },
+			{ 1, 0 },
+			{ 1, 1 },
+			{ 1, 2 },
+			{ 1, 100 },
+			{ 100, 1 },
+			{ 100, 100 },
+			{ 5, 1 },
+			{ 1, 5 },
+		};
+		for (int i = 0; i < 50; ++i)
+			testcases.push_back({ rand_int(0,100), rand_int(0,100) });
+
+		for (const auto& [i, j] : testcases)
+		{
+			NeuralNetwork nn(i, j);
+			testNet(nn, {i, j});
+		}
+	}
+
+	TEST(NeuralNetworkTest, AddLayer)
+	{
+		
 	}
 }
