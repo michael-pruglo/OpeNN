@@ -27,7 +27,7 @@ namespace openn
 
 		for (size_t i = 0; i < N; ++i)
 		{
-			ASSERT_EQ(nn.layers[i].size(), layer_sizes[i]);
+			ASSERT_EQ(nn.layers[i].size(), layer_sizes[i]) << nn << layer_sizes;
 			testLayer(nn.layers[i], i ? layer_sizes[i-1] : 0);
 		}
 	}
@@ -74,7 +74,35 @@ namespace openn
 
 		std::vector<Testcase> testcases = {
 			{ 0, {7}, 9 },
+			{ 1, {0}, 9 },
+			{ 3, {7}, 0 },
+			{ 0, {0}, 3 },
+			{ 7, {0}, 0 },
+			{ 0, {7}, 0 },
+			{ 0, {0}, 0 },
+			{ 1, {1}, 1 },
+			{ 2, {3}, 4 },
+			{ 2, {3, 4}, 4 },
+			{ 2, {9, 14}, 4 },
+			{ 2, {9, 14}, 0 },
+			{ 0, {9, 14}, 0 },
+			{ 2, {0, 0}, 9 },
+			{ 0, {0, 0}, 9 },
+			{ 2, {0, 0}, 0 },
+			{ 0, {0, 0}, 0 },
+			{ 2, {7, 19, 20, 0, 1}, 4 },
+			{ 2, {0, 0, 0, 0, 0, 0}, 4 },
 		};
+		for (int i = 0; i < 50; ++i)
+		{
+			std::vector<size_t> gen_ins(rand_int(1, 30));
+			for (auto& ins: gen_ins) ins = rand_int(0, 20);
+			testcases.push_back({
+				static_cast<size_t>(rand_int(0, 20)),
+				gen_ins, 
+				static_cast<size_t>(rand_int(0, 20))
+			});
+		}
 
 		for (const auto& tcas: testcases)
 		{

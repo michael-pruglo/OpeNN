@@ -3,7 +3,7 @@
 
 int main()
 {
-	openn::NeuralNetwork nn(2, 2);
-	nn.addLayer(3);
+	openn::NeuralNetwork nn(0, 9);
+	nn.addLayer(7);
 	std::cout << nn;
 }
