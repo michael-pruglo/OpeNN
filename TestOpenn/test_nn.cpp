@@ -53,7 +53,8 @@ namespace openn
 			{ 1, 5 },
 		};
 		for (int i = 0; i < 50; ++i)
-			testcases.push_back({ rand_int(0,100), rand_int(0,100) });
+			testcases.emplace_back(rand_int(0,100), rand_int(0,100));
+
 
 		for (const auto& [i, j] : testcases)
 		{
@@ -64,6 +65,30 @@ namespace openn
 
 	TEST(NeuralNetworkTest, AddLayer)
 	{
-		
+		struct Testcase
+		{
+			size_t in;
+			std::vector<size_t> insertions;
+			size_t out;
+		};
+
+		std::vector<Testcase> testcases = {
+			{ 2, {3}, 2 },
+			{ 2, {3, 5}, 0 },
+		};
+
+		for (const auto& tcas: testcases)
+		{
+			NeuralNetwork nn(tcas.in, tcas.out);
+			std::vector<size_t> curr_config = { tcas.in, tcas.out };
+			for (const auto& ins: tcas.insertions)
+			{
+				nn.addLayer(ins);
+				curr_config.pop_back();
+				curr_config.push_back(ins);
+				curr_config.push_back(tcas.out);
+				testNet(nn, curr_config);
+			}
+		}
 	}
 }
