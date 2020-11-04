@@ -15,9 +15,8 @@ namespace openn
 
 	using Layer = std::vector<Node>;
 
-	class NeuralNetwork
+	struct NeuralNetwork
 	{
-	public:
 		/// construct a network with 1 input and 1 output layer
 		NeuralNetwork(size_t input_size, size_t output_size);
 		virtual ~NeuralNetwork() = default;
@@ -25,7 +24,6 @@ namespace openn
 		virtual void addLayer(size_t layer_size);
 		virtual void addLayer(size_t layer_size, size_t pos);
 
-	protected:
 		std::vector<Layer> layers;
 	};
 }
