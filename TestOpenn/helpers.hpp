@@ -1,6 +1,8 @@
 #pragma once
 #include "gtest/gtest.h"
 
+#include <random>
+
 inline void AssertInRange(double val, double min = 0.0, double max = 1.0)
 {
 	constexpr double EPS = 1e-9;
@@ -8,9 +10,13 @@ inline void AssertInRange(double val, double min = 0.0, double max = 1.0)
 	ASSERT_LE(val, max+EPS);
 }
 
+inline std::random_device dev;
+inline std::mt19937 rnd_engine(dev() ^ static_cast<unsigned int>(time(nullptr)));
+
 inline int rand_int(int min, int max)
 {
-	return rand()%(max-min+1)+min;
+	const std::uniform_int_distribution<int> distibution(min, max);
+  	return distibution(rnd_engine);
 }
 
 inline size_t rand_size(size_t max = 100)

@@ -1,5 +1,4 @@
 #include <cassert>
-#include <algorithm>
 #include <iomanip>
 #include "opeNN.hpp"
 #include "utility.hpp"
@@ -8,10 +7,11 @@ using namespace openn;
 
 Node::Node(size_t prev_layer_size)
 	: val(openn::randd())
-	, w(prev_layer_size)
 	, b(openn::randd())
 {
-	std::generate_n(w.begin(), prev_layer_size, openn::randd);
+	w.reserve(prev_layer_size);
+	for (size_t i = 0; i < prev_layer_size; ++i)
+		w.emplace_back(openn::randd());
 }
 
 NeuralNetwork::NeuralNetwork(size_t input_size, size_t output_size)
