@@ -11,40 +11,42 @@ namespace openn
 	
 
 
-	class NNConstructorFixture : public openn::TestWithTestcases
+	struct ConstructNNParam
 	{
-	protected:
-		std::vector<std::pair<size_t, size_t>> testcases = {
-			{ 0, 0 },
-			{ 0, 1 },
-			{ 1, 0 },
-			{ 1, 1 },
-			{ 1, 2 },
-			{ 1, 100 },
-			{ 100, 1 },
-			{ 5, 1 },
-			{ 1, 5 },
-			{ 100, 100 },
-		};
-
-		void addRandCase() override
-		{
-			testcases.emplace_back(rand_int(0,100), rand_int(0,100));
-		}
-
-		void runCase(size_t i) override
-		{
-			const auto& [x, y] = testcases[i];
-			NeuralNetwork nn(x, y);
-			testNet(nn, {x, y});
-		}
+		size_t in_size, out_size;
 	};
 
-	TEST_F(NNConstructorFixture, Ctor00) { runCase(0); }
-	TEST_F(NNConstructorFixture, Ctor0) { runCases(1, 3); }
-	TEST_F(NNConstructorFixture, Ctor1x) { runCases(3, 9); }
-	TEST_F(NNConstructorFixture, Ctor100100) { runCase(9); }
-	TEST_F(NNConstructorFixture, CtorRnd) { runCases(10, testcases.size()); }
+	class NNConstructFixture :
+		public testing::TestWithParam<ConstructNNParam>
+	{};
+
+	INSTANTIATE_TEST_CASE_P(
+		Construct,
+        NNConstructFixture,
+        testing::Values(
+			ConstructNNParam{ 7, 8 },
+			ConstructNNParam{ 6, 9 },
+			ConstructNNParam{ 0, 0 },
+			ConstructNNParam{ 0, 1 },
+			ConstructNNParam{ 1, 0 },
+			ConstructNNParam{ 1, 1 },
+			ConstructNNParam{ 1, 2 },
+			ConstructNNParam{ 1, 100 },
+			ConstructNNParam{ 100, 1 },
+			ConstructNNParam{ 5, 1 },
+			ConstructNNParam{ 1, 5 },
+			ConstructNNParam{ 100, 100 }
+		)
+	);
+
+	TEST_P(NNConstructFixture, Constructs)
+	{
+		const auto& param = GetParam();
+		testNet(
+			NeuralNetwork(param.in_size, param.out_size), 
+			{ param.in_size, param.out_size }
+		);
+	}
 
 
 	
@@ -98,13 +100,13 @@ namespace openn
 		return nn;
 	}
 
-	class NNAddLayerFixture2 :
+	class NNAddLayerFixture :
 		public testing::TestWithParam<AddLayerTestParam>
 	{};
 	
 	INSTANTIATE_TEST_CASE_P(
 		AddUnparametrized,
-        NNAddLayerFixture2,
+        NNAddLayerFixture,
         testing::Values(
 			AddLayerTestParam{ 2, 2, {} },
 			AddLayerTestParam{ 2, 3, {} }
@@ -113,14 +115,14 @@ namespace openn
 	
 	INSTANTIATE_TEST_CASE_P(
 		AddAt,
-        NNAddLayerFixture2,
+        NNAddLayerFixture,
         testing::Values(
 			AddLayerTestParam{ 7, 8, {} },
 			AddLayerTestParam{ 6, 9, {} }
 		)
 	);
 
-	TEST_P(NNAddLayerFixture2, AddsLayer)
+	TEST_P(NNAddLayerFixture, AddsLayer)
 	{
 		const auto& param = GetParam();
 		testNet(param.createNN(), param.expectedResultSizes());

@@ -28,18 +28,4 @@ namespace openn
 			testLayer(nn.layers[i], i ? layer_sizes[i-1] : 0);
 		}
 	}
-
-
-
-	void TestWithTestcases::SetUp()
-	{
-		for (int i = 0; i < 50; ++i)
-			addRandCase();
-	}
-
-	void TestWithTestcases::runCases(size_t start, size_t finish)
-	{
-		for (size_t i = start; i < finish; ++i)
-			runCase(i);
-	}
 }
