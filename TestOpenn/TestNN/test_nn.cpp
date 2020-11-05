@@ -9,6 +9,8 @@ namespace openn
 			testNode( Node(i), i );
 	}
 	
+
+
 	class NNConstructorFixture : public openn::TestWithTestcases
 	{
 	protected:
@@ -30,7 +32,7 @@ namespace openn
 			testcases.emplace_back(rand_int(0,100), rand_int(0,100));
 		}
 
-		void runCase(size_t i) const override
+		void runCase(size_t i) override
 		{
 			const auto& [x, y] = testcases[i];
 			NeuralNetwork nn(x, y);
@@ -38,79 +40,89 @@ namespace openn
 		}
 	};
 
-	TEST_F(NNConstructorFixture, Constructor00) { runCase(0); }
-	TEST_F(NNConstructorFixture, Constructor0) { runCases(1, 3); }
-	TEST_F(NNConstructorFixture, Constructor1x) { runCases(3, 9); }
-	TEST_F(NNConstructorFixture, Constructor100100) { runCase(9); }
-	TEST_F(NNConstructorFixture, ConstructorRnd) { runCases(10, testcases.size()); }
+	TEST_F(NNConstructorFixture, Ctor00) { runCase(0); }
+	TEST_F(NNConstructorFixture, Ctor0) { runCases(1, 3); }
+	TEST_F(NNConstructorFixture, Ctor1x) { runCases(3, 9); }
+	TEST_F(NNConstructorFixture, Ctor100100) { runCase(9); }
+	TEST_F(NNConstructorFixture, CtorRnd) { runCases(10, testcases.size()); }
 
 
-	class NNAddLayerFixture : public openn::TestWithTestcases
+	
+	struct AddLayerTestParam
 	{
-	protected:
-		struct Testcase
-		{
-			size_t in;
-			std::vector<size_t> insertions;
-			size_t out;
+		struct Insertion {
+			explicit Insertion(size_t layer_size);
+			Insertion(size_t layer_size, size_t pos);
+
+			size_t layer_size, pos; 
+			bool use_pos; 
 		};
 
-		std::vector<Testcase> testcases = {
-			{ 0, {7}, 9 },
-			{ 1, {0}, 9 },
-			{ 3, {7}, 0 },
-			{ 0, {0}, 3 },
-			{ 7, {0}, 0 },
-			{ 0, {7}, 0 },
-			{ 0, {0}, 0 },
-			{ 1, {1}, 1 },
-			{ 2, {3}, 4 },
-			{ 2, {3, 4}, 4 },
-			{ 2, {9, 14}, 4 },
-			{ 2, {9, 14}, 0 },
-			{ 0, {9, 14}, 0 },
-			{ 2, {0, 0}, 9 },
-			{ 0, {0, 0}, 9 },
-			{ 2, {0, 0}, 0 },
-			{ 0, {0, 0}, 0 },
-			{ 2, {7, 19, 20, 0, 1}, 4 },
-			{ 2, {0, 0, 0, 0, 0, 0}, 4 },
-		};
+		[[nodiscard]] std::vector<size_t> expectedResultSizes() const;
+		[[nodiscard]] NeuralNetwork createNN() const;
 
-		void addRandCase() override
-		{
-			std::vector<size_t> gen_ins(rand_int(1, 30));
-			for (auto& ins: gen_ins) ins = rand_int(0, 20);
-			testcases.push_back({
-				static_cast<size_t>(rand_int(0, 20)),
-				gen_ins, 
-				static_cast<size_t>(rand_int(0, 20))
-			});
-		}
-
-		void runCase(size_t i) const override
-		{
-			const auto& tcas = testcases[i];
-			NeuralNetwork nn(tcas.in, tcas.out);
-			std::vector<size_t> curr_config = { tcas.in };
-			for (const auto& ins: tcas.insertions)
-			{
-				nn.addLayer(ins);
-				curr_config.push_back(ins);
-			}
-			curr_config.push_back(tcas.out);
-
-			testNet(nn, curr_config);
-		}
+		size_t init_in, init_out;
+		std::vector<Insertion> insertions;
 	};
 
-	TEST_F(NNAddLayerFixture, AddLayerIns1Zeros1) { runCases(0, 3); }
-	TEST_F(NNAddLayerFixture, AddLayerIns1Zeros2) { runCases(3, 6); }
-	TEST_F(NNAddLayerFixture, AddLayerIns1Zeros3) { runCase(6); }
-	TEST_F(NNAddLayerFixture, AddLayerIns1Regular) { runCases(7, 9); }
-	TEST_F(NNAddLayerFixture, AddLayerIns2Regular) { runCases(9, 11); }
-	TEST_F(NNAddLayerFixture, AddLayerIns2Zeros) { runCases(12, 17); }
-	TEST_F(NNAddLayerFixture, AddLayerIns2ZerosAll) { runCase(17); }
-	TEST_F(NNAddLayerFixture, AddLayerInsMultiple) { runCases(18, 20); }
-	TEST_F(NNAddLayerFixture, AddLayerRnd) { runCases(20, testcases.size()); }
+	AddLayerTestParam::Insertion::Insertion(size_t layer_size_)
+		: layer_size(layer_size_)
+		, use_pos(false)
+	{}
+	AddLayerTestParam::Insertion::Insertion(size_t layer_size_, size_t pos_)
+		: layer_size(layer_size_)
+		, pos(pos_)
+		, use_pos(true)
+	{}
+	
+	std::vector<size_t> AddLayerTestParam::expectedResultSizes() const
+	{
+		std::vector<size_t> res = { init_in, init_out };
+		for (const auto& ins: insertions)
+		{
+			const size_t position = ins.use_pos ? ins.pos : res.size() - 1;
+			res.insert(res.begin()+position, ins.layer_size);
+		}
+		return res;
+	}
+	NeuralNetwork AddLayerTestParam::createNN() const
+	{
+		NeuralNetwork nn(init_in, init_out);
+		for (const auto& ins: insertions)
+		{
+			if (ins.use_pos)
+				nn.addLayer(ins.layer_size, ins.pos);
+			else
+				nn.addLayer(ins.layer_size);
+		}
+		return nn;
+	}
+
+	class NNAddLayerFixture2 :
+		public testing::TestWithParam<AddLayerTestParam>
+	{};
+	
+	INSTANTIATE_TEST_CASE_P(
+		AddUnparametrized,
+        NNAddLayerFixture2,
+        testing::Values(
+			AddLayerTestParam{ 2, 2, {} },
+			AddLayerTestParam{ 2, 3, {} }
+		)
+	);
+	
+	INSTANTIATE_TEST_CASE_P(
+		AddAt,
+        NNAddLayerFixture2,
+        testing::Values(
+			AddLayerTestParam{ 7, 8, {} },
+			AddLayerTestParam{ 6, 9, {} }
+		)
+	);
+
+	TEST_P(NNAddLayerFixture2, AddsLayer)
+	{
+		const auto& param = GetParam();
+		testNet(param.createNN(), param.expectedResultSizes());
+	}
 }

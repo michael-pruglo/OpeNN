@@ -7,7 +7,7 @@ namespace openn
 {
 	struct Node
 	{
-		explicit Node(size_t prev_layer_size);
+		explicit Node(size_t prev_layer_size = 0);
 
 		double val;
 		std::vector<double> w;

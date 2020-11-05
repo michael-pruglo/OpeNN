@@ -37,7 +37,7 @@ namespace openn
 			addRandCase();
 	}
 
-	void TestWithTestcases::runCases(size_t start, size_t finish) const
+	void TestWithTestcases::runCases(size_t start, size_t finish)
 	{
 		for (size_t i = start; i < finish; ++i)
 			runCase(i);

@@ -18,8 +18,8 @@ namespace openn
 		void SetUp() override;
 		virtual void addRandCase() {}
 
-		void runCases(size_t start, size_t finish) const;
-		virtual void runCase(size_t i) const {}
+		void runCases(size_t start, size_t finish);
+		virtual void runCase(size_t i) {}
 	};
 
 }

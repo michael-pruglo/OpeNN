@@ -16,7 +16,7 @@ Node::Node(size_t prev_layer_size)
 
 NeuralNetwork::NeuralNetwork(size_t input_size, size_t output_size)
 	: layers({ 
-		Layer(input_size, Node(0)), 
+		Layer(input_size), 
 		Layer(output_size, Node(input_size)) 
 	})
 {
@@ -33,7 +33,11 @@ void NeuralNetwork::addLayer(size_t layer_size, size_t pos)
 	assert(pos >= 0 && pos < layers.size());
 
 	auto it = layers.begin() + pos;
-	const Layer new_layer( layer_size, Node((it-1)->size()) );
+	const auto& prev_size = pos ? (it-1)->size() : 0;
+	Layer new_layer; 
+	for (size_t i = 0; i < layer_size; ++i)
+		new_layer.emplace_back(prev_size);
+
 	it = layers.insert(it, new_layer);
 
 	const auto& it_next_layer = it+1;
