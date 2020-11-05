@@ -7,6 +7,8 @@ namespace openn
 	struct ConstructNNParam
 	{
 		size_t in_size, out_size;
+
+		static ConstructNNParam generateRand();
 	};
 
 	class NNConstructFixture :
@@ -24,6 +26,8 @@ namespace openn
 
 			size_t layer_size, pos; 
 			bool use_pos; 
+		
+			static Insertion generateRand(size_t max_allowed_pos);
 		};
 
 		[[nodiscard]] std::vector<size_t> expectedResultSizes() const;
@@ -31,6 +35,8 @@ namespace openn
 
 		size_t init_in, init_out;
 		std::vector<Insertion> insertions;
+
+		static AddLayerTestParam generateRand();
 	};
 
 	class NNAddLayerFixture :

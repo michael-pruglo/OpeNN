@@ -13,6 +13,11 @@ inline int rand_int(int min, int max)
 	return rand()%(max-min+1)+min;
 }
 
+inline size_t rand_size(size_t max = 100)
+{
+	return static_cast<size_t>(rand_int(0, max));
+}
+
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec)
 {
