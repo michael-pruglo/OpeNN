@@ -1,4 +1,5 @@
 #include "helpers.hpp"
+#include "../../OpeNN/opeNN.cpp" //for NeuralNetwork::operator<<()
 
 namespace openn
 {

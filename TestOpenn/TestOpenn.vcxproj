@@ -35,10 +35,13 @@
   <ItemGroup>
     <ClInclude Include="helpers.hpp" />
     <ClInclude Include="TestNN\helpers.hpp" />
+    <ClInclude Include="TestNN\test_nn.hpp" />
+    <ClInclude Include="TestNN\test_nn_instantiations.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestNN\helpers.cpp" />
     <ClCompile Include="TestNN\test_nn.cpp" />
+    <ClCompile Include="TestNN\test_nn_tests.cpp" />
     <ClCompile Include="TestUtilities\test_utilities.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -10,12 +10,21 @@
     <ClCompile Include="TestNN\test_nn.cpp">
       <Filter>TestNN</Filter>
     </ClCompile>
+    <ClCompile Include="TestNN\test_nn_tests.cpp">
+      <Filter>TestNN</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestNN\helpers.hpp">
       <Filter>TestNN</Filter>
     </ClInclude>
     <ClInclude Include="helpers.hpp" />
+    <ClInclude Include="TestNN\test_nn.hpp">
+      <Filter>TestNN</Filter>
+    </ClInclude>
+    <ClInclude Include="TestNN\test_nn_instantiations.hpp">
+      <Filter>TestNN</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TestNN">
