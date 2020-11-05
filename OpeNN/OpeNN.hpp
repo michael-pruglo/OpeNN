@@ -5,13 +5,15 @@
 
 namespace openn
 {
+	using float_t = double;
+
 	struct Node
 	{
 		explicit Node(size_t prev_layer_size = 0);
 
-		double val;
-		std::vector<double> w;
-		double b;
+		float_t val;
+		std::vector<float_t> w;
+		float_t b;
 	};
 
 	using Layer = std::vector<Node>;

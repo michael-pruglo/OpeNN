@@ -73,7 +73,9 @@ namespace openn
 			AddLayerTestParam{ 0, 0, { Ins(0) } },
 			AddLayerTestParam{ 0, 0, { Ins(2), Ins(0), Ins(1), Ins(0) } },
 			AddLayerTestParam{ 0, 0, { Ins(0), Ins(0), Ins(0), Ins(0) } },
-			AddLayerTestParam{ 65000, 65000, std::vector<Ins>(20, Ins(65000)) }
+			AddLayerTestParam{ 10000, 10000, { Ins(7) } },
+			AddLayerTestParam{ 2, 2, std::vector<Ins>(20, Ins(1000)) },
+			AddLayerTestParam{ 1000, 1000, std::vector<Ins>(20, Ins(1000)) }
 		)
 	);
 	
@@ -88,7 +90,7 @@ namespace openn
 			AddLayerTestParam{ 0, 0, { Ins(0, 1) } },
 			AddLayerTestParam{ 0, 0, { Ins(2, 0), Ins(0, 2), Ins(1, 1), Ins(0, 0) } },
 			AddLayerTestParam{ 0, 0, { Ins(0, 0), Ins(0, 2), Ins(0, 1), Ins(0, 0) } },
-			AddLayerTestParam{ 65000, 65000, std::vector<Ins>(20, Ins(65000, 0)) },
+			AddLayerTestParam{ 1000, 1000, std::vector<Ins>(20, Ins(1000, 0)) },
 			AddLayerTestParam{ 1, 1, { Ins(1, 1), Ins(1, 2), Ins(1, 3), Ins(1, 4), Ins(1, 5) } },
 			AddLayerTestParam{ 1, 1, { Ins(1, 0), Ins(1, 0), Ins(1, 0), Ins(1, 0), Ins(1, 0) } }
 		)
