@@ -1,5 +1,5 @@
 #include "helpers.hpp"
-#include "../../OpeNN/nn_printer.cpp" //for NeuralNetwork::operator<<()
+#include "../../OpeNN/package/io/nn_printer.cpp" //for NeuralNetwork::operator<<()
 
 namespace openn
 {
