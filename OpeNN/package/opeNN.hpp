@@ -18,7 +18,7 @@ namespace openn
 
 	struct Layer : public std::vector<Node>
 	{
-		explicit Layer(size_t layer_size, size_t prev_layer_size = 0);
+		explicit Layer(size_t layer_size = 0, size_t prev_layer_size = 0);
 		void resetWeights(size_t prev_layer_size = 0);
 	};
 

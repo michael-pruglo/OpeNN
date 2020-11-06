@@ -2,31 +2,41 @@
 
 using namespace openn;
 
-nlohmann::json openn::to_json(const Node& node)
+void openn::to_json(nlohmann::json& j, const Node& node)
 {
-	nlohmann::json res;
-	res["bias"] = node.bias;
-	res["weights"] = node.w;
-	return res;
+	j["bias"] = node.bias;
+	j["weights"] = node.w;
 }
 
-nlohmann::json openn::to_json(const Layer& layer)
+void openn::to_json(nlohmann::json& j, const NeuralNetwork& nn)
 {
-	nlohmann::json res;
-	for (const auto& node: layer)
-		res.push_back(to_json(node));
-	return res;
-}
-
-nlohmann::json openn::to_json(const NeuralNetwork& nn)
-{
-	nlohmann::json res;
 	for (size_t i = 0; i < nn.layers.size(); ++i)
 	{
 		nlohmann::json layer_json;
 		layer_json["layer#"] = i;
-		layer_json["nodes"] = to_json(nn.layers[i]);
-		res.push_back(layer_json);
+		layer_json["nodes"] = nn.layers[i];
+		j.push_back(layer_json);
 	}
-	return res;
+}
+
+void openn::from_json(const nlohmann::json& j, Node& node)
+{
+	j.at("bias").get_to(node.bias);
+	j.at("weights").get_to(node.w);
+}
+
+void openn::from_json(const nlohmann::json& j, Layer& layer)
+{
+	for (const auto& subj : j)
+		layer.push_back(subj);
+}
+
+void openn::from_json(const nlohmann::json& j, NeuralNetwork& nn)
+{
+	nn.layers.resize(j.size());
+	for (const auto& subj : j)
+	{
+		const size_t idx = subj.at("layer#");
+		subj.at("nodes").get_to( nn.layers[idx] );
+	}
 }
