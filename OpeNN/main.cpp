@@ -1,5 +1,6 @@
 #include <iostream>
-#include "opeNN.hpp"
+#include "package/opeNN.hpp"
+#include "package/io/nn_printer.hpp"
 
 int main()
 {

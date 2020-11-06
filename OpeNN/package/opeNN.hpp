@@ -41,8 +41,6 @@ namespace openn
 	public:
 		std::vector<Layer> layers;
 	};
-	std::ostream& operator<<(std::ostream & os, const NeuralNetwork& nn);
-
 
 	struct ActivationF
 	{

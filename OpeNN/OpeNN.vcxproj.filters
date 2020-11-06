@@ -13,27 +13,48 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\package">
+      <UniqueIdentifier>{c09f020e-917d-40c9-98b9-f2d67f48179b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\package\io">
+      <UniqueIdentifier>{0dedcc65-e1d1-4544-8791-44ae8ee6b6b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\package">
+      <UniqueIdentifier>{dec24c4c-2058-4d01-857a-22d4b9a3fc2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\package\io">
+      <UniqueIdentifier>{a7df5acd-b65f-4083-96b5-1a7260d8cade}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utility.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="package\io\nn_printer.cpp">
+      <Filter>Source Files\package\io</Filter>
     </ClCompile>
-    <ClCompile Include="opeNN.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="package\io\nn_serializer.cpp">
+      <Filter>Source Files\package\io</Filter>
     </ClCompile>
-    <ClCompile Include="nn_printer.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="package\opeNN.cpp">
+      <Filter>Source Files\package</Filter>
+    </ClCompile>
+    <ClCompile Include="package\utility.cpp">
+      <Filter>Source Files\package</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="utility.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="package\opeNN.hpp">
+      <Filter>Header Files\package</Filter>
     </ClInclude>
-    <ClInclude Include="opeNN.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="package\utility.hpp">
+      <Filter>Header Files\package</Filter>
+    </ClInclude>
+    <ClInclude Include="package\io\nn_printer.hpp">
+      <Filter>Header Files\package\io</Filter>
+    </ClInclude>
+    <ClInclude Include="package\io\nn_serializer.hpp">
+      <Filter>Header Files\package\io</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

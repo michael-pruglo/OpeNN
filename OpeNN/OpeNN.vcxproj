@@ -141,13 +141,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="nn_printer.cpp" />
-    <ClCompile Include="opeNN.cpp" />
-    <ClCompile Include="utility.cpp" />
+    <ClCompile Include="package\io\nn_printer.cpp" />
+    <ClCompile Include="package\io\nn_serializer.cpp" />
+    <ClCompile Include="package\opeNN.cpp" />
+    <ClCompile Include="package\utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="opeNN.hpp" />
-    <ClInclude Include="utility.hpp" />
+    <ClInclude Include="package\io\nn_printer.hpp" />
+    <ClInclude Include="package\io\nn_serializer.hpp" />
+    <ClInclude Include="package\opeNN.hpp" />
+    <ClInclude Include="package\utility.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
