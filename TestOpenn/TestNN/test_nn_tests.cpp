@@ -1,4 +1,6 @@
 #include "test_nn_instantiations.hpp"
+#include "../../packages/nlohmann/json.hpp"
+#include "../../OpeNN/package/io/nn_serializer.cpp"
 
 namespace openn
 {
@@ -14,8 +16,8 @@ namespace openn
 	{
 		const auto& param = GetParam();
 		testNet(
-			NeuralNetwork(param.in_size, param.out_size), 
-			{ param.in_size, param.out_size }
+			NeuralNetwork(param.init_in, param.init_out), 
+			{ param.init_in, param.init_out }
 		);
 	}
 
@@ -25,5 +27,15 @@ namespace openn
 	{
 		const auto& param = GetParam();
 		testNet(param.createNN(), param.expectedResultSizes());
+	}
+
+
+
+	TEST_P(NNJsonSerializeFixture, SerializesDeserializes)
+	{
+		const auto& nn1 = GetParam().createNN();
+		const nlohmann::json nn1_json = nn1;
+		const NeuralNetwork nn2 = nn1_json;
+		ASSERT_EQ(nn1, nn2);
 	}
 }

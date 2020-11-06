@@ -49,4 +49,10 @@ namespace openn
 		static float_t softplus	(float_t x) { return std::log(1. + std::exp(x)); }
 		static float_t tanh		(float_t x) { return std::tanh(x); }
 	};
+
+
+
+	/// Implementation details
+	bool operator==(const Node& n1, const Node& n2);
+	bool operator==(const NeuralNetwork& nn1, const NeuralNetwork& nn2);
 }

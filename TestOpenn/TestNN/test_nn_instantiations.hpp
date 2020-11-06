@@ -28,16 +28,16 @@ namespace openn
 	);
 
 
-	using Ins = openn::AddLayerTestParam::Insertion;
+	using Ins = openn::ConstructNNParam::Insertion;
 
 	INSTANTIATE_TEST_CASE_P(
 		AddUnparametrized,
         NNAddLayerFixture,
         testing::Values(
-			AddLayerTestParam{ 2, 2, { Ins(7) } },
-			AddLayerTestParam{ 2, 3, { Ins(1) } },
-			AddLayerTestParam{ 7, 7, { Ins(1), Ins(12) } },
-			AddLayerTestParam{ 7, 7, { Ins(11), Ins(1), Ins(3) } }
+			ConstructNNParam{ 2, 2, { Ins(7) } },
+			ConstructNNParam{ 2, 3, { Ins(1) } },
+			ConstructNNParam{ 7, 7, { Ins(1), Ins(12) } },
+			ConstructNNParam{ 7, 7, { Ins(11), Ins(1), Ins(3) } }
 		)
 	);
 	
@@ -45,34 +45,34 @@ namespace openn
 		AddAt,
         NNAddLayerFixture,
         testing::Values(
-			AddLayerTestParam{ 7, 8, { Ins(4, 0) } },
-			AddLayerTestParam{ 6, 9, { Ins(7, 1) } },
-			AddLayerTestParam{ 6, 9, { Ins(7, 1), Ins(4, 1) } },
-			AddLayerTestParam{ 6, 9, { Ins(7, 1), Ins(4, 2) } },
-			AddLayerTestParam{ 6, 9, { Ins(7, 1), Ins(4, 1), Ins(6, 1) } }
+			ConstructNNParam{ 7, 8, { Ins(4, 0) } },
+			ConstructNNParam{ 6, 9, { Ins(7, 1) } },
+			ConstructNNParam{ 6, 9, { Ins(7, 1), Ins(4, 1) } },
+			ConstructNNParam{ 6, 9, { Ins(7, 1), Ins(4, 2) } },
+			ConstructNNParam{ 6, 9, { Ins(7, 1), Ins(4, 1), Ins(6, 1) } }
 		)
 	);
 
 	INSTANTIATE_TEST_CASE_P(
 		Rand,
         NNAddLayerFixture,
-        testing::ValuesIn(generateRandCtorParam<AddLayerTestParam>(100));
+        testing::ValuesIn(generateRandCtorParam<ConstructNNParam>(100));
 	);
 
 	INSTANTIATE_TEST_CASE_P(
 		AddUnparametrizedCornerCases,
         NNAddLayerFixture,
         testing::Values(
-			AddLayerTestParam{ 0, 0, { Ins(7) } },
-			AddLayerTestParam{ 0, 3, { Ins(1) } },
-			AddLayerTestParam{ 2, 0, { Ins(2) } },
-			AddLayerTestParam{ 2, 3, { Ins(0) } },
-			AddLayerTestParam{ 0, 0, { Ins(0) } },
+			ConstructNNParam{ 0, 0, { Ins(7) } },
+			ConstructNNParam{ 0, 3, { Ins(1) } },
+			ConstructNNParam{ 2, 0, { Ins(2) } },
+			ConstructNNParam{ 2, 3, { Ins(0) } },
+			ConstructNNParam{ 0, 0, { Ins(0) } },
 			//AddLayerTestParam{ 10000, 10000, { Ins(7) } },
 			//AddLayerTestParam{ 2, 2, std::vector<Ins>(20, Ins(1000)) },
 			//AddLayerTestParam{ 1000, 1000, std::vector<Ins>(20, Ins(1000)) },
-			AddLayerTestParam{ 0, 0, { Ins(2), Ins(0), Ins(1), Ins(0) } },
-			AddLayerTestParam{ 0, 0, { Ins(0), Ins(0), Ins(0), Ins(0) } }
+			ConstructNNParam{ 0, 0, { Ins(2), Ins(0), Ins(1), Ins(0) } },
+			ConstructNNParam{ 0, 0, { Ins(0), Ins(0), Ins(0), Ins(0) } }
 		)
 	);
 	
@@ -80,17 +80,36 @@ namespace openn
 		AddAtCornerCases,
         NNAddLayerFixture,
         testing::Values(
-			AddLayerTestParam{ 0, 0, { Ins(7, 0) } },
-			AddLayerTestParam{ 0, 3, { Ins(1, 1) } },
-			AddLayerTestParam{ 2, 0, { Ins(2, 0) } },
-			AddLayerTestParam{ 2, 3, { Ins(0, 1) } },
-			AddLayerTestParam{ 0, 0, { Ins(0, 1) } },
-			AddLayerTestParam{ 0, 0, { Ins(2, 0), Ins(0, 2), Ins(1, 1), Ins(0, 0) } },
-			AddLayerTestParam{ 0, 0, { Ins(0, 0), Ins(0, 2), Ins(0, 1), Ins(0, 0) } },
+			ConstructNNParam{ 0, 0, { Ins(7, 0) } },
+			ConstructNNParam{ 0, 3, { Ins(1, 1) } },
+			ConstructNNParam{ 2, 0, { Ins(2, 0) } },
+			ConstructNNParam{ 2, 3, { Ins(0, 1) } },
+			ConstructNNParam{ 0, 0, { Ins(0, 1) } },
+			ConstructNNParam{ 0, 0, { Ins(2, 0), Ins(0, 2), Ins(1, 1), Ins(0, 0) } },
+			ConstructNNParam{ 0, 0, { Ins(0, 0), Ins(0, 2), Ins(0, 1), Ins(0, 0) } },
 			//AddLayerTestParam{ 1000, 1000, std::vector<Ins>(20, Ins(1000, 0)) },
-			AddLayerTestParam{ 1, 1, { Ins(1, 1), Ins(1, 2), Ins(1, 3), Ins(1, 4), Ins(1, 5) } },
-			AddLayerTestParam{ 1, 1, { Ins(1, 0), Ins(1, 0), Ins(1, 0), Ins(1, 0), Ins(1, 0) } }
+			ConstructNNParam{ 1, 1, { Ins(1, 1), Ins(1, 2), Ins(1, 3), Ins(1, 4), Ins(1, 5) } },
+			ConstructNNParam{ 1, 1, { Ins(1, 0), Ins(1, 0), Ins(1, 0), Ins(1, 0), Ins(1, 0) } }
 		)
 	);
 
+
+
+	INSTANTIATE_TEST_CASE_P(
+		Everything,
+        NNJsonSerializeFixture,
+        testing::Values(
+			ConstructNNParam{ 0, 0, { Ins(7, 0) } },
+			ConstructNNParam{ 0, 3, { Ins(1, 1) } },
+			ConstructNNParam{ 2, 0, { Ins(2, 0) } },
+			ConstructNNParam{ 2, 3, { Ins(0, 1) } },
+			ConstructNNParam{ 0, 0, { Ins(0, 1) } },
+			ConstructNNParam{ 0, 0, { Ins(2, 0), Ins(0, 2), Ins(1, 1), Ins(0, 0) } },
+			ConstructNNParam{ 0, 0, { Ins(0, 0), Ins(0, 2), Ins(0, 1), Ins(0, 0) } },
+			//AddLayerTestParam{ 1000, 1000, std::vector<Ins>(20, Ins(1000, 0)) },
+			ConstructNNParam{ 1, 1, { Ins(1, 1), Ins(1, 2), Ins(1, 3), Ins(1, 4), Ins(1, 5) } },
+			ConstructNNParam{ 1, 1, { Ins(1, 0), Ins(1, 0), Ins(1, 0), Ins(1, 0), Ins(1, 0) } }
+		)
+	);
+	
 }

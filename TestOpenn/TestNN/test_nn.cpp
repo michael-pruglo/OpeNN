@@ -3,22 +3,17 @@
 
 namespace openn
 {
-	ConstructNNParam ConstructNNParam::generateRand()
-	{
-		return ConstructNNParam{ rand_size(), rand_size() };
-	}
-
-	AddLayerTestParam::Insertion::Insertion(size_t layer_size_)
+	ConstructNNParam::Insertion::Insertion(size_t layer_size_)
 		: layer_size(layer_size_)
 		, use_pos(false)
 	{}
-	AddLayerTestParam::Insertion::Insertion(size_t layer_size_, size_t pos_)
+	ConstructNNParam::Insertion::Insertion(size_t layer_size_, size_t pos_)
 		: layer_size(layer_size_)
 		, pos(pos_)
 		, use_pos(true)
 	{}
 
-	AddLayerTestParam::Insertion AddLayerTestParam::Insertion::generateRand(size_t max_allowed_pos)
+	ConstructNNParam::Insertion ConstructNNParam::Insertion::generateRand(size_t max_allowed_pos)
 	{
 		const bool use_pos = rand_int(0, 1);
 		return use_pos ? 
@@ -26,17 +21,17 @@ namespace openn
 			Insertion( rand_size() );
 	}
 
-	std::vector<size_t> AddLayerTestParam::expectedResultSizes() const
+	std::vector<size_t> ConstructNNParam::expectedResultSizes() const
 	{
 		std::vector<size_t> res = { init_in, init_out };
 		for (const auto& ins: insertions)
 		{
-			const size_t position = ins.use_pos ? ins.pos : res.size() - 1;
+			const auto& position = ins.use_pos ? ins.pos : res.size() - 1;
 			res.insert(res.begin()+position, ins.layer_size);
 		}
 		return res;
 	}
-	NeuralNetwork AddLayerTestParam::createNN() const
+	NeuralNetwork ConstructNNParam::createNN() const
 	{
 		NeuralNetwork nn(init_in, init_out);
 		for (const auto& ins: insertions)
@@ -49,9 +44,9 @@ namespace openn
 		return nn;
 	}
 
-	AddLayerTestParam AddLayerTestParam::generateRand()
+	ConstructNNParam ConstructNNParam::generateRand()
 	{
-		AddLayerTestParam res{ rand_size(), rand_size(), {} };
+		ConstructNNParam res{ rand_size(), rand_size(), {} };
 		const size_t n = rand_int(0, 20);
 		res.insertions.reserve(n);
 		for (size_t i = 0; i < n; ++i)

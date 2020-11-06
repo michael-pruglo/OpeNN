@@ -6,20 +6,6 @@ namespace openn
 {
 	struct ConstructNNParam
 	{
-		size_t in_size, out_size;
-
-		static ConstructNNParam generateRand();
-	};
-
-	class NNConstructFixture :
-		public testing::TestWithParam<ConstructNNParam>
-	{};
-
-
-
-
-	struct AddLayerTestParam
-	{
 		struct Insertion {
 			explicit Insertion(size_t layer_size);
 			Insertion(size_t layer_size, size_t pos);
@@ -36,10 +22,10 @@ namespace openn
 		size_t init_in, init_out;
 		std::vector<Insertion> insertions;
 
-		static AddLayerTestParam generateRand();
+		static ConstructNNParam generateRand();
 	};
 
-	class NNAddLayerFixture :
-		public testing::TestWithParam<AddLayerTestParam>
-	{};
+	class NNConstructFixture		: public testing::TestWithParam<ConstructNNParam> {};
+	class NNAddLayerFixture			: public testing::TestWithParam<ConstructNNParam> {};
+	class NNJsonSerializeFixture	: public testing::TestWithParam<ConstructNNParam> {};
 }

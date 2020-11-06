@@ -113,3 +113,17 @@ openn::float_t NeuralNetwork::activationF(float_t x)
 {
 	return ActivationF::sigmoid(x);
 }
+
+
+
+
+
+bool openn::operator==(const Node& n1, const Node& n2)
+{
+	return n1.bias == n2.bias && n1.w == n2.w;
+}
+
+bool openn::operator==(const NeuralNetwork& nn1, const NeuralNetwork& nn2)
+{
+	return nn1.layers == nn2.layers;
+}
