@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="nn_printer.cpp" />
     <ClCompile Include="opeNN.cpp" />
     <ClCompile Include="utility.cpp" />
   </ItemGroup>

@@ -14,13 +14,4 @@ namespace openn
 		const std::uniform_real_distribution<float_t> distibution(min, max);
   		return distibution(rnd_engine);
 	}
-
-
-	struct ActivationF
-	{
-		static float_t ReLU		(float_t x) { return std::max(0., x); } 
-		static float_t sigmoid	(float_t x) { return 1. / (1. + std::exp(-x)); }
-		static float_t softplus	(float_t x) { return std::log(1. + std::exp(x)); }
-		static float_t tanh		(float_t x) { return std::tanh(x); }
-	};
 }

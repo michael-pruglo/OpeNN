@@ -24,6 +24,9 @@
     <ClCompile Include="opeNN.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="nn_printer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utility.hpp">
