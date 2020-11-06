@@ -1,11 +1,10 @@
 #include "helpers.hpp"
-#include "../../OpeNN/opeNN.cpp" //for NeuralNetwork::operator<<()
+#include "../../OpeNN/nn_printer.cpp" //for NeuralNetwork::operator<<()
 
 namespace openn
 {
 	void testNode(const Node& n, size_t inputs_count)
 	{
-		AssertInRange(n.val);
 		AssertInRange(n.bias);
 		ASSERT_EQ(n.w.size(), inputs_count);
 		for (const auto& weight: n.w)

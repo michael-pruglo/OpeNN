@@ -10,27 +10,32 @@ namespace openn
 	struct Node
 	{
 		explicit Node(size_t prev_layer_size = 0);
+		void resetWeight(size_t prev_layer_size = 0);
 
 		std::vector<float_t> w;
 		float_t bias;
 	};
 
-	using Layer = std::vector<Node>;
+	struct Layer : public std::vector<Node>
+	{
+		explicit Layer(size_t layer_size, size_t prev_layer_size = 0);
+		void resetWeights(size_t prev_layer_size = 0);
+	};
 
 	struct NeuralNetwork
 	{
 		/// construct a network with 1 input and 1 output layer
-		NeuralNetwork(size_t input_size, size_t output_size);
+		NeuralNetwork(size_t input_size = 0, size_t output_size = 0);
 		virtual ~NeuralNetwork() = default;
 
-		virtual					void addLayer(size_t layer_size);
+		virtual					void addLayer(size_t layer_size = 0);
 		virtual					void addLayer(size_t layer_size, size_t pos);
 
 		virtual std::vector<float_t> operator()(const std::vector<float_t>& input);
 
 	private:
-				std::vector<float_t> forward(const std::vector<float_t>& prev, size_t idx);
-		static				 float_t calcVal(const Node& node, const std::vector<float_t>& prev);
+				std::vector<float_t> _forward(const std::vector<float_t>& prev, size_t idx);
+		static				 float_t _calcVal(const Node& node, const std::vector<float_t>& prev);
 		static inline		 float_t activationF(float_t x);
 		
 	public:

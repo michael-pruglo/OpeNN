@@ -1,4 +1,5 @@
 #include "test_nn.hpp"
+#include "../../OpeNN/opeNN.cpp"
 
 namespace openn
 {
