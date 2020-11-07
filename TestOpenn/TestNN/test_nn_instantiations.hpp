@@ -21,5 +21,8 @@ namespace openn
 	INSTANTIATE_TEST_CASE_P(DISABLED_Rand,		NNjsonFixture,		testing::ValuesIn( RAND(10) ));
 }
 	INSTANTIATE_TEST_CASE_P(Forward,			NNForwardFixture,	testing::Values( 
-		InpOutpNNParam{ { 0.888, -0.49 }, { 0.74 }, 0.01, "../resources/tiny_nn_01.json" }
+		InpOutpNNParam{ { 0.888, -0.49 }, { 0.74 }, 0.01, "../resources/tiny_nn_01.json" },
+		InpOutpNNParam{ { 0.0, 0.0 }, { 0.5835 }, 0.0025, "../resources/tiny_nn_02.json" },
+		InpOutpNNParam{ { 1.4, 1.3 }, { 0.8, 0.83, 0.88 }, 0.005, "../resources/tiny_nn_03.json" },
+		InpOutpNNParam{ { 1.4, 1.3 }, { 0.85, 0.9, 0.93 }, 0.005, "../resources/tiny_nn_04.json" }
 	));
