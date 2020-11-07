@@ -5,10 +5,7 @@ namespace openn
 {
 	void testNode(const Node& n, size_t inputs_count)
 	{
-		AssertInRange(n.bias);
 		ASSERT_EQ(n.w.size(), inputs_count);
-		for (const auto& weight: n.w)
-			AssertInRange(weight);
 	}
 
 	void testLayer(const Layer& l, size_t prev_layer_size)

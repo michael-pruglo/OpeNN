@@ -1,5 +1,6 @@
 #pragma once
 
+#include <OpeNN/package/opeNN.hpp>
 #include <random>
 #include <ctime>
 #include <iostream>
@@ -21,6 +22,10 @@ namespace openn
 		return distribution(rnd_engine);
 	}
 
+	inline bool float_eq(float_t f1, float_t f2, float_t EPS = 1e-9)
+	{
+		return std::abs(f1-f2) < EPS;
+	}
 }
 
 template<typename T>

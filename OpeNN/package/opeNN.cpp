@@ -29,17 +29,18 @@ namespace
 			generative_append(v, amount - v.size(), gen);
 	}
 
+	constexpr openn::float_t W_MIN = -10.0, W_MAX = 10.0;
 }
 
 Node::Node(size_t prev_layer_size)
-	: bias(openn::randd())
+	: bias(openn::randd(-W_MIN, W_MAX))
 {
-	generative_construct(w, prev_layer_size, []{ return openn::randd(); });
+	generative_construct(w, prev_layer_size, []{ return openn::randd(-W_MIN, W_MAX); });
 }
 
 void Node::resetWeight(size_t prev_layer_size)
 {
-	generative_resize(w, prev_layer_size, []{ return openn::randd(); });
+	generative_resize(w, prev_layer_size, []{ return openn::randd(-W_MIN, W_MAX); });
 }
 
 
@@ -130,7 +131,7 @@ openn::float_t NeuralNetwork::activationF(float_t x)
 
 bool openn::operator==(const Node& n1, const Node& n2)
 {
-	return n1.bias == n2.bias && n1.w == n2.w;
+	return float_eq(n1.bias, n2.bias) && n1.w == n2.w;
 }
 
 bool openn::operator==(const NeuralNetwork& nn1, const NeuralNetwork& nn2)
