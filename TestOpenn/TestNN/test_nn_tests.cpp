@@ -10,8 +10,6 @@ namespace openn
 			testNode( Node(i), i );
 	}
 	
-
-
 	TEST_P(NNConstructFixture, Constructs)
 	{
 		const auto& param = GetParam();
@@ -21,17 +19,13 @@ namespace openn
 		);
 	}
 
-
-
 	TEST_P(NNAddLayerFixture, AddsLayer)
 	{
 		const auto& param = GetParam();
 		testNet(param.createNN(), param.expectedResultSizes());
 	}
 
-
-
-	TEST_P(NNJsonSerializeFixture, SerializesDeserializes)
+	TEST_P(NNjsonFixture, SerializesDeserializes)
 	{
 		const auto& nn1 = GetParam().createNN();
 		const nlohmann::json nn1_json = nn1;

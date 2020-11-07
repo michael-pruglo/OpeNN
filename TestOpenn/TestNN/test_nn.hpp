@@ -25,7 +25,7 @@ namespace openn
 		static ConstructNNParam generateRand();
 	};
 
-	class NNConstructFixture		: public testing::TestWithParam<ConstructNNParam> {};
-	class NNAddLayerFixture			: public testing::TestWithParam<ConstructNNParam> {};
-	class NNJsonSerializeFixture	: public testing::TestWithParam<ConstructNNParam> {};
+	class NNConstructFixture	: public testing::TestWithParam<ConstructNNParam> {};
+	class NNAddLayerFixture		: public testing::TestWithParam<ConstructNNParam> {};
+	class NNjsonFixture			: public testing::TestWithParam<ConstructNNParam> {};
 }

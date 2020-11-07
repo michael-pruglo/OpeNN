@@ -20,7 +20,7 @@ std::unordered_map<ParamDatabase::ParamType, std::vector<ConstructNNParam>> Para
 	},
 
 	{
-		ParamType::INS_UNPARAMETHRIZED,
+		ParamType::INS,
 		{
 			ConstructNNParam{ 2, 2, { Ins(7) } },
 			ConstructNNParam{ 2, 3, { Ins(1) } },
@@ -30,7 +30,7 @@ std::unordered_map<ParamDatabase::ParamType, std::vector<ConstructNNParam>> Para
 	},
 
 	{
-		ParamType::INS_UNPARAMETHRIZED_CORNER_CASES,
+		ParamType::INS_CORNER_CASES,
 		{
 			ConstructNNParam{ 0, 0, { Ins(7) } },
 			ConstructNNParam{ 0, 3, { Ins(1) } },

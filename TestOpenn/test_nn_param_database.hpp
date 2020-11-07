@@ -26,8 +26,8 @@ namespace openn
 	enum class ParamDatabase::ParamType
 	{
 		NO_INSERTIONS,
-		INS_UNPARAMETHRIZED,
-		INS_UNPARAMETHRIZED_CORNER_CASES,
+		INS,
+		INS_CORNER_CASES,
 		INS_AT,
 		INS_AT_CORNER_CASES,
 		STRESS_TESTS,
