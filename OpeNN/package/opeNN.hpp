@@ -31,10 +31,10 @@ namespace openn
 		virtual					void addLayer(size_t layer_size = 0);
 		virtual					void addLayer(size_t layer_size, size_t pos);
 
-		virtual std::vector<float_t> operator()(const std::vector<float_t>& input);
+		virtual std::vector<float_t> operator()(const std::vector<float_t>& input) const;
 
 	private:
-				std::vector<float_t> _forward(const std::vector<float_t>& prev, size_t idx);
+				std::vector<float_t> _forward(const std::vector<float_t>& prev, size_t idx) const;
 		static				 float_t _calcVal(const Node& node, const std::vector<float_t>& prev);
 		static inline		 float_t activationF(float_t x);
 		

@@ -41,4 +41,11 @@ namespace openn
 		const NeuralNetwork nn2 = load_from_file(filename);
 		ASSERT_EQ(nn1, nn2);
 	}
+
+	TEST_P(NNForwardFixture, CorrectlyPassesForward)
+	{
+		const auto& param = GetParam();
+		const NeuralNetwork nn = load_from_file(param.filename);
+		AssertNear(nn(param.in), param.out, param.abs_error);
+	}
 }

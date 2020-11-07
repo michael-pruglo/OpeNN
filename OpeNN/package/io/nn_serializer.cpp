@@ -1,6 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <OpeNN/package/io/nn_serializer.hpp>
 #include <fstream>
 #include <iomanip>
+#include <iostream>
 
 using namespace openn;
 
@@ -51,6 +54,14 @@ void openn::save_to_file(const std::string& filename, const NeuralNetwork& nn)
 NeuralNetwork openn::load_from_file(const std::string& filename)
 {
 	nlohmann::json j;
-	std::ifstream(filename) >> j;
+	std::ifstream in_file(filename);
+	if (in_file.fail())
+	{		
+		const std::string msg = "\nproblem opening file \"" + filename + "\": " + strerror(errno) + "\n\n";
+		std::cerr << msg;
+		throw msg;
+	}
+
+	in_file >> j;
 	return j;
 }

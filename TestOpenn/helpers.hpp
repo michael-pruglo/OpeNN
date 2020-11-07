@@ -1,7 +1,7 @@
 #pragma once
 
 #include "gtest/gtest.h"
-#include <random>
+#include <OpeNN/package/utility.hpp>
 
 inline void AssertInRange(double val, double min = 0.0, double max = 1.0)
 {
@@ -10,26 +10,18 @@ inline void AssertInRange(double val, double min = 0.0, double max = 1.0)
 	ASSERT_LE(val, max+EPS);
 }
 
-inline std::random_device dev;
-inline std::mt19937 rnd_engine(dev() ^ static_cast<unsigned int>(time(nullptr)));
-
-inline int rand_int(int min, int max)
+template<typename FloatT>
+void AssertNear(const std::vector<FloatT>& v1, const std::vector<FloatT>& v2, FloatT abs_error)
 {
-	const std::uniform_int_distribution<int> distibution(min, max);
-  	return distibution(rnd_engine);
+	const size_t N = v1.size();
+	ASSERT_EQ(v2.size(), N);
+
+	for (size_t i = 0; i < N; ++i)
+		ASSERT_NEAR(v1[i], v2[i], abs_error);
 }
 
 inline size_t rand_size(size_t max = 100)
 {
-	return static_cast<size_t>(rand_int(0, max));
+	return static_cast<size_t>(openn::randi(0, max));
 }
 
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec)
-{
-	os << "[ ";
-	for (size_t i = 0; i < vec.size()-1; ++i)
-		os << vec[i] << ", ";
-	os << vec.back() << " ]";
-	return os;
-}

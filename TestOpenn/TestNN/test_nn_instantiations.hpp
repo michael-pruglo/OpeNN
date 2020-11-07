@@ -20,3 +20,6 @@ namespace openn
 	INSTANTIATE_TEST_CASE_P(DISABLED_Serialize,	NNjsonFixture,		testing::ValuesIn( ParamDatabase::getStandard() ));
 	INSTANTIATE_TEST_CASE_P(DISABLED_Rand,		NNjsonFixture,		testing::ValuesIn( RAND(10) ));
 }
+	INSTANTIATE_TEST_CASE_P(Forward,			NNForwardFixture,	testing::Values( 
+		InpOutpNNParam{ { 0.888, -0.49 }, { 0.74 }, 0.01, "../resources/tiny_nn_01.json" }
+	));

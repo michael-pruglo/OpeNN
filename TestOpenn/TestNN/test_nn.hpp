@@ -28,4 +28,14 @@ namespace openn
 	class NNConstructFixture	: public testing::TestWithParam<ConstructNNParam> {};
 	class NNAddLayerFixture		: public testing::TestWithParam<ConstructNNParam> {};
 	class NNjsonFixture			: public testing::TestWithParam<ConstructNNParam> {};
+
+
+	struct InpOutpNNParam
+	{
+		std::vector<float_t> in, out;
+		float_t abs_error;
+		std::string filename;
+	};
+
+	class NNForwardFixture		: public testing::TestWithParam<InpOutpNNParam> {};
 }

@@ -81,22 +81,27 @@ void NeuralNetwork::addLayer(size_t layer_size, size_t pos)
 	(it+1)->resetWeights(layer_size);
 }
 
-std::vector<openn::float_t> NeuralNetwork::operator()(const std::vector<float_t>& input)
+std::vector<openn::float_t> NeuralNetwork::operator()(const std::vector<float_t>& input) const
 {
 	return _forward(input, 1);
 }
 
-std::vector<openn::float_t> NeuralNetwork::_forward(const std::vector<float_t>& prev, size_t idx)
+#include <iostream>
+#include <iomanip>
+std::vector<openn::float_t> NeuralNetwork::_forward(const std::vector<float_t>& prev, size_t idx) const
 {
 	if (idx == layers.size())
 		return prev;
 
 	std::vector<float_t> res;
 	std::transform(layers[idx].begin(), layers[idx].end(), std::back_inserter(res),
-		[&prev](const Node& node) {
+		[&prev, idx](const Node& node) {
+			std::cerr << "\t(" << idx << ")";
 			return _calcVal(node, prev); 
 		} 
 	);
+
+	std::cerr << "_forward(" << idx << ") : " << res << "\n";
 
 	return _forward(res, idx+1);
 }
@@ -104,8 +109,13 @@ std::vector<openn::float_t> NeuralNetwork::_forward(const std::vector<float_t>& 
 openn::float_t NeuralNetwork::_calcVal(const Node& node, const std::vector<float_t>& prev)
 {
 	auto val = node.bias;
+	std::cerr << std::setprecision(2) << node.bias;
 	for (size_t i = 0; i < prev.size(); ++i)
+	{
+		std::cerr << " + " << prev[i] << "*" << node.w[i];
 		val += prev[i] * node.w[i];
+	}
+	std::cerr << "  = " << val << " => " << activationF(val) << "\n";
 	return activationF(val);
 }
 

@@ -15,7 +15,7 @@ namespace openn
 
 	ConstructNNParam::Insertion ConstructNNParam::Insertion::generateRand(size_t max_allowed_pos)
 	{
-		const bool use_pos = rand_int(0, 1);
+		const bool use_pos = randi(0, 1);
 		return use_pos ? 
 			Insertion( rand_size(), rand_size(max_allowed_pos) ) : 
 			Insertion( rand_size() );
@@ -47,7 +47,7 @@ namespace openn
 	ConstructNNParam ConstructNNParam::generateRand()
 	{
 		ConstructNNParam res{ rand_size(), rand_size(), {} };
-		const size_t n = rand_int(0, 20);
+		const size_t n = randi(0, 20);
 		res.insertions.reserve(n);
 		for (size_t i = 0; i < n; ++i)
 			res.insertions.push_back(Insertion::generateRand(i+1));
