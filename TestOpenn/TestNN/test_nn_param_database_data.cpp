@@ -1,4 +1,4 @@
-#include "test_nn_param_database.hpp"
+#include <TestOpenn/TestNN/test_nn_param_database.hpp>
 
 using namespace openn;
 using Ins = ConstructNNParam::Insertion;

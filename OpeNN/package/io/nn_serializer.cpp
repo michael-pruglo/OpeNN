@@ -1,4 +1,6 @@
-#include "nn_serializer.hpp"
+#include <OpeNN/package/io/nn_serializer.hpp>
+#include <fstream>
+#include <iomanip>
 
 using namespace openn;
 
@@ -39,4 +41,16 @@ void openn::from_json(const nlohmann::json& j, NeuralNetwork& nn)
 		const size_t idx = subj.at("layer#");
 		subj.at("nodes").get_to( nn.layers[idx] );
 	}
+}
+
+void openn::save_to_file(const std::string& filename, const NeuralNetwork& nn)
+{
+	std::ofstream(filename) << std::setw(2) << nlohmann::json(nn);
+}
+
+NeuralNetwork openn::load_from_file(const std::string& filename)
+{
+	nlohmann::json j;
+	std::ifstream(filename) >> j;
+	return j;
 }

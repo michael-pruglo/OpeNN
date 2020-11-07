@@ -1,4 +1,4 @@
-#include "nn_printer.hpp"
+#include <OpeNN/package/io/nn_printer.hpp>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>

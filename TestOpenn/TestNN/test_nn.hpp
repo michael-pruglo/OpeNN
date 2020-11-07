@@ -1,6 +1,6 @@
 #pragma once
 
-#include "helpers.hpp"
+#include <TestOpenn/TestNN/helpers.hpp>
 
 namespace openn
 {

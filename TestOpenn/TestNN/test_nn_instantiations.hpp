@@ -1,7 +1,7 @@
 #pragma once
 
-#include "test_nn.hpp"
-#include "../test_nn_param_database.hpp"
+#include <TestOpenn/TestNN/test_nn.hpp>
+#include <TestOpenn/TestNN/test_nn_param_database.hpp>
 
 namespace openn
 {

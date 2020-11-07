@@ -1,6 +1,6 @@
+#include <OpeNN/package/opeNN.hpp>
+#include <OpeNN/package/utility.hpp>
 #include <cassert>
-#include "opeNN.hpp"
-#include "utility.hpp"
 
 using namespace openn;
 

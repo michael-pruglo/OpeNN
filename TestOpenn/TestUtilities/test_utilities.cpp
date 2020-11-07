@@ -1,5 +1,5 @@
-#include "../helpers.hpp"
-#include "../../OpeNN/package/utility.hpp"
+#include <TestOpenn/helpers.hpp>
+#include <OpeNN/package/utility.hpp>
 
 namespace openn
 {

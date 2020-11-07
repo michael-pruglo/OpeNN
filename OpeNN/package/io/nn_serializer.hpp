@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../opeNN.hpp"
-#include "../../../packages/nlohmann/json.hpp"
+#include <OpeNN/package/opeNN.hpp>
+#include <packages/nlohmann/json.hpp>
 
 namespace openn
 {
@@ -11,4 +11,7 @@ namespace openn
 	void from_json(const nlohmann::json& j, Node& node);
 	void from_json(const nlohmann::json& j, Layer& layer);
 	void from_json(const nlohmann::json& j, NeuralNetwork& nn);
+
+	void save_to_file(const std::string& filename, const NeuralNetwork& nn);
+	NeuralNetwork load_from_file(const std::string& filename);
 }

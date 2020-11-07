@@ -1,6 +1,6 @@
 #pragma once
-#include "gtest/gtest.h"
 
+#include "gtest/gtest.h"
 #include <random>
 
 inline void AssertInRange(double val, double min = 0.0, double max = 1.0)

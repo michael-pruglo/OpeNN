@@ -1,4 +1,4 @@
-#include "utility.hpp"
+#include <OpeNN/package/utility.hpp>
 
 using namespace openn;
 

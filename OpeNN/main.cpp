@@ -1,8 +1,8 @@
-#include <iomanip>
+#include <OpeNN/package/opeNN.hpp>
+#include <OpeNN/package/io/nn_printer.hpp>
+#include <OpeNN/package/io/nn_serializer.hpp>
 #include <iostream>
-#include "package/opeNN.hpp"
-#include "package/io/nn_printer.hpp"
-#include "package/io/nn_serializer.hpp"
+#include <iomanip>
 
 int main()
 {

@@ -13,10 +13,10 @@
     <ClCompile Include="TestNN\test_nn_tests.cpp">
       <Filter>TestNN</Filter>
     </ClCompile>
-    <ClCompile Include="test_nn_param_database_data.cpp">
+    <ClCompile Include="TestNN\test_nn_param_database.cpp">
       <Filter>TestNN</Filter>
     </ClCompile>
-    <ClCompile Include="test_nn_param_database.cpp">
+    <ClCompile Include="TestNN\test_nn_param_database_data.cpp">
       <Filter>TestNN</Filter>
     </ClCompile>
   </ItemGroup>
@@ -31,7 +31,7 @@
     <ClInclude Include="TestNN\test_nn_instantiations.hpp">
       <Filter>TestNN</Filter>
     </ClInclude>
-    <ClInclude Include="test_nn_param_database.hpp">
+    <ClInclude Include="TestNN\test_nn_param_database.hpp">
       <Filter>TestNN</Filter>
     </ClInclude>
   </ItemGroup>

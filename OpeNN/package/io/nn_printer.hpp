@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../opeNN.hpp"
+#include <OpeNN/package/opeNN.hpp>
 
 namespace openn
 {

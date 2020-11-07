@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../helpers.hpp"
-#include "../../OpeNN/package/opeNN.hpp"
+#include <TestOpenn/helpers.hpp>
+#include <OpeNN/package/opeNN.hpp>
 
 namespace openn
 {

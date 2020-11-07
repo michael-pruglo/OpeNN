@@ -1,8 +1,8 @@
 #pragma once
 
+#include <OpeNN/package/opeNN.hpp>
 #include <random>
 #include <ctime>
-#include "opeNN.hpp"
 
 namespace openn
 {

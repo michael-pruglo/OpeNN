@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TestNN/test_nn.hpp"
+#include <TestOpenn/TestNN/test_nn.hpp>
 #include <unordered_map>
 #include <functional>
 
