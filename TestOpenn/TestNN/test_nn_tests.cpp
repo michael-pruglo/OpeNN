@@ -25,7 +25,7 @@ namespace openn
 		testNet(param.createNN(), param.expectedResultSizes());
 	}
 
-	TEST_P(NNjsonFixture, DISABLED_SerializesDeserializes)
+	TEST_P(NNjsonFixture, SerializesDeserializes)
 	{
 		const auto& nn1 = GetParam().createNN();
 		const nlohmann::json nn1_json = nn1;
@@ -33,7 +33,7 @@ namespace openn
 		ASSERT_EQ(nn1, nn2);
 	}
 
-	TEST_P(NNjsonFixture, DISABLED_ToFile)
+	TEST_P(NNjsonFixture, ToFile)
 	{
 		const auto& nn1 = GetParam().createNN();
 		const std::string filename = "../resources/to_file_test.json";
