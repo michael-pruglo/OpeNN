@@ -10,7 +10,7 @@ namespace openn
 	void testNet(const NeuralNetwork& nn, const std::vector<size_t>& layer_sizes);
 
 	template<typename Param>
-	std::vector<Param> generateRandCtorParam(size_t n)
+	std::vector<Param> generateRandParam(size_t n)
 	{
 		std::vector<Param> res;
 		res.reserve(n);
