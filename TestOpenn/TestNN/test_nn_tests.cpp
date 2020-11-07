@@ -36,7 +36,7 @@ namespace openn
 	TEST_P(NNjsonFixture, ToFile)
 	{
 		const auto& nn1 = GetParam().createNN();
-		const std::string filename = "to_file_test.json";
+		const std::string filename = "../resources/to_file_test.json";
 		save_to_file(filename, nn1);
 		const NeuralNetwork nn2 = load_from_file(filename);
 		ASSERT_EQ(nn1, nn2);
