@@ -59,7 +59,7 @@ NeuralNetwork openn::load_from_file(const std::string& filename)
 	{		
 		const std::string msg = "\nproblem opening file \"" + filename + "\": " + strerror(errno) + "\n\n";
 		std::cerr << msg;
-		throw msg;
+		throw std::invalid_argument(msg);
 	}
 
 	in_file >> j;

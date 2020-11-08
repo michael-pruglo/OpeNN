@@ -1,6 +1,6 @@
 #pragma once
 
-#include <OpeNN/package/opeNN.hpp>
+#include <OpeNN/package/types.hpp>
 #include <random>
 #include <ctime>
 #include <iostream>
