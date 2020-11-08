@@ -26,10 +26,15 @@ namespace openn
 	enum class ParamDatabase::ParamType
 	{
 		NO_INSERTIONS,
+		NO_INS_MULT,
+		NO_INS_DIFF_ACTIVATIONS,
 		INS,
 		INS_CORNER_CASES,
+		INS_MULT,
 		INS_AT,
 		INS_AT_CORNER_CASES,
+		INS_AT_MULT,
+		INS_DIFF_ACTIVATIONS,
 		STRESS_TESTS,
 	};
 }

@@ -1,27 +1,31 @@
 #pragma once
 
 #include <TestOpenn/TestNN/helpers.hpp>
+#include <OpeNN/package/opeNN.hpp>
 
 namespace openn
 {
 	struct ConstructNNParam
 	{
-		struct Insertion {
-			explicit Insertion(size_t layer_size, ActivationFType activation = ActivationFType::sigmoid);
-			Insertion(size_t layer_size, size_t pos, ActivationFType activation = ActivationFType::sigmoid);
+		struct InsLayer 
+		{
+			explicit InsLayer(size_t layer_size, ActivationFType activation = ActivationFType::sigmoid);
+			InsLayer(size_t layer_size, size_t pos, ActivationFType activation = ActivationFType::sigmoid);
 
 			size_t layer_size, pos; 
 			bool use_pos;
 			ActivationFType activation;
 		
-			static Insertion generateRand(size_t max_allowed_pos);
+			static InsLayer generateRand(size_t max_allowed_pos);
 		};
 
-		[[nodiscard]] std::vector<size_t> expectedResultSizes() const;
+		ConstructNNParam(std::vector<LayerStructure> nn_structure, std::vector<InsLayer> additional_insertions = {});
+
+		[[nodiscard]] std::vector<LayerStructure> expectedResultStructure() const;
 		[[nodiscard]] NeuralNetwork createNN() const;
 
-		size_t init_in, init_out;
-		std::vector<Insertion> insertions;
+		std::vector<LayerStructure> nn_structure;
+		std::vector<InsLayer> additional_insertions;
 
 		static ConstructNNParam generateRand();
 	};

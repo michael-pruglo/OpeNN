@@ -1,13 +1,13 @@
 #pragma once
 
 #include <TestOpenn/helpers.hpp>
-#include <OpeNN/package/opeNN.hpp>
+#include <OpeNN/package/types.hpp>
 
 namespace openn
 {
 	void testNode(const Node& n, size_t inputs_count);
 	void testLayer(const Layer& l, size_t prev_layer_size);
-	void testNet(const NeuralNetwork& nn, const std::vector<size_t>& layer_sizes);
+	void testNet(const NeuralNetwork& nn, const std::vector<LayerStructure>& layer_sizes);
 
 	template<typename Param>
 	std::vector<Param> generateRandParam(size_t n)
@@ -18,4 +18,6 @@ namespace openn
 			res.push_back(Param::generateRand());
 		return res;
 	}
+
+	ActivationFType rand_activation();
 }

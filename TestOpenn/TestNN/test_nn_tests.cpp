@@ -14,15 +14,15 @@ namespace openn
 	{
 		const auto& param = GetParam();
 		testNet(
-			NeuralNetwork({param.init_in, param.init_out}), 
-			{ param.init_in, param.init_out }
+			NeuralNetwork(param.nn_structure), 
+			param.nn_structure
 		);
 	}
 
 	TEST_P(NNAddLayerFixture, AddsLayer)
 	{
 		const auto& param = GetParam();
-		testNet(param.createNN(), param.expectedResultSizes());
+		testNet(param.createNN(), param.expectedResultStructure());
 	}
 
 	TEST_P(NNjsonFixture, SerializesDeserializes)

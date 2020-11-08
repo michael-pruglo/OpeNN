@@ -1,5 +1,6 @@
 [
   {
+    "activation": "sigmoid",
     "layer#": 0,
     "nodes": [
       {
@@ -13,6 +14,7 @@
     ]
   },
   {
+    "activation": "sigmoid",
     "layer#": 1,
     "nodes": [
       {
@@ -53,6 +55,7 @@
     ]
   },
   {
+    "activation": "sigmoid",
     "layer#": 2,
     "nodes": [
       {
@@ -128,6 +131,7 @@
     ]
   },
   {
+    "activation": "sigmoid",
     "layer#": 3,
     "nodes": [
       {
@@ -169,6 +173,7 @@
     ]
   },
   {
+    "activation": "sigmoid",
     "layer#": 4,
     "nodes": [
       {

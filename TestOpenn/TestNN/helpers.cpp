@@ -14,15 +14,24 @@ namespace openn
 			testNode(n, prev_layer_size);
 	}
 
-	void testNet(const NeuralNetwork& nn, const std::vector<size_t>& layer_sizes)
+	void testNet(const NeuralNetwork& nn, const std::vector<LayerStructure>& layer_structure)
 	{
-		const size_t N = layer_sizes.size();
+		const size_t N = layer_structure.size();
 		ASSERT_EQ(nn.layers.size(), N);
 
 		for (size_t i = 0; i < N; ++i)
 		{
-			ASSERT_EQ(nn.layers[i].size(), layer_sizes[i]) << nn << layer_sizes;
-			testLayer(nn.layers[i], i ? layer_sizes[i-1] : 0);
+			ASSERT_EQ(nn.layers[i].size(), layer_structure[i].size) 
+				<< nn << "exp size ["<<i<<"]: " << layer_structure[i].size;
+			ASSERT_EQ(nn.layers[i].activation, layer_structure[i].activation)
+				<< nn << "exp act ["<<i<<"]: " << to_string(layer_structure[i].activation);
+			testLayer(nn.layers[i], i ? layer_structure[i-1].size : 0);
 		}
+	}
+
+	ActivationFType rand_activation()
+	{
+		const size_t idx = randi(0, static_cast<int>(ActivationFType::_SIZE)-1);
+		return static_cast<ActivationFType>(idx);
 	}
 }
