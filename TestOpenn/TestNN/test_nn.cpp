@@ -3,22 +3,27 @@
 
 namespace openn
 {
-	ConstructNNParam::Insertion::Insertion(size_t layer_size_)
+	ConstructNNParam::Insertion::Insertion(size_t layer_size_, ActivationFType activation_)
 		: layer_size(layer_size_)
 		, use_pos(false)
+		, activation(activation_)
 	{}
-	ConstructNNParam::Insertion::Insertion(size_t layer_size_, size_t pos_)
+	ConstructNNParam::Insertion::Insertion(size_t layer_size_, size_t pos_, ActivationFType activation_)
 		: layer_size(layer_size_)
 		, pos(pos_)
 		, use_pos(true)
+		, activation(activation_)
 	{}
 
 	ConstructNNParam::Insertion ConstructNNParam::Insertion::generateRand(size_t max_allowed_pos)
 	{
 		const bool use_pos = randi(0, 1);
+		const auto layer_size = rand_size();
+		const auto where = rand_size(max_allowed_pos);
+		const auto activation = static_cast<ActivationFType>(randi(0, static_cast<int>(ActivationFType::_SIZE)-1));
 		return use_pos ? 
-			Insertion( rand_size(), rand_size(max_allowed_pos) ) : 
-			Insertion( rand_size() );
+			Insertion(layer_size, where, activation) : 
+			Insertion(layer_size, activation);
 	}
 
 	std::vector<size_t> ConstructNNParam::expectedResultSizes() const
@@ -33,13 +38,13 @@ namespace openn
 	}
 	NeuralNetwork ConstructNNParam::createNN() const
 	{
-		NeuralNetwork nn(init_in, init_out);
+		NeuralNetwork nn({init_in, init_out});
 		for (const auto& ins: insertions)
 		{
 			if (ins.use_pos)
-				nn.addLayer(ins.layer_size, ins.pos);
+				nn.addLayer(ins.layer_size, ins.pos, ins.activation);
 			else
-				nn.addLayer(ins.layer_size);
+				nn.addLayer(ins.layer_size, ins.activation);
 		}
 		return nn;
 	}

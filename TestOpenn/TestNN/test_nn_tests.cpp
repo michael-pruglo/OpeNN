@@ -14,7 +14,7 @@ namespace openn
 	{
 		const auto& param = GetParam();
 		testNet(
-			NeuralNetwork(param.init_in, param.init_out), 
+			NeuralNetwork({param.init_in, param.init_out}), 
 			{ param.init_in, param.init_out }
 		);
 	}

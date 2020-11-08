@@ -151,6 +151,7 @@
     <ClInclude Include="package\io\nn_printer.hpp" />
     <ClInclude Include="package\io\nn_serializer.hpp" />
     <ClInclude Include="package\opeNN.hpp" />
+    <ClInclude Include="package\types.hpp" />
     <ClInclude Include="package\utility.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -56,5 +56,8 @@
     <ClInclude Include="package\io\nn_serializer.hpp">
       <Filter>Header Files\package\io</Filter>
     </ClInclude>
+    <ClInclude Include="package\types.hpp">
+      <Filter>Header Files\package</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

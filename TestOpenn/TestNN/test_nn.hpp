@@ -7,11 +7,12 @@ namespace openn
 	struct ConstructNNParam
 	{
 		struct Insertion {
-			explicit Insertion(size_t layer_size);
-			Insertion(size_t layer_size, size_t pos);
+			explicit Insertion(size_t layer_size, ActivationFType activation = ActivationFType::sigmoid);
+			Insertion(size_t layer_size, size_t pos, ActivationFType activation = ActivationFType::sigmoid);
 
 			size_t layer_size, pos; 
-			bool use_pos; 
+			bool use_pos;
+			ActivationFType activation;
 		
 			static Insertion generateRand(size_t max_allowed_pos);
 		};
