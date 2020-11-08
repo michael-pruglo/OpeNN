@@ -117,5 +117,5 @@ ActivationFType openn::string_to_activation_type(const std::string& s)
 			return type;
 	}
 
-	throw std::invalid_argument("can't convert string to activation_type");
+	throw std::invalid_argument("can't convert string \"" + s + "\" to activation_type");
 }
