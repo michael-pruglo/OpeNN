@@ -151,6 +151,11 @@ bool openn::operator==(const Node& n1, const Node& n2)
 	return float_eq(n1.bias, n2.bias) && n1.w == n2.w;
 }
 
+bool openn::operator==(const Layer& l1, const Layer& l2)
+{
+	return l1.activation == l2.activation && l1 == l2;
+}
+
 bool openn::operator==(const NeuralNetwork& nn1, const NeuralNetwork& nn2)
 {
 	return nn1.layers == nn2.layers;

@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <OpeNN/package/io/nn_serializer.hpp>
+#include <OpeNN/package/io/nn_printer.hpp>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -19,6 +20,7 @@ void openn::to_json(nlohmann::json& j, const NeuralNetwork& nn)
 	{
 		nlohmann::json layer_json;
 		layer_json["layer#"] = i;
+		layer_json["activation"] = to_string(nn.layers[i].activation);
 		layer_json["nodes"] = nn.layers[i];
 		j.push_back(layer_json);
 	}
@@ -42,6 +44,7 @@ void openn::from_json(const nlohmann::json& j, NeuralNetwork& nn)
 	for (const auto& subj : j)
 	{
 		const size_t idx = subj.at("layer#");
+		nn.layers[idx].activation = string_to_activation_type(subj.at("activation"));
 		subj.at("nodes").get_to( nn.layers[idx] );
 	}
 }

@@ -58,5 +58,6 @@ namespace openn
 
 	/// Implementation details
 	bool operator==(const Node& n1, const Node& n2);
+	bool operator==(const Layer& l1, const Layer& l2);
 	bool operator==(const NeuralNetwork& nn1, const NeuralNetwork& nn2);
 }
