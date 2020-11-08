@@ -6,41 +6,19 @@ using namespace openn;
 
 namespace
 {
-	template<typename T, typename Generator>
-	void generative_append(std::vector<T>& v, size_t extra_amount, const Generator& gen)
-	{
-		v.reserve(v.size() + extra_amount);
-		for (size_t i = 0; i < extra_amount; ++i)
-			v.emplace_back(gen());
-	}
-
-	template<typename T, typename Generator>
-	void generative_construct(std::vector<T>& v, size_t size, const Generator& gen)
-	{
-		generative_append(v, size, gen);
-	}
-
-	template<typename T, typename Generator>
-	void generative_resize(std::vector<T>& v, size_t amount, const Generator& gen)
-	{
-		if (v.size() > amount)
-			v.resize(amount);
-		else
-			generative_append(v, amount - v.size(), gen);
-	}
-
 	constexpr openn::float_t W_MIN = -10.0, W_MAX = 10.0;
+	const auto RND_FLT_GEN = []{ return openn::randd(W_MIN, W_MAX); };
 }
 
 Node::Node(size_t prev_layer_size)
-	: bias(openn::randd(W_MIN, W_MAX))
+	: bias(RND_FLT_GEN())
 {
-	generative_construct(w, prev_layer_size, []{ return openn::randd(W_MIN, W_MAX); });
+	generative_construct(w, prev_layer_size, RND_FLT_GEN);
 }
 
 void Node::resetWeight(size_t prev_layer_size)
 {
-	generative_resize(w, prev_layer_size, []{ return openn::randd(W_MIN, W_MAX); });
+	generative_resize(w, prev_layer_size, RND_FLT_GEN);
 }
 
 std::unordered_map<ActivationFType, ActivationF> Layer::activation_functions = {

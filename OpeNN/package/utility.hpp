@@ -37,3 +37,26 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec)
 	os << vec.back() << " ]";
 	return os;
 }
+
+template<typename T, typename Generator>
+void generative_append(std::vector<T>& v, size_t extra_amount, const Generator& gen)
+{
+	v.reserve(v.size() + extra_amount);
+	for (size_t i = 0; i < extra_amount; ++i)
+		v.emplace_back(gen());
+}
+
+template<typename T, typename Generator>
+void generative_construct(std::vector<T>& v, size_t size, const Generator& gen)
+{
+	generative_append(v, size, gen);
+}
+
+template<typename T, typename Generator>
+void generative_resize(std::vector<T>& v, size_t amount, const Generator& gen)
+{
+	if (v.size() > amount)
+		v.resize(amount);
+	else
+		generative_append(v, amount - v.size(), gen);
+}
