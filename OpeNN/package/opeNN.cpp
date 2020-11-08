@@ -33,14 +33,14 @@ namespace
 }
 
 Node::Node(size_t prev_layer_size)
-	: bias(openn::randd(-W_MIN, W_MAX))
+	: bias(openn::randd(W_MIN, W_MAX))
 {
-	generative_construct(w, prev_layer_size, []{ return openn::randd(-W_MIN, W_MAX); });
+	generative_construct(w, prev_layer_size, []{ return openn::randd(W_MIN, W_MAX); });
 }
 
 void Node::resetWeight(size_t prev_layer_size)
 {
-	generative_resize(w, prev_layer_size, []{ return openn::randd(-W_MIN, W_MAX); });
+	generative_resize(w, prev_layer_size, []{ return openn::randd(W_MIN, W_MAX); });
 }
 
 std::unordered_map<ActivationFType, ActivationF> Layer::activation_functions = {
