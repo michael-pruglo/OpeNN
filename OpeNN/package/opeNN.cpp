@@ -1,140 +1,96 @@
 #include <OpeNN/package/opeNN.hpp>
-#include <OpeNN/package/utility.hpp>
-#include <cassert>
+#include <Core/random.hpp>
+#include <Core/utility.hpp>
+#include <Core/algebra.hpp>
+#include <Core/algebra.cpp>
 
 using namespace openn;
 
-namespace
-{
-	constexpr openn::float_t W_MIN = -10.0, W_MAX = 10.0;
-	const auto RND_FLT_GEN = []{ return openn::randd(W_MIN, W_MAX); };
-}
-
-Node::Node(size_t prev_layer_size)
-	: bias(RND_FLT_GEN())
-{
-	generative_construct(w, prev_layer_size, RND_FLT_GEN);
-}
-
-void Node::resetWeight(size_t prev_layer_size)
-{
-	generative_resize(w, prev_layer_size, RND_FLT_GEN);
-}
-
-std::unordered_map<ActivationFType, ActivationF> Layer::activation_functions = {
-	{ ActivationFType::ReLU,		[](float_t x) -> float_t { return std::max(0., x); } },
-	{ ActivationFType::sigmoid,		[](float_t x) -> float_t { return 1. / (1. + std::exp(-x)); } },
-	{ ActivationFType::softplus,	[](float_t x) -> float_t { return std::log(1. + std::exp(x)); } },
-	{ ActivationFType::tanh,		[](float_t x) -> float_t { return std::tanh(x); } },
-};
-
-Layer::Layer(size_t layer_size, size_t prev_layer_size, ActivationFType activation_)
-	: activation(activation_)
-{
-	generative_construct(*this, layer_size,
-		[prev_layer_size]{ return Node(prev_layer_size); }
-	);
-}
-
-openn::float_t Layer::activation_f(float_t x) const
-{
-	return activation_functions.at(activation)(x);
-}
-
-void Layer::resetWeights(size_t prev_layer_size)
-{
-	for (auto& node : *this)
-		node.resetWeight(prev_layer_size);
-}
-
-LayerStructure Layer::getLayerStructure() const
-{
-	return { size(), activation };
-}
-
-LayerStructure::LayerStructure(size_t size_, ActivationFType activation_)
+LayerMetadata::LayerMetadata(size_t size_, ActivationFType activation_)
 	: size(size_)
 	, activation(activation_)
 {
 }
 
-NeuralNetwork::NeuralNetwork(const std::vector<LayerStructure>& nn_structure)
+
+NeuralNetwork::NeuralNetwork(const std::vector<LayerMetadata>& nn_structure)
 {
-	for (size_t i = 0; i < nn_structure.size(); ++i)
+	const size_t n = nn_structure.size(); 
+	layers.reserve(n);
+	for (size_t i = 0; i < n; ++i)
 	{
 		const auto& prev_size = i ? nn_structure[i-1].size : 0;
 		layers.emplace_back(nn_structure[i].size, prev_size, nn_structure[i].activation);
 	}
 }
 
-void NeuralNetwork::addLayer(size_t layer_size, ActivationFType activation)
+LayerMetadata NeuralNetwork::getLayerMetadata(size_t i) const
 {
-	const auto& last_pre_output_idx = layers.size() - 1;
-	addLayer(layer_size, last_pre_output_idx, activation);
+	return { layers[i].size(), layers[i].activation };
 }
 
-void NeuralNetwork::addLayer(size_t layer_size, size_t pos, ActivationFType activation)
-{
-	assert(pos >= 0 && pos < layers.size());
-
-	auto it = layers.begin() + pos;
-	const auto& prev_size = pos ? (it-1)->size() : 0;
-	it = layers.insert(it, Layer(layer_size, prev_size, activation));
-
-	(it+1)->resetWeights(layer_size);
-}
-
-std::vector<LayerStructure> NeuralNetwork::getNNStructure() const
-{
-	std::vector<LayerStructure> res;
-	for (const auto& layer: layers)
-		res.emplace_back(layer.getLayerStructure());
-	return res;
-}
-
-std::vector<openn::float_t> NeuralNetwork::operator()(const std::vector<float_t>& input) const
+Vec NeuralNetwork::operator()(const Vec& input) const
 {
 	return _forward(input, 1);
 }
 
-std::vector<openn::float_t> NeuralNetwork::_forward(const std::vector<float_t>& prev, size_t idx) const
+Vec NeuralNetwork::_forward(const Vec& input, size_t idx) const
 {
 	if (idx == layers.size())
-		return prev;
+		return input;
 
-	std::vector<float_t> res;
-	std::transform(layers[idx].begin(), layers[idx].end(), std::back_inserter(res),
-		[&prev, idx, this](const Node& node) {
-			return layers[idx].activation_f(_calcVal(node, prev)); 
-		} 
-	);
+	using core::operator*;
+	using core::operator+;
+	const auto output = layers[idx].activation_f(layers[idx].w * input + layers[idx].bias);
 
-	return _forward(res, idx+1);
+	return _forward(output, idx+1);
 }
 
-openn::float_t NeuralNetwork::_calcVal(const Node& node, const std::vector<float_t>& prev)
+bool NeuralNetwork::operator==(const NeuralNetwork& other) const
 {
-	auto val = node.bias;
-	for (size_t i = 0; i < prev.size(); ++i)
-		val += prev[i] * node.w[i];
-	return val;
+	return layers == other.layers;
 }
 
 
 
-
-
-bool openn::operator==(const Node& n1, const Node& n2)
+namespace
 {
-	return float_eq(n1.bias, n2.bias) && n1.w == n2.w;
+	using openn::float_t;
+	
+	const std::unordered_map<ActivationFType, AlgebraicF> ACTIVATION_FUNCTIONS = {
+		{ ActivationFType::ReLU,		[](float_t x) -> float_t { return std::max(0., x); } },
+		{ ActivationFType::sigmoid,		[](float_t x) -> float_t { return 1. / (1. + std::exp(-x)); } },
+		{ ActivationFType::softplus,	[](float_t x) -> float_t { return std::log(1. + std::exp(x)); } },
+		{ ActivationFType::tanh,		[](float_t x) -> float_t { return std::tanh(x); } },
+	};
+
+	const std::unordered_map<ActivationFType, AlgebraicF> DERIVATIVE_FUNCTIONS = {
+		{ ActivationFType::ReLU,		[](float_t x) -> float_t { return x > 0; } },
+		{ ActivationFType::sigmoid,		[](float_t x) -> float_t { const auto& f = ACTIVATION_FUNCTIONS.at(ActivationFType::sigmoid); return f(x)*(1. - f(x)); } },
+		{ ActivationFType::softplus,	[](float_t x) -> float_t { return 1. / (1. + std::exp(-x)); } },
+		{ ActivationFType::tanh,		[](float_t x) -> float_t { return 1. - std::pow(std::tanh(x), 2); } },
+	};
+
+}
+NeuralNetwork::Layer::Layer(size_t layer_size, size_t prev_layer_size, ActivationFType activation_)
+	: w(core::randMatrix(layer_size, prev_layer_size))
+	, bias(core::randVec(layer_size))
+	, activation(activation_)
+	, _act_f(ACTIVATION_FUNCTIONS.at(activation_))
+	, _der_f(DERIVATIVE_FUNCTIONS.at(activation_))
+{
 }
 
-bool openn::operator==(const Layer& l1, const Layer& l2)
+Vec NeuralNetwork::Layer::activation_f(const Vec& v) const
 {
-	return l1.activation == l2.activation && l1 == l2;
+	return core::map(v, _act_f);
+}
+Vec NeuralNetwork::Layer::derivative_f(const Vec& v) const
+{
+	return core::map(v, _der_f);
 }
 
-bool openn::operator==(const NeuralNetwork& nn1, const NeuralNetwork& nn2)
+bool NeuralNetwork::Layer::operator==(const Layer& other) const
 {
-	return nn1.layers == nn2.layers;
+	return w == other.w && bias == other.bias && activation == other.activation;
 }

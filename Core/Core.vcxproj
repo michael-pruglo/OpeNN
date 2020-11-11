@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d75b20e9-1bad-48d1-b9a3-586c7b3d5a86}</ProjectGuid>
-    <RootNamespace>OpeNN</RootNamespace>
+    <ProjectGuid>{d25106da-2ebf-44ed-a74b-31565deb3a69}</ProjectGuid>
+    <RootNamespace>Core</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -72,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -88,8 +89,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,18 +140,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="package\io\nn_printer.cpp" />
-    <ClCompile Include="package\io\nn_serializer.cpp" />
-    <ClCompile Include="package\opeNN.cpp" />
-    <ClCompile Include="package\training.cpp" />
+    <ClInclude Include="algebra.hpp" />
+    <ClInclude Include="random.hpp" />
+    <ClInclude Include="types.hpp" />
+    <ClInclude Include="utility.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="package\io\nn_printer.hpp" />
-    <ClInclude Include="package\io\nn_serializer.hpp" />
-    <ClInclude Include="package\opeNN.hpp" />
-    <ClInclude Include="package\training.hpp" />
-    <ClInclude Include="package\types.hpp" />
+    <ClCompile Include="algebra.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

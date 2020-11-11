@@ -130,7 +130,7 @@ std::unordered_map<ParamDatabase::ParamType, std::vector<ConstructNNParam>> Para
 			ConstructNNParam{ { 2, 2 }, std::vector<Ins>(20, Ins(1000)) },
 			ConstructNNParam{ { 1000, 1000 }, std::vector<Ins>(20, Ins(1000)) },
 			ConstructNNParam{ { 1000, 1000 }, std::vector<Ins>(20, Ins(1000, 0)) },
-			ConstructNNParam{ std::vector<LayerStructure>(25, 1000), {} },
+			ConstructNNParam{ std::vector<LayerMetadata>(25, 1000), {} },
 		}
 	}
 };

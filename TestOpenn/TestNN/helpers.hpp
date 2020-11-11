@@ -7,7 +7,7 @@ namespace openn
 {
 	void testNode(const Node& n, size_t inputs_count);
 	void testLayer(const Layer& l, size_t prev_layer_size);
-	void testNet(const NeuralNetwork& nn, const std::vector<LayerStructure>& layer_sizes);
+	void testNet(const NeuralNetwork& nn, const std::vector<LayerMetadata>& layer_sizes);
 
 	template<typename Param>
 	std::vector<Param> generateRandParam(size_t n)

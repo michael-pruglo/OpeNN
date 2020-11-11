@@ -28,7 +28,7 @@ namespace openn
 
 
 	ConstructNNParam::ConstructNNParam(
-		std::vector<LayerStructure> nn_structure_, 
+		std::vector<LayerMetadata> nn_structure_, 
 		std::vector<InsLayer> additional_insertions_
 	)
 		: nn_structure(std::move(nn_structure_))
@@ -36,13 +36,13 @@ namespace openn
 	{
 	}
 
-	std::vector<LayerStructure> ConstructNNParam::expectedResultStructure() const
+	std::vector<LayerMetadata> ConstructNNParam::expectedResultStructure() const
 	{
-		std::vector<LayerStructure> res = nn_structure;
+		std::vector<LayerMetadata> res = nn_structure;
 		for (const auto& ins: additional_insertions)
 		{
 			const auto& position = ins.use_pos ? ins.pos : res.size() - 1;
-			res.insert(res.begin()+position, LayerStructure(ins.layer_size, ins.activation));
+			res.insert(res.begin()+position, LayerMetadata(ins.layer_size, ins.activation));
 		}
 		return res;
 	}
@@ -61,9 +61,9 @@ namespace openn
 
 	ConstructNNParam ConstructNNParam::generateRand()
 	{
-		std::vector<LayerStructure> res_struct;
+		std::vector<LayerMetadata> res_struct;
 		generative_construct(res_struct, rand_size()+2, 
-			[]{ return LayerStructure{ rand_size(), rand_activation() }; }
+			[]{ return LayerMetadata{ rand_size(), rand_activation() }; }
 		);
 		std::vector<InsLayer> add_ins;
 		generative_construct(add_ins, rand_size(), 

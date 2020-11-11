@@ -19,12 +19,12 @@ namespace openn
 			static InsLayer generateRand(size_t max_allowed_pos);
 		};
 
-		ConstructNNParam(std::vector<LayerStructure> nn_structure, std::vector<InsLayer> additional_insertions = {});
+		ConstructNNParam(std::vector<LayerMetadata> nn_structure, std::vector<InsLayer> additional_insertions = {});
 
-		[[nodiscard]] std::vector<LayerStructure> expectedResultStructure() const;
+		[[nodiscard]] std::vector<LayerMetadata> expectedResultStructure() const;
 		[[nodiscard]] NeuralNetwork createNN() const;
 
-		std::vector<LayerStructure> nn_structure;
+		std::vector<LayerMetadata> nn_structure;
 		std::vector<InsLayer> additional_insertions;
 
 		static ConstructNNParam generateRand();

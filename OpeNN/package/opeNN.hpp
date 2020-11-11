@@ -1,63 +1,48 @@
 #pragma once
 
 #include <OpeNN/package/types.hpp>
-#include <unordered_map>
-#include <vector>
+#include <packages/nlohmann/json.hpp>
 
 namespace openn
 {
-	struct Node
+	class NeuralNetwork : public INeuralNetwork
 	{
-		explicit Node(size_t prev_layer_size = 0);
+	public:
+		explicit NeuralNetwork(const std::vector<LayerMetadata>& nn_structure = {0, 0});
 		
-		void resetWeight(size_t prev_layer_size = 0);
-
-		std::vector<float_t> w;
-		float_t bias;
-	};
-
-	struct LayerStructure
-	{
-		LayerStructure(size_t size, ActivationFType activation = ActivationFType::sigmoid);
-
-		size_t size;
-		ActivationFType activation;
-	};
-
-	struct Layer : public std::vector<Node>
-	{
-		explicit Layer(size_t layer_size = 0, size_t prev_layer_size = 0, ActivationFType activation = ActivationFType::sigmoid);
-		
-		float_t activation_f(float_t x) const;
-
-		void resetWeights(size_t prev_layer_size = 0);
-		LayerStructure getLayerStructure() const;
-
-		ActivationFType activation;
-		static std::unordered_map<ActivationFType, ActivationF> activation_functions;
-	};
-
-	struct NeuralNetwork
-	{
-		explicit NeuralNetwork(const std::vector<LayerStructure>& nn_structure = {0, 0});
-		virtual ~NeuralNetwork() = default;
-		
-		virtual					void addLayer(size_t layer_size = 0, ActivationFType activation = ActivationFType::sigmoid);
-		virtual					void addLayer(size_t layer_size, size_t pos, ActivationFType activation = ActivationFType::sigmoid);
-		 std::vector<LayerStructure> getNNStructure() const;
-
-		virtual std::vector<float_t> operator()(const std::vector<float_t>& input) const;
+		inline LayerMetadata getLayerMetadata(size_t i) const override;
+		inline Vec operator()(const Vec& input) const override;
+		inline bool operator==(const NeuralNetwork& other) const;
 
 	private:
-				std::vector<float_t> _forward(const std::vector<float_t>& prev, size_t idx) const;
-		static				 float_t _calcVal(const Node& node, const std::vector<float_t>& prev);
-		
-	public:
+		Vec _forward(const Vec& input, size_t idx) const;
+	private:
+		friend class NeuralNetworkPrinter;
+		friend void to_json(nlohmann::json& j, const NeuralNetwork& nn);
+		friend void from_json(const nlohmann::json& j, NeuralNetwork& nn);
+
+	private:
+		struct Layer;
 		std::vector<Layer> layers;
 	};
 
-	/// Implementation details
-	bool operator==(const Node& n1, const Node& n2);
-	bool operator==(const Layer& l1, const Layer& l2);
-	bool operator==(const NeuralNetwork& nn1, const NeuralNetwork& nn2);
+	struct NeuralNetwork::Layer
+	{
+		explicit Layer(
+			size_t layer_size = 0, 
+			size_t prev_layer_size = 0, 
+			ActivationFType activation = ActivationFType::sigmoid
+		);
+		
+		Vec activation_f(const Vec& v) const;
+		Vec derivative_f(const Vec& v) const;
+
+		inline size_t size() const { return bias.size(); }
+		inline bool operator==(const Layer& other) const;
+
+		Matrix w; 
+		Vec bias;
+		ActivationFType activation;
+		AlgebraicF _act_f, _der_f;
+	};
 }

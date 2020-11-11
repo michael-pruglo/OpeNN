@@ -39,15 +39,12 @@
     <ClCompile Include="package\opeNN.cpp">
       <Filter>Source Files\package</Filter>
     </ClCompile>
-    <ClCompile Include="package\utility.cpp">
+    <ClCompile Include="package\training.cpp">
       <Filter>Source Files\package</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="package\opeNN.hpp">
-      <Filter>Header Files\package</Filter>
-    </ClInclude>
-    <ClInclude Include="package\utility.hpp">
       <Filter>Header Files\package</Filter>
     </ClInclude>
     <ClInclude Include="package\io\nn_printer.hpp">
@@ -57,6 +54,9 @@
       <Filter>Header Files\package\io</Filter>
     </ClInclude>
     <ClInclude Include="package\types.hpp">
+      <Filter>Header Files\package</Filter>
+    </ClInclude>
+    <ClInclude Include="package\training.hpp">
       <Filter>Header Files\package</Filter>
     </ClInclude>
   </ItemGroup>

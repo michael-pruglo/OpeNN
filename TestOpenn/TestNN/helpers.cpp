@@ -14,7 +14,7 @@ namespace openn
 			testNode(n, prev_layer_size);
 	}
 
-	void testNet(const NeuralNetwork& nn, const std::vector<LayerStructure>& layer_structure)
+	void testNet(const NeuralNetwork& nn, const std::vector<LayerMetadata>& layer_structure)
 	{
 		const size_t N = layer_structure.size();
 		ASSERT_EQ(nn.layers.size(), N);
