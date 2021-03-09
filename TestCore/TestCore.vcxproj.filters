@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="TestRandom">
+      <UniqueIdentifier>{74c14e15-f891-4695-9183-443e912c15ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestAlgebra">
+      <UniqueIdentifier>{85b45869-dc8e-42e9-a4d5-2a5bec56b7c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestUtility">
+      <UniqueIdentifier>{431923fc-89b0-4364-9d11-3421582d25fb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
