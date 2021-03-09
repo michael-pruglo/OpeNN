@@ -1,7 +1,7 @@
 #pragma once
 
 #include "gtest/gtest.h"
-#include <OpeNN/package/utility.hpp>
+#include <Core/random.hpp>
 
 inline void AssertInRange(double val, double min = 0.0, double max = 1.0)
 {
@@ -22,6 +22,6 @@ void AssertNear(const std::vector<FloatT>& v1, const std::vector<FloatT>& v2, Fl
 
 inline size_t rand_size(size_t max = 100)
 {
-	return static_cast<size_t>(openn::randi(0, max));
+	return static_cast<size_t>(core::randi(0, static_cast<int>(max)));
 }
 
