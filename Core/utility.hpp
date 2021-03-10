@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.hpp"
+#include <Core/types.hpp>
 #include <iostream>
 
 namespace core
@@ -9,9 +9,13 @@ namespace core
 	std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec)
 	{
 		os << "[ ";
-		for (size_t i = 0; i < vec.size()-1; ++i)
-			os << vec[i] << ", ";
-		os << vec.back() << " ]";
+		for (size_t i = 0; i < vec.size(); ++i)
+		{
+			os << vec[i];
+			if (i < vec.size()-1)
+				os << ", ";
+		}
+		os << " ]";
 		return os;
 	}
 
@@ -20,31 +24,34 @@ namespace core
 		return std::abs(f1-f2) < EPS;
 	}
 	
-	template<typename Vector, typename Generator>
-	Vector generate(size_t n, const Generator& g)
+	
+	// generates an `std::vector<T>` of length `n`
+	// generator is independent from the index: `v[i] = g()`
+	template<typename T, typename Generator>
+	std::vector<T> generate(size_t n, const Generator& g)
 	{
-		Vector res;
+		std::vector<T> res;
 		res.reserve(n);
 		for (size_t i = 0; i < n; ++i)
 			res.emplace_back(g());
 		return res;
 	}
 	
-	template<typename Vector, typename Generator>
-	Vector generate_i(size_t n, const Generator& g)
+	// generates an `std::vector<T>` of length `n`
+	// generator is dependent on the index: `v[i] = g(i)`
+	template<typename T, typename Generator>
+	std::vector<T> generate_i(size_t n, const Generator& g)
 	{
-		Vector res;
+		std::vector<T> res;
 		res.reserve(n);
 		for (size_t i = 0; i < n; ++i)
 			res.emplace_back(g(i));
 		return res;
 	}
 
-	template<typename Vector, typename MapFunc>
-	Vector map(const Vector& v, const MapFunc& map_func)
+	template<typename MapFunc, typename T>
+	std::vector<T> map(const MapFunc& map_func, const std::vector<T>& v)
 	{
-		return generate_i<Vector>(v.size(), [&](size_t i){ return map_func(v[i]); } );
+		return generate_i<T>(v.size(), [&](size_t i){ return map_func(v[i]); });
 	}
-
-
 }
