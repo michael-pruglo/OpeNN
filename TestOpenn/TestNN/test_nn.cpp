@@ -3,6 +3,7 @@
 
 namespace openn
 {
+	/*
 	ConstructNNParam::InsLayer::InsLayer(size_t layer_size_, ActivationFType activation_)
 		: layer_size(layer_size_)
 		, use_pos(false)
@@ -74,4 +75,5 @@ namespace openn
 		);
 		return { res_struct, add_ins };
 	}
+	*/
 }

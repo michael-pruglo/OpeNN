@@ -5,6 +5,7 @@
 
 namespace openn
 {
+	/*
 	struct ConstructNNParam
 	{
 		struct InsLayer 
@@ -43,4 +44,5 @@ namespace openn
 	};
 
 	class NNForwardFixture		: public testing::TestWithParam<InpOutpNNParam> {};
+	*/
 }

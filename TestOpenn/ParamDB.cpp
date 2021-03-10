@@ -1,23 +1,24 @@
 #include <TestOpenn/ParamDB.hpp>
+#include <iterator>
 
 using namespace test_core;
 
-template<typename Param>
-std::vector<Param> ParamDB<Param>::get_everything() const
+template<typename T>
+std::vector<T> Database<T>::get_everything() const
 {
-	return get_by_filter([](ParamType type) { return true; });
+	return get_by_filter([](ParamType_t type) { return true; });
 }
 
-template<typename Param>
-std::vector<Param> ParamDB<Param>::get_by_type(ParamDB::ParamType_t type) const
+template<typename T>
+std::vector<T> Database<T>::get_by_type(Database::ParamType_t type) const
 {
 	return data.at(type);
 }
 
-template<typename Param>
-std::vector<Param> ParamDB<Param>::get_by_filter(ParamDB::Filter_f pred) const
+template<typename T>
+std::vector<T> Database<T>::get_by_filter(Database::Filter_f pred) const
 {
-	std::vector<Param> res;
+	std::vector<T> res;
 	for (const auto& [param_type, param_vec] : data)
 	{
 		if (pred(param_type))

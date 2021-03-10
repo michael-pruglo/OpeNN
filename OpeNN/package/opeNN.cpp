@@ -12,6 +12,11 @@ LayerMetadata::LayerMetadata(size_t size_, ActivationFType activation_)
 {
 }
 
+bool operator==(const LayerMetadata& lm1, const LayerMetadata& lm2)
+{
+	return lm1.size == lm2.size
+		&& lm1.activation == lm2.activation;
+}
 
 NeuralNetwork::NeuralNetwork(const std::vector<LayerMetadata>& nn_structure)
 {
@@ -83,11 +88,11 @@ NeuralNetwork::Layer::Layer(size_t layer_size, size_t prev_layer_size, Activatio
 
 Vec NeuralNetwork::Layer::activation_f(const Vec& v) const
 {
-	return core::map(v, _act_f);
+	return core::map(_act_f, v);
 }
 Vec NeuralNetwork::Layer::derivative_f(const Vec& v) const
 {
-	return core::map(v, _der_f);
+	return core::map(_der_f, v);
 }
 
 bool NeuralNetwork::Layer::operator==(const Layer& other) const

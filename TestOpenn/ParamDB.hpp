@@ -5,22 +5,23 @@
 
 namespace test_core
 {
-	template<typename Param>
-	class ParamDB
+	template<typename T>
+	class Database
 	{
 	public:
 		using ParamType_t = int;
-		using Data_t = std::unordered_map<ParamType_t, std::vector<Param>>;
+		using Data_t = std::unordered_map<ParamType_t, std::vector<T>>;
 		using Filter_f = std::function<bool(ParamType_t)>;
 
 	public:
-		void set_data(Data_t data) { data = std::move(data); }
+		Database(Data_t data_) : data(std::move(data_)) { }
+		virtual ~Database() = default;
 
-		[[nodiscard]] std::vector<Param> get_everything() const;
-		[[nodiscard]] std::vector<Param> get_by_type(ParamType_t type) const;
-		[[nodiscard]] std::vector<Param> get_by_filter(Filter_f pred) const;
+		[[nodiscard]] std::vector<T> get_everything() const;
+		[[nodiscard]] std::vector<T> get_by_type(ParamType_t type) const;
+		[[nodiscard]] std::vector<T> get_by_filter(Filter_f pred) const;
 
-	private:
+	protected:
 		Data_t data;
 	};
 }

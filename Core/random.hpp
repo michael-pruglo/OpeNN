@@ -35,11 +35,11 @@ namespace core
 	constexpr float_t _W_MIN = -10.0, _W_MAX = 10.0;
 	inline Vec randVec(size_t n)
 	{
-		return core::generate<Vec>(n, []{ return randd(_W_MIN, _W_MAX); }); 
+		return core::generate<float_t>(n, []{ return randd(_W_MIN, _W_MAX); }); 
 	}
 
 	inline Matrix randMatrix(size_t n, size_t m)
 	{
-		return core::generate<Matrix>(n, [m]{ return randVec(m); }); 
+		return core::generate<Vec>(n, [m]{ return randVec(m); }); 
 	}
 }

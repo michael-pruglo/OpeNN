@@ -19,6 +19,7 @@ namespace openn
 		size_t size;
 		ActivationFType activation;
 	};
+	bool operator==(const LayerMetadata& lm1, const LayerMetadata& lm2);
 
 	class INeuralNetwork
 	{
