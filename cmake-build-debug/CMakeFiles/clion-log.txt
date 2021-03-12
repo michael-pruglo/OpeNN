@@ -1,4 +1,4 @@
-"C:\Program Files\JetBrains\CLion 211.6432.9\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - NMake Makefiles" C:\Users\pruglo\CLionProjects\openn
+"C:\Program Files\JetBrains\CLion 211.6432.9\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\mickl\CLionProjects\OpeNN
 -- Configuring done
 -- Generating done
--- Build files have been written to: C:/Users/pruglo/CLionProjects/openn/cmake-build-debug
+-- Build files have been written to: C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug

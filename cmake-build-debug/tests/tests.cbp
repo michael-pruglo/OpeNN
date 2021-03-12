@@ -4,415 +4,422 @@
 	<Project>
 		<Option title="tests"/>
 		<Option makefile_is_custom="1"/>
-		<Option compiler="msvc8"/>
+		<Option compiler="gcc"/>
 		<Option virtualFolders="CMake Files\;CMake Files\tests\;CMake Files\tests\.lib\;CMake Files\tests\.lib\googlemock\;CMake Files\tests\.lib\googlemock\cmake\;CMake Files\tests\.lib\googletest\;CMake Files\tests\.lib\googletest\cmake\;CMake Files\src\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests"/>
+				<Option working_dir="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\Makefile VERBOSE=1 all"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\Makefile VERBOSE=1 clean"/>
+					<Build command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="tests">
-				<Option output="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests/tests.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests"/>
+				<Option output="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/tests.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
-				<Option compiler="msvc8"/>
+				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/src"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/."/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/src"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/packages"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest"/>
+					<Add directory="C:/FreshMinGW/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/x86_64-w64-mingw32"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/backward"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include-fixed"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\Makefile VERBOSE=1 tests"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\Makefile VERBOSE=1 clean"/>
+					<Build command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 tests"/>
+					<CompileFile command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="tests/fast">
-				<Option output="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests/tests.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests"/>
+				<Option output="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/tests.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
-				<Option compiler="msvc8"/>
+				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/src"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/."/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/src"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/packages"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest"/>
+					<Add directory="C:/FreshMinGW/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/x86_64-w64-mingw32"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/backward"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include-fixed"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\Makefile VERBOSE=1 tests/fast"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\Makefile VERBOSE=1 clean"/>
+					<Build command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 tests/fast"/>
+					<CompileFile command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="gmock_main">
-				<Option output="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/lib/gmock_maind.lib" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests/.lib/googlemock"/>
+				<Option output="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/lib/libgmock_maind.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
-				<Option compiler="msvc8"/>
+				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/src"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/."/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/src"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/packages"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest"/>
+					<Add directory="C:/FreshMinGW/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/x86_64-w64-mingw32"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/backward"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include-fixed"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 gmock_main"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 clean"/>
+					<Build command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 gmock_main"/>
+					<CompileFile command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="gmock_main/fast">
-				<Option output="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/lib/gmock_maind.lib" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests/.lib/googlemock"/>
+				<Option output="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/lib/libgmock_maind.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
-				<Option compiler="msvc8"/>
+				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/src"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/."/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/src"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/packages"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest"/>
+					<Add directory="C:/FreshMinGW/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/x86_64-w64-mingw32"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/backward"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include-fixed"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 gmock_main/fast"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 clean"/>
+					<Build command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 gmock_main/fast"/>
+					<CompileFile command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="gmock">
-				<Option output="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/lib/gmockd.lib" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests/.lib/googlemock"/>
+				<Option output="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/lib/libgmockd.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
-				<Option compiler="msvc8"/>
+				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/src"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/."/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/src"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/packages"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest"/>
+					<Add directory="C:/FreshMinGW/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/x86_64-w64-mingw32"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/backward"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include-fixed"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 gmock"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 clean"/>
+					<Build command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 gmock"/>
+					<CompileFile command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="gmock/fast">
-				<Option output="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/lib/gmockd.lib" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests/.lib/googlemock"/>
+				<Option output="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/lib/libgmockd.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
-				<Option compiler="msvc8"/>
+				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/src"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/."/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/src"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/packages"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest"/>
+					<Add directory="C:/FreshMinGW/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/x86_64-w64-mingw32"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/backward"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include-fixed"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 gmock/fast"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googlemock\Makefile VERBOSE=1 clean"/>
+					<Build command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 gmock/fast"/>
+					<CompileFile command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="gtest">
-				<Option output="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/lib/gtestd.lib" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests/.lib/googletest"/>
+				<Option output="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/lib/libgtestd.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
-				<Option compiler="msvc8"/>
+				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/src"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/."/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/src"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/packages"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest"/>
+					<Add directory="C:/FreshMinGW/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/x86_64-w64-mingw32"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/backward"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include-fixed"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 gtest"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 clean"/>
+					<Build command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 gtest"/>
+					<CompileFile command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="gtest/fast">
-				<Option output="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/lib/gtestd.lib" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests/.lib/googletest"/>
+				<Option output="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/lib/libgtestd.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
-				<Option compiler="msvc8"/>
+				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/src"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/."/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/src"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/packages"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest"/>
+					<Add directory="C:/FreshMinGW/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/x86_64-w64-mingw32"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/backward"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include-fixed"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 gtest/fast"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 clean"/>
+					<Build command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 gtest/fast"/>
+					<CompileFile command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="gtest_main">
-				<Option output="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/lib/gtest_maind.lib" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests/.lib/googletest"/>
+				<Option output="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/lib/libgtest_maind.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
-				<Option compiler="msvc8"/>
+				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/src"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/."/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/src"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/packages"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest"/>
+					<Add directory="C:/FreshMinGW/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/x86_64-w64-mingw32"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/backward"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include-fixed"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 gtest_main"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 clean"/>
+					<Build command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 gtest_main"/>
+					<CompileFile command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="gtest_main/fast">
-				<Option output="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/lib/gtest_maind.lib" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests/.lib/googletest"/>
+				<Option output="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/lib/libgtest_maind.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
-				<Option compiler="msvc8"/>
+				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/src"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/include"/>
-					<Add directory="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/."/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/src"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/packages"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/include"/>
+					<Add directory="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest"/>
+					<Add directory="C:/FreshMinGW/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/x86_64-w64-mingw32"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../include/c++/4.8.3/backward"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/include-fixed"/>
+					<Add directory="c:\freshmingw\bin\../lib64/gcc/x86_64-w64-mingw32/4.8.3/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 gtest_main/fast"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\pruglo\CLionProjects\openn\cmake-build-debug\tests\.lib\googletest\Makefile VERBOSE=1 clean"/>
+					<Build command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 gtest_main/fast"/>
+					<CompileFile command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/FreshMinGW/bin/mingw32-make.exe -f &quot;C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googletest/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/core/algebra.cpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/core/algebra.cpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/core/algebra.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/core/algebra.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/core/random.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/core/random.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/core/types.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/core/types.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/core/utility.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/core/utility.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/openn/io/nn_printer.cpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/openn/io/nn_printer.cpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/openn/io/nn_printer.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/openn/io/nn_printer.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/openn/io/nn_serializer.cpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/openn/io/nn_serializer.cpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/openn/io/nn_serializer.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/openn/io/nn_serializer.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/openn/openn.cpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/openn/openn.cpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/openn/openn.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/openn/openn.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/openn/training.cpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/openn/training.cpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/openn/training.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/openn/training.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/openn/types.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/openn/types.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock/src/gmock-all.cc">
-			<Option target="gmock_main"/>
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock/src/gmock-all.cc">
 			<Option target="gmock"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock/src/gmock_main.cc">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock/src/gmock_main.cc">
 			<Option target="gmock_main"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/src/gtest-all.cc">
-			<Option target="gmock_main"/>
-			<Option target="gmock"/>
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/src/gtest-all.cc">
 			<Option target="gtest"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/src/gtest_main.cc">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/src/gtest_main.cc">
 			<Option target="gtest_main"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/common/ParamDB.cpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/common/ParamDB.cpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/common/ParamDB.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/common/ParamDB.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/common/helpers.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/common/helpers.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/core_tests/random_test.cpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/core_tests/random_test.cpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/core_tests/utility_test.cpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/core_tests/utility_test.cpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/openn_tests/helpers.cpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/openn_tests/helpers.cpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/openn_tests/helpers.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/openn_tests/helpers.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/openn_tests/openn_test.cpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/openn_tests/openn_test.cpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/openn_tests/openn_test.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/openn_tests/openn_test.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/openn_tests/openn_test_data.cpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/openn_tests/openn_test_data.cpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/openn_tests/openn_test_func.cpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/openn_tests/openn_test_func.cpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/openn_tests/openn_test_instantiations.hpp">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/openn_tests/openn_test_instantiations.hpp">
 			<Option target="tests"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/CMakeLists.txt">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/CMakeLists.txt">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\tests\"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/CMakeLists.txt">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\tests\.lib\"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock/CMakeLists.txt">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\tests\.lib\googlemock\"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock/cmake/gmock.pc.in">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock/cmake/gmock.pc.in">
 			<Option virtualFolder="CMake Files\tests\.lib\googlemock\cmake\"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googlemock/cmake/gmock_main.pc.in">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googlemock/cmake/gmock_main.pc.in">
 			<Option virtualFolder="CMake Files\tests\.lib\googlemock\cmake\"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/CMakeLists.txt">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\tests\.lib\googletest\"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/cmake/Config.cmake.in">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/cmake/Config.cmake.in">
 			<Option virtualFolder="CMake Files\tests\.lib\googletest\cmake\"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/cmake/gtest.pc.in">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/cmake/gtest.pc.in">
 			<Option virtualFolder="CMake Files\tests\.lib\googletest\cmake\"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/cmake/gtest_main.pc.in">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/cmake/gtest_main.pc.in">
 			<Option virtualFolder="CMake Files\tests\.lib\googletest\cmake\"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/tests/.lib/googletest/cmake/internal_utils.cmake">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/tests/.lib/googletest/cmake/internal_utils.cmake">
 			<Option virtualFolder="CMake Files\tests\.lib\googletest\cmake\"/>
 		</Unit>
-		<Unit filename="C:/Users/pruglo/CLionProjects/openn/src/CMakeLists.txt">
+		<Unit filename="C:/Users/mickl/CLionProjects/OpeNN/src/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\src\"/>
 		</Unit>
 	</Project>

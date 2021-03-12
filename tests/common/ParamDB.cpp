@@ -1,4 +1,4 @@
-#include <GTest/TestCommon/ParamDB.hpp>
+#include <tests/common/ParamDB.hpp>
 #include <iterator>
 
 using namespace test_core;

@@ -1,5 +1,5 @@
-#include <GTest/TestOpenn/helpers.hpp>
-#include <OpeNN/OpeNN/opeNN.hpp>
+#include <tests/openn_tests/helpers.hpp>
+#include <openn/openn.hpp>
 
 namespace openn
 {

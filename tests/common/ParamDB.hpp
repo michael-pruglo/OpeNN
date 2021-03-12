@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GTest/TestCommon/helpers.hpp>
+#include <tests/common/helpers.hpp>
 #include <unordered_map>
 #include <functional>
 

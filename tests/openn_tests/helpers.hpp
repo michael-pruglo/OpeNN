@@ -1,7 +1,7 @@
 #pragma once
 
-#include <GTest/TestCommon/helpers.hpp>
-#include <OpeNN/OpeNN/types.hpp>
+#include <tests/common/helpers.hpp>
+#include <openn/types.hpp>
 
 namespace openn
 {

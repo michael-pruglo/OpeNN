@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <OpeNN/OpeNN/io/nn_serializer.hpp>
-#include <OpeNN/OpeNN/io/nn_printer.hpp>
+#include <openn/io/nn_serializer.hpp>
+#include <openn/io/nn_printer.hpp>
 #include <fstream>
 #include <iomanip>
 #include <iostream>

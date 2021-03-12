@@ -3,6 +3,7 @@
 #include <ostream>
 #include <type_traits>
 #include <limits>
+#include <cmath>
 
 namespace core
 {

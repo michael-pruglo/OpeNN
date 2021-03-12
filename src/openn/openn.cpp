@@ -1,7 +1,7 @@
-#include <OpeNN/OpeNN/opeNN.hpp>
-#include <OpeNN/Core/random.hpp>
-#include <OpeNN/Core/utility.hpp>
-#include <OpeNN/Core/algebra.hpp>
+#include <openn/openn.hpp>
+#include <core/random.hpp>
+#include <core/utility.hpp>
+#include <core/algebra.hpp>
 
 using namespace openn;
 

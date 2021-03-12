@@ -1,6 +1,6 @@
 #pragma once
 
-#include <OpeNN/OpeNN/opeNN.hpp>
+#include <openn/opeNN.hpp>
 #include <packages/nlohmann/json.hpp>
 
 namespace openn

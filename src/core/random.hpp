@@ -1,7 +1,9 @@
 #pragma once
 
+#include <core/types.hpp>
 #include <random>
 #include <ctime>
+#include <type_traits>
 
 namespace core
 {

@@ -11,9 +11,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/tests.dir/openn_tests/openn_test.cpp.obj"
   "CMakeFiles/tests.dir/openn_tests/openn_test_data.cpp.obj"
   "CMakeFiles/tests.dir/openn_tests/openn_test_func.cpp.obj"
+  "libtests.dll.a"
   "tests.exe"
   "tests.exe.manifest"
-  "tests.lib"
   "tests.pdb"
 )
 

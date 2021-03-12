@@ -1,5 +1,5 @@
-#include <OpeNN/OpeNN/io/nn_printer.hpp>
-#include <OpeNN/OpeNN/opeNN.hpp>
+#include <openn/openn.hpp>
+#include <openn/io/nn_printer.hpp>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
@@ -11,7 +11,7 @@ namespace
     class NeuralNetworkPrinter
     {
     public:
-explicit			NeuralNetworkPrinter(const NeuralNetwork& nn);
+        explicit NeuralNetworkPrinter(const NeuralNetwork& nn);
         std::string getDebugString() const;
     private:
         std::string getHeader() const;

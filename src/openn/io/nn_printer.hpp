@@ -1,6 +1,6 @@
 #pragma once
 
-#include <src/openn/types.hpp>
+#include <openn/types.hpp>
 
 namespace openn
 {

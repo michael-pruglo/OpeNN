@@ -5,9 +5,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/openn.dir/openn/io/nn_serializer.cpp.obj"
   "CMakeFiles/openn.dir/openn/openn.cpp.obj"
   "CMakeFiles/openn.dir/openn/training.cpp.obj"
+  "libopenn.dll.a"
   "openn.exe"
   "openn.exe.manifest"
-  "openn.lib"
   "openn.pdb"
 )
 

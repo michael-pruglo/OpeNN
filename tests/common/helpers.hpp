@@ -1,7 +1,7 @@
 #pragma once
 
-#include <GTest/pch.h>
-#include <OpeNN/Core/random.hpp>
+#include <gtest/gtest.h>
+#include <core/random.hpp>
 
 inline void AssertInRange(double val, double min = 0.0, double max = 1.0)
 {

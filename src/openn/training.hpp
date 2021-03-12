@@ -1,8 +1,8 @@
 #pragma once
 
-#include <OpeNN/Core/random.hpp>
-#include <OpeNN/Core/algebra.hpp>
-#include <OpeNN/OpeNN/opeNN.hpp>
+#include <core/random.hpp>
+#include <core/algebra.hpp>
+#include <openn/openn.hpp>
 
 namespace openn
 {

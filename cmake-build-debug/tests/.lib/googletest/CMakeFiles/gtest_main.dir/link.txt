@@ -1,0 +1,2 @@
+C:\FreshMinGW\bin\ar.exe qc ..\..\..\lib\libgtest_maind.a CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj
+C:\FreshMinGW\bin\ranlib.exe ..\..\..\lib\libgtest_maind.a

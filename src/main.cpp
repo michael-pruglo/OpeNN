@@ -1,6 +1,6 @@
-#include <OpeNN/OpeNN/opeNN.hpp>
-#include <OpeNN/OpeNN/io/nn_printer.hpp>
-#include <OpeNN/OpeNN/io/nn_serializer.hpp>
+#include <openn/openn.hpp>
+#include <openn/io/nn_printer.hpp>
+#include <openn/io/nn_serializer.hpp>
 #include <iostream>
 #include <iomanip>
 

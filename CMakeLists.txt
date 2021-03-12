@@ -3,6 +3,6 @@ project(openn)
 
 set(CMAKE_CXX_STANDARD 20)
 
-include_directories(src)
+include_directories(. src packages)
 add_subdirectory(src)
 add_subdirectory(tests)

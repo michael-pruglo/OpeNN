@@ -1,7 +1,6 @@
-#include <GTest/TestCommon/helpers.hpp>
-#include <GTest/TestCommon/ParamDB.hpp>
-#include <GTest/TestCommon/ParamDB.cpp>
-#include <OpeNN/Core/utility.hpp>
+#include <tests/common/helpers.hpp>
+#include <tests/common/ParamDB.hpp>
+#include <core/utility.hpp>
 
 namespace openn
 {
@@ -9,22 +8,22 @@ namespace openn
 
     class CoreUtilityFixture : public testing::TestWithParam<TestCase> {};
     TEST_P(CoreUtilityFixture, VecOutput)
-{
-    using core::operator<<;
-    const auto& [vec, expected] = GetParam();
+    {
+        using core::operator<<;
+        const auto& [vec, expected] = GetParam();
 
-    std::ostringstream ss;
-    ss << vec;
-    EXPECT_EQ(ss.str(), expected);
-}
+        std::ostringstream ss;
+        ss << vec;
+        EXPECT_EQ(ss.str(), expected);
+    }
 
-enum ParamType : test_core::Database<TestCase>::ParamType_t
-{
-    REGULAR,
-    CORNER_CASES,
-};
+    enum ParamType : test_core::Database<TestCase>::ParamType_t
+    {
+        REGULAR,
+        CORNER_CASES,
+    };
 
-test_core::Database<TestCase> db({
+    test_core::Database<TestCase> db({
                                          {
                                                  REGULAR,
                                                  {
@@ -40,5 +39,5 @@ test_core::Database<TestCase> db({
                                          },
                                  });
 
-INSTANTIATE_TEST_CASE_P(Standard, CoreUtilityFixture, testing::ValuesIn(db.get_everything()));
+    INSTANTIATE_TEST_CASE_P(Standard, CoreUtilityFixture, testing::ValuesIn(db.get_everything()));
 }

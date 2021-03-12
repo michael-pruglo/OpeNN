@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/pruglo/CLionProjects/openn/tests/.lib
+# Install script for directory: C:/Users/mickl/CLionProjects/OpeNN/tests/.lib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -32,9 +32,14 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
+# Set default install directory permissions.
+if(NOT DEFINED CMAKE_OBJDUMP)
+  set(CMAKE_OBJDUMP "C:/FreshMinGW/bin/objdump.exe")
+endif()
+
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/Users/pruglo/CLionProjects/openn/cmake-build-debug/tests/.lib/googlemock/cmake_install.cmake")
+  include("C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/tests/.lib/googlemock/cmake_install.cmake")
 
 endif()
 

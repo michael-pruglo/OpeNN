@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 211.6432.9\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\openn.dir/objects.a
+C:\FreshMinGW\bin\ar.exe cr CMakeFiles\openn.dir/objects.a @CMakeFiles\openn.dir\objects1.rsp
+C:\FreshMinGW\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\openn.dir/objects.a -Wl,--no-whole-archive -o openn.exe -Wl,--out-implib,libopenn.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\openn.dir\linklibs.rsp
