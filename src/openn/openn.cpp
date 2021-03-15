@@ -1,6 +1,5 @@
 #include <openn/openn.hpp>
 #include <core/random.hpp>
-#include <core/utility.hpp>
 #include <core/algebra.hpp>
 
 using namespace openn;
@@ -55,17 +54,17 @@ namespace
     using openn::float_t;
 
     const std::unordered_map<ActivationFType, AlgebraicF> ACTIVATION_FUNCTIONS = {
-            { ActivationFType::ReLU,		[](float_t x) -> float_t { return std::max(0., x); } },
-            { ActivationFType::sigmoid,		[](float_t x) -> float_t { return 1. / (1. + std::exp(-x)); } },
-            { ActivationFType::softplus,	[](float_t x) -> float_t { return std::log(1. + std::exp(x)); } },
-            { ActivationFType::tanh,		[](float_t x) -> float_t { return std::tanh(x); } },
+            { ActivationFType::ReLU,        [](float_t x) -> float_t { return std::max(0., x); } },
+            { ActivationFType::sigmoid,     [](float_t x) -> float_t { return 1. / (1. + std::exp(-x)); } },
+            { ActivationFType::softplus,    [](float_t x) -> float_t { return std::log(1. + std::exp(x)); } },
+            { ActivationFType::tanh,        [](float_t x) -> float_t { return std::tanh(x); } },
     };
 
     const std::unordered_map<ActivationFType, AlgebraicF> DERIVATIVE_FUNCTIONS = {
-            { ActivationFType::ReLU,		[](float_t x) -> float_t { return x > 0; } },
-            { ActivationFType::sigmoid,		[](float_t x) -> float_t { const auto& f = ACTIVATION_FUNCTIONS.at(ActivationFType::sigmoid); return f(x)*(1. - f(x)); } },
-            { ActivationFType::softplus,	[](float_t x) -> float_t { return 1. / (1. + std::exp(-x)); } },
-            { ActivationFType::tanh,		[](float_t x) -> float_t { return 1. - std::pow(std::tanh(x), 2); } },
+            { ActivationFType::ReLU,        [](float_t x) -> float_t { return x > 0; } },
+            { ActivationFType::sigmoid,     [](float_t x) -> float_t { const auto& f = ACTIVATION_FUNCTIONS.at(ActivationFType::sigmoid); return f(x)*(1. - f(x)); } },
+            { ActivationFType::softplus,    [](float_t x) -> float_t { return 1. / (1. + std::exp(-x)); } },
+            { ActivationFType::tanh,        [](float_t x) -> float_t { return 1. - std::pow(std::tanh(x), 2); } },
     };
 
 }

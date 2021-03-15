@@ -26,7 +26,7 @@ namespace core
     typename std::enable_if_t<!std::is_floating_point_v<Integral>, Integral>
     randi(Integral min, Integral max)
     {
-        const std::uniform_int_distribution<Integral> distribution(min, max);
+        std::uniform_int_distribution<Integral> distribution(min, max);
         return distribution(rnd_engine);
     }
 
