@@ -6,27 +6,6 @@
 
 using namespace openn;
 
-namespace
-{
-    class NeuralNetworkPrinter
-    {
-    public:
-        explicit NeuralNetworkPrinter(const NeuralNetwork& nn);
-        std::string getDebugString() const;
-    private:
-        std::string getHeader() const;
-        std::string getBody() const;
-        std::string getFooter() const;
-        static	std::string getLine(size_t len);
-        std::string getActivationLine() const;
-        size_t		getHeight() const;
-
-    private:
-        const NeuralNetwork& nn;
-        const size_t HGAP = 5, LAYER_W = 11, TOTAL_W;
-    };
-}
-
 std::ostream& openn::operator<<(std::ostream& os, const NeuralNetwork& nn)
 {
     return os << NeuralNetworkPrinter(nn).getDebugString();

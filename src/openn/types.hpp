@@ -14,10 +14,8 @@ namespace openn
 
     struct LayerMetadata
     {
-        LayerMetadata(size_t size = 0, ActivationFType activation = ActivationFType::sigmoid);
-
-        size_t size;
-        ActivationFType activation;
+        size_t size = 0;
+        ActivationFType activation = ActivationFType::sigmoid;
     };
     bool operator==(const LayerMetadata& lm1, const LayerMetadata& lm2);
 

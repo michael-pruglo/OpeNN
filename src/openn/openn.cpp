@@ -5,16 +5,9 @@
 
 using namespace openn;
 
-LayerMetadata::LayerMetadata(size_t size_, ActivationFType activation_)
-        : size(size_)
-          , activation(activation_)
-{
-}
-
 bool operator==(const LayerMetadata& lm1, const LayerMetadata& lm2)
 {
-    return lm1.size == lm2.size
-           && lm1.activation == lm2.activation;
+    return lm1.size == lm2.size && lm1.activation == lm2.activation;
 }
 
 NeuralNetwork::NeuralNetwork(const std::vector<LayerMetadata>& nn_structure)
@@ -77,11 +70,11 @@ namespace
 
 }
 NeuralNetwork::Layer::Layer(size_t layer_size, size_t prev_layer_size, ActivationFType activation_)
-        : w(core::randMatrix(layer_size, prev_layer_size))
-          , bias(core::randVec(layer_size))
-          , activation(activation_)
-          , _act_f(ACTIVATION_FUNCTIONS.at(activation_))
-          , _der_f(DERIVATIVE_FUNCTIONS.at(activation_))
+    : w(core::randMatrix(layer_size, prev_layer_size))
+    , bias(core::randVec(layer_size))
+    , activation(activation_)
+    , _act_f(ACTIVATION_FUNCTIONS.at(activation_))
+    , _der_f(DERIVATIVE_FUNCTIONS.at(activation_))
 {
 }
 

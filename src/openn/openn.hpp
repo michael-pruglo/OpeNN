@@ -8,7 +8,7 @@ namespace openn
     class NeuralNetwork : public INeuralNetwork
     {
     public:
-        explicit NeuralNetwork(const std::vector<LayerMetadata>& nn_structure = {0, 0});
+        explicit NeuralNetwork(const std::vector<LayerMetadata>& nn_structure = { {}, {} });
 
         inline LayerMetadata getLayerMetadata(size_t i) const override;
         inline Vec operator()(const Vec& input) const override;
