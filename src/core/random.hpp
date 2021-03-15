@@ -1,6 +1,7 @@
 #pragma once
 
 #include <core/types.hpp>
+#include <core/utility.hpp>
 #include <random>
 #include <ctime>
 #include <type_traits>
@@ -16,7 +17,7 @@ namespace core
     typename std::enable_if_t<std::is_floating_point_v<Floating>, Floating>
     randd(Floating min = 0.0, Floating max = 1.0)
     {
-        const std::uniform_real_distribution<Floating> distibution(min, max);
+        std::uniform_real_distribution<Floating> distibution(min, max);
         return distibution(rnd_engine);
     }
 

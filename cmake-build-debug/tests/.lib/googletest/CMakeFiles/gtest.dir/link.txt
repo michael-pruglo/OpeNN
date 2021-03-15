@@ -1,2 +1,2 @@
-C:\FreshMinGW\bin\ar.exe qc ..\..\..\lib\libgtestd.a CMakeFiles/gtest.dir/src/gtest-all.cc.obj
-C:\FreshMinGW\bin\ranlib.exe ..\..\..\lib\libgtestd.a
+/usr/bin/ar.exe qc ../../../lib/libgtestd.a CMakeFiles/gtest.dir/src/gtest-all.cc.o
+/usr/bin/ranlib.exe ../../../lib/libgtestd.a

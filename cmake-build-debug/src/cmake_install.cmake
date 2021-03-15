@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/mickl/CLionProjects/OpeNN/src
+# Install script for directory: /cygdrive/c/Users/mickl/CLionProjects/OpeNN/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/openn")
+  set(CMAKE_INSTALL_PREFIX "/usr/local")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,6 +34,6 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/FreshMinGW/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "/usr/bin/objdump.exe")
 endif()
 

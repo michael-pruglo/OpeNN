@@ -1,13 +1,12 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/openn.dir/core/algebra.cpp.obj"
-  "CMakeFiles/openn.dir/main.cpp.obj"
-  "CMakeFiles/openn.dir/openn/io/nn_printer.cpp.obj"
-  "CMakeFiles/openn.dir/openn/io/nn_serializer.cpp.obj"
-  "CMakeFiles/openn.dir/openn/openn.cpp.obj"
-  "CMakeFiles/openn.dir/openn/training.cpp.obj"
+  "CMakeFiles/openn.dir/core/algebra.cpp.o"
+  "CMakeFiles/openn.dir/main.cpp.o"
+  "CMakeFiles/openn.dir/openn/io/nn_printer.cpp.o"
+  "CMakeFiles/openn.dir/openn/io/nn_serializer.cpp.o"
+  "CMakeFiles/openn.dir/openn/openn.cpp.o"
+  "CMakeFiles/openn.dir/openn/training.cpp.o"
   "libopenn.dll.a"
   "openn.exe"
-  "openn.exe.manifest"
   "openn.pdb"
 )
 

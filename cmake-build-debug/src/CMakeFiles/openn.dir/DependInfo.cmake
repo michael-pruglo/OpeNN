@@ -4,12 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/mickl/CLionProjects/OpeNN/src/core/algebra.cpp" "C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/src/CMakeFiles/openn.dir/core/algebra.cpp.obj"
-  "C:/Users/mickl/CLionProjects/OpeNN/src/main.cpp" "C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/src/CMakeFiles/openn.dir/main.cpp.obj"
-  "C:/Users/mickl/CLionProjects/OpeNN/src/openn/io/nn_printer.cpp" "C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/src/CMakeFiles/openn.dir/openn/io/nn_printer.cpp.obj"
-  "C:/Users/mickl/CLionProjects/OpeNN/src/openn/io/nn_serializer.cpp" "C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/src/CMakeFiles/openn.dir/openn/io/nn_serializer.cpp.obj"
-  "C:/Users/mickl/CLionProjects/OpeNN/src/openn/openn.cpp" "C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/src/CMakeFiles/openn.dir/openn/openn.cpp.obj"
-  "C:/Users/mickl/CLionProjects/OpeNN/src/openn/training.cpp" "C:/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/src/CMakeFiles/openn.dir/openn/training.cpp.obj"
+  "/cygdrive/c/Users/mickl/CLionProjects/OpeNN/src/core/algebra.cpp" "/cygdrive/c/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/src/CMakeFiles/openn.dir/core/algebra.cpp.o"
+  "/cygdrive/c/Users/mickl/CLionProjects/OpeNN/src/main.cpp" "/cygdrive/c/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/src/CMakeFiles/openn.dir/main.cpp.o"
+  "/cygdrive/c/Users/mickl/CLionProjects/OpeNN/src/openn/io/nn_printer.cpp" "/cygdrive/c/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/src/CMakeFiles/openn.dir/openn/io/nn_printer.cpp.o"
+  "/cygdrive/c/Users/mickl/CLionProjects/OpeNN/src/openn/io/nn_serializer.cpp" "/cygdrive/c/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/src/CMakeFiles/openn.dir/openn/io/nn_serializer.cpp.o"
+  "/cygdrive/c/Users/mickl/CLionProjects/OpeNN/src/openn/openn.cpp" "/cygdrive/c/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/src/CMakeFiles/openn.dir/openn/openn.cpp.o"
+  "/cygdrive/c/Users/mickl/CLionProjects/OpeNN/src/openn/training.cpp" "/cygdrive/c/Users/mickl/CLionProjects/OpeNN/cmake-build-debug/src/CMakeFiles/openn.dir/openn/training.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

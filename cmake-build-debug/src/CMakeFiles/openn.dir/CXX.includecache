@@ -337,6 +337,8 @@ core/types.hpp
 ../src/core/random.hpp
 core/types.hpp
 -
+core/utility.hpp
+-
 random
 -
 ctime
@@ -378,7 +380,7 @@ core/types.hpp
 functional
 -
 
-C:/Users/mickl/CLionProjects/OpeNN/src/openn/openn.cpp
+/cygdrive/c/Users/mickl/CLionProjects/OpeNN/src/openn/openn.cpp
 openn/openn.hpp
 -
 core/random.hpp
@@ -388,7 +390,7 @@ core/utility.hpp
 core/algebra.hpp
 -
 
-C:/Users/mickl/CLionProjects/OpeNN/src/openn/training.cpp
+/cygdrive/c/Users/mickl/CLionProjects/OpeNN/src/openn/training.cpp
 openn/training.hpp
 -
 

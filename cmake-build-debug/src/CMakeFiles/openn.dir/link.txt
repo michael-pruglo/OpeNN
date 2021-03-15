@@ -1,3 +1,1 @@
-"C:\Program Files\JetBrains\CLion 211.6432.9\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\openn.dir/objects.a
-C:\FreshMinGW\bin\ar.exe cr CMakeFiles\openn.dir/objects.a @CMakeFiles\openn.dir\objects1.rsp
-C:\FreshMinGW\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\openn.dir/objects.a -Wl,--no-whole-archive -o openn.exe -Wl,--out-implib,libopenn.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\openn.dir\linklibs.rsp
+/usr/bin/c++.exe -g -Wl,--enable-auto-import CMakeFiles/openn.dir/main.cpp.o CMakeFiles/openn.dir/core/algebra.cpp.o CMakeFiles/openn.dir/openn/io/nn_printer.cpp.o CMakeFiles/openn.dir/openn/io/nn_serializer.cpp.o CMakeFiles/openn.dir/openn/openn.cpp.o CMakeFiles/openn.dir/openn/training.cpp.o -o openn.exe -Wl,--out-implib,libopenn.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

@@ -1,2 +1,2 @@
-C:\FreshMinGW\bin\ar.exe qc ..\..\..\lib\libgmockd.a CMakeFiles/gmock.dir/src/gmock-all.cc.obj
-C:\FreshMinGW\bin\ranlib.exe ..\..\..\lib\libgmockd.a
+/usr/bin/ar.exe qc ../../../lib/libgmockd.a CMakeFiles/gmock.dir/src/gmock-all.cc.o
+/usr/bin/ranlib.exe ../../../lib/libgmockd.a
