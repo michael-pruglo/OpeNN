@@ -26,3 +26,5 @@ namespace test_core
         Data_t data;
     };
 }
+
+#include "ParamDB_impl.hpp"

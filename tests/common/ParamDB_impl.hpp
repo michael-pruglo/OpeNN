@@ -1,4 +1,3 @@
-#include <tests/common/ParamDB.hpp>
 #include <iterator>
 
 using namespace test_core;

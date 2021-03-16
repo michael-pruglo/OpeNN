@@ -4,7 +4,7 @@
 
 using namespace openn;
 
-bool operator==(const LayerMetadata& lm1, const LayerMetadata& lm2)
+bool openn::operator==(const LayerMetadata& lm1, const LayerMetadata& lm2)
 {
     return lm1.size == lm2.size && lm1.activation == lm2.activation;
 }
