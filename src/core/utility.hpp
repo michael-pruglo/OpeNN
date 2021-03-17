@@ -8,6 +8,7 @@
 namespace core
 {
     template<typename T>
+    constexpr
     std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec)
     {
         os << "[ ";
@@ -21,8 +22,9 @@ namespace core
         return os;
     }
 
+
     template<typename T>
-    inline
+    constexpr
     typename std::enable_if<!std::is_floating_point<T>::value, bool>::type
     is_equal(const T& a, const T& b) noexcept
     {
@@ -30,13 +32,14 @@ namespace core
     }
 
     template<typename T>
-    inline
+    constexpr
     typename std::enable_if<std::is_floating_point<T>::value, bool>::type
-    is_equal(T a, T b) noexcept
+    is_equal(T a, T b, T tolerance = static_cast<T>(0)) noexcept
     {
-        T factor = max( static_cast<T>(1), max(std::fabs(a), std::fabs(b)) );
-        return std::fabs(a - b) <= std::numeric_limits<T>::epsilon() * factor;
+        T factor = std::max( static_cast<T>(1), std::max(std::fabs(a), std::fabs(b)) );
+        return std::fabs(a - b) <= tolerance + std::numeric_limits<T>::epsilon() * factor;
     }
+
 
     // generates an `std::vector<T>` of length `n`
     // generator is independent from the index: `v[i] = g()`
