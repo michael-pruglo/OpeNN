@@ -209,8 +209,30 @@ namespace openn::utility
             EXPECT_EQ(core::generate_i<double>(6, gen_dbl), std::vector<double>({ 0., 0.5, 1., 1.5, 2., 2.5 }));
         }
 
+        template<typename T> T my_abs(T arg) { return arg<0 ? -arg : arg; }
+
         TEST(CoreUtilityTest, Map)
         {
+            const std::vector<int> templ_iota = { 0, 1, 2, 3, 4 };
+            const std::vector<int> templ_rev = { 2, 1, 0, -1, -2, -3 };
+            const std::vector<int> templ_const = { 42, 42, 42, 42, 42 };
+            const std::vector<double> templ_fl = { 18.3, 15.6, 19.2 };
+
+            const auto& gen_inc = [](int i){ return i+1; };
+
+            EXPECT_EQ(core::map([](int i){ return i+1; }, templ_iota), std::vector<int>({ 1,2,3,4,5 }));
+            EXPECT_EQ(core::map(gen_inc, templ_iota), std::vector<int>({ 1,2,3,4,5 }));
+            EXPECT_EQ(core::map(gen_inc, templ_iota), core::generate_i<int>(5, gen_inc));
+
+            EXPECT_EQ(core::map(my_abs<int>, templ_rev), std::vector<int>({ 2,1,0,1,2,3 }));
+            EXPECT_EQ(core::map(std::labs, templ_rev), std::vector<int>({ 2,1,0,1,2,3 }));
+
+            EXPECT_EQ(core::map([](int i){ return i-41; }, templ_const), std::vector<int>(5, 1));
+
+            expect_double_vec_eq(core::map([](double d){ return d/3.; }, templ_fl), { 6.1, 5.2, 6.4 });
+
+            EXPECT_EQ(core::map([](double _){ return 42; }, std::vector<double>{}), std::vector<double>{});
+            EXPECT_EQ(core::map([](std::string _){ return "str"; }, std::vector<std::string>{}), std::vector<std::string>{});
         }
     }
 }
