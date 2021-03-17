@@ -60,7 +60,7 @@ namespace openn::random
 
     void test_interval_i(int l, int r)
     {
-        constexpr const int SAMPLE_SIZE = 1'000'000, ZONES = 100;
+        constexpr const int SAMPLE_SIZE = 100'000, ZONES = 100;
         const auto& zone_idx = [r,l](int val) -> size_t {
             const float_t zone_width = static_cast<float_t>(r-l)/ZONES;
             const size_t idx = (val-l)/zone_width;
