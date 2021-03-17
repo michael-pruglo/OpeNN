@@ -130,10 +130,10 @@ namespace openn::utility
         {
             EXPECT_TRUE(core::is_equal(16.0001, 16.0007, .001));
             EXPECT_TRUE(core::is_equal(16.002, 16.003, .001));
-            EXPECT_TRUE(core::is_equal(123456789.0123, 123456789.0123, 1.));
-            EXPECT_TRUE(core::is_equal(123457789.0123, 123456789.0123, 1000.));
-            EXPECT_FALSE(core::is_equal(123457789.0123, 123456789.0123, 999.));
-            EXPECT_TRUE(core::is_equal(1e-9, 1e-9+1e-10, 1e-9));
+            EXPECT_TRUE(core::is_equal(123'456'789.0123, 123'456'789.0123, 1.));
+            EXPECT_TRUE(core::is_equal(123'457'789.0123, 123'456'789.0123, 1000.));
+            EXPECT_FALSE(core::is_equal(123'457'789.0123, 123456789.0123, 999.));
+            EXPECT_TRUE(core::is_equal(22'345'678'901'234.0123L, 12'345'678'901'234.0123L, 10'000'000'000'000.L));
         }
 
         TEST(CoreUtilityTest, IsEqual_Other)
