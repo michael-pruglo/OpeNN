@@ -1,24 +1,24 @@
 #include <tests/common/helpers.hpp>
 #include <core/random.hpp>
 
-
-#include <iostream>
-
-
 namespace openn::random
 {
     using core::operator<<;
+    using core::float_t;
 
     TEST(CoreRandomTest, Seed)
     {
-        //const auto& prev_run_initial = core::generate(10, core::rand_d);
-        //std::cout << prev_run_initial;
+        const std::vector<float_t>
+            prev_run_initial{ 0.271145, 0.439242, 0.105885, 0.31747, 0.639287, 0.232686, 0.589953, 0.382386, 0.326701, 0.0690268 },
+            new_run_initial = core::generate(10, []{ return core::rand_d(); });
+        
+        ASSERT_NE(prev_run_initial, new_run_initial);
     }
 
     template<typename InputIterator>
-    double diversity(InputIterator first, InputIterator last)
+    float_t diversity(InputIterator first, InputIterator last)
     {
-        double sum = 0.0, prev = *first;
+        float_t sum = 0.0, prev = *first;
         const auto& n = std::distance(first, last);
         while (++first != last)
         {
@@ -28,16 +28,16 @@ namespace openn::random
         return sum / n;
     }
 
-    void test_interval_d(double l, double r)
+    void test_interval_d(float_t l, float_t r)
     {
         constexpr const int SAMPLE_SIZE = 1'000'000, ZONES = 100;
-        const auto& zone_idx = [r,l](double val) -> size_t {
+        const auto& zone_idx = [r,l](float_t val) -> size_t {
             const auto& zone_width = (r-l)/ZONES;
             const size_t idx = std::floor((val - l) / zone_width);
             return idx;
         };
 
-        double max_generated = l, min_generated = r;
+        float_t max_generated = l, min_generated = r;
         std::array<int, ZONES> amount_by_zone{};
         for (int i = 0; i < SAMPLE_SIZE; ++i)
         {
