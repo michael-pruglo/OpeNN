@@ -153,6 +153,40 @@ namespace openn::utility
 
     namespace generate
     {
+        TEST(CoreUtilityTest, Generate)
+        {
+            const auto& gen_42 = [](){ return 42; };
+            const auto& gen_str = [](){ return "str"; };
+            const auto& gen_rec = [](){ return std::vector<int>{ 1 }; };
+            int siota = 0;
+            const auto& gen_iota = [&siota](){ return siota++; };
 
+            EXPECT_EQ(core::generate<int>(0, gen_42), std::vector<int>{ });
+            EXPECT_EQ(core::generate<int>(1, gen_42), std::vector<int>(1, 42));
+            EXPECT_EQ(core::generate<int>(17, gen_42), std::vector<int>(17, 42));
+
+            EXPECT_EQ(core::generate<std::string>(0, gen_str), std::vector<std::string>{ });
+            EXPECT_EQ(core::generate<std::string>(1, gen_str), std::vector<std::string>(1, "str"));
+            EXPECT_EQ(core::generate<std::string>(17, gen_str), std::vector<std::string>(17, "str"));
+
+            EXPECT_EQ(core::generate<std::vector<int>>(0, gen_rec), std::vector<std::vector<int>>{ });
+            EXPECT_EQ(core::generate<std::vector<int>>(1, gen_rec), std::vector<std::vector<int>>(1, std::vector<int>{1}));
+            EXPECT_EQ(core::generate<std::vector<int>>(17, gen_rec), std::vector<std::vector<int>>(17, std::vector<int>{1}));
+
+            siota = 0; EXPECT_EQ(core::generate<int>(0, gen_iota), std::vector<int>({ }));
+            siota = 0; EXPECT_EQ(core::generate<int>(1, gen_iota), std::vector<int>({ 0 }));
+            siota = 0; EXPECT_EQ(core::generate<int>(3, gen_iota), std::vector<int>({ 0,1,2 }));
+            siota = 0; EXPECT_EQ(core::generate<int>(17, gen_iota), std::vector<int>({ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 }));
+        }
+
+        TEST(CoreUtilityTest, Generate_i)
+        {
+
+        }
+
+        TEST(CoreUtilityTest, Map)
+        {
+
+        }
     }
 }
