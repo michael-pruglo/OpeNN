@@ -36,8 +36,8 @@ namespace core
         return core::generate(n, [min, max]{ return rand_d(min, max); });
     }
 
-    inline Matrix rand_matrix(size_t n, size_t m)
+    inline Matrix rand_matrix(size_t cols, size_t rows)
     {
-        return core::generate(n, [m]{ return rand_vec(m); });
+        return core::generate(cols, [rows]{ return rand_vec(rows); });
     }
 }

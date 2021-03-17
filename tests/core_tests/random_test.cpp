@@ -106,4 +106,22 @@ namespace openn::random
         test_interval_i(14, 14);
         test_interval_i(-1234567, 12345678);
     }
+
+    TEST(CoreRandomTest, rand_vec)
+    {
+        for (size_t sz: { 0, 1, 2, 5, 9, 42, 178, 599, 1234567})
+            ASSERT_EQ(core::rand_vec(sz).size(), sz);
+    }
+
+    TEST(CoreRandomTest, rand_matrix)
+    {
+        for (size_t n: { 0, 1, 2, 5, 9, 42})
+            for (size_t m: { 0, 1, 2, 5, 9, 42})
+            {
+                const core::Matrix& mat = core::rand_matrix(n, m);
+                ASSERT_EQ(mat.size(), n);
+                for (const auto& row: mat)
+                    ASSERT_EQ(row.size(), m);
+            }
+    }
 }
