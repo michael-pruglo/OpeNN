@@ -7,15 +7,32 @@
 
 namespace core
 {
-    template<typename T>
+    namespace detail
+    {
+        template<typename, typename = void>
+        struct is_iterable : std::false_type {};
+        template<typename T>
+        struct is_iterable<T, std::void_t<
+            decltype(std::declval<T>().begin()),
+            decltype(std::declval<T>().end()),
+            decltype(++std::declval<decltype(std::declval<T&>().begin())&>()),
+            decltype(std::declval<T>().begin() != std::declval<T>().end())
+        >> : std::true_type {};
+    }
+
+    template<typename LinearContainer>
     constexpr
-    std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec)
+    typename std::enable_if_t<
+        detail::is_iterable<LinearContainer>::value
+        && !std::is_same_v<typename LinearContainer::value_type, char>,
+    std::ostream&>
+    operator<<(std::ostream& os, const LinearContainer& c)
     {
         os << "[ ";
-        for (size_t i = 0; i < vec.size(); ++i)
+        for (auto it = c.begin(); it != c.end(); )
         {
-            os << vec[i];
-            if (i < vec.size()-1)
+            os << *it;
+            if (++it != c.end())
                 os << ", ";
         }
         os << " ]";
@@ -25,7 +42,7 @@ namespace core
 
     template<typename T>
     constexpr
-    typename std::enable_if<!std::is_floating_point<T>::value, bool>::type
+    typename std::enable_if_t<!std::is_floating_point_v<T>, bool>
     is_equal(const T& a, const T& b) noexcept
     {
         return a == b;
@@ -33,7 +50,7 @@ namespace core
 
     template<typename T>
     constexpr
-    typename std::enable_if<std::is_floating_point<T>::value, bool>::type
+    typename std::enable_if_t<std::is_floating_point_v<T>, bool>
     is_equal(T a, T b, T tolerance = static_cast<T>(0)) noexcept
     {
         T factor = std::max( static_cast<T>(1), std::max(std::fabs(a), std::fabs(b)) );

@@ -1,5 +1,7 @@
 #include <tests/common/helpers.hpp>
 #include <core/utility.hpp>
+#include <list>
+#include <queue>
 
 namespace openn::utility
 {
@@ -66,6 +68,28 @@ namespace openn::utility
             { std::ostringstream ss; ss << std::vector<Printable42>(1); EXPECT_EQ(ss.str(), "[ 42 ]"); }
             { std::ostringstream ss; ss << std::vector<Printable42>(2); EXPECT_EQ(ss.str(), "[ 42, 42 ]"); }
             { std::ostringstream ss; ss << std::vector<Printable42>(5); EXPECT_EQ(ss.str(), "[ 42, 42, 42, 42, 42 ]"); }
+        }
+
+        TEST(CoreUtilityTest, VecOutput_SFINAE)
+        {
+            using core::operator<<;
+
+            EXPECT_TRUE(core::detail::is_iterable<std::vector<int>>::value);
+            EXPECT_TRUE(core::detail::is_iterable<decltype(std::array<int,5>{})>::value);
+            EXPECT_TRUE(core::detail::is_iterable<std::list<int>>::value);
+            EXPECT_FALSE(core::detail::is_iterable<decltype(std::queue<int>{})>::value);
+            EXPECT_FALSE(core::detail::is_iterable<decltype(std::pair<int, int>{})>::value);
+
+            std::ostringstream ss;
+
+            //should compile
+            ss << std::vector<int>{ 1, 2, 3, 4, 5 };
+            ss << std::array<int, 5>{ 1, 2, 3, 4, 5 };
+            ss << std::list<int>{ 1, 2 };
+
+            //should NOT compile
+            //ss << std::queue<int>{};
+            //ss << std::pair<int, int>{};
         }
     }
 
