@@ -1,5 +1,6 @@
 #include <tests/common/helpers.hpp>
 #include <core/random.hpp>
+#include <algorithm>
 
 namespace openn::random
 {
@@ -8,9 +9,9 @@ namespace openn::random
 
     TEST(CoreRandomTest, Seed)
     {
-        const std::vector<float_t>
-            prev_run_initial{ 0.271145, 0.439242, 0.105885, 0.31747, 0.639287, 0.232686, 0.589953, 0.382386, 0.326701, 0.0690268 },
-            new_run_initial = core::generate(10, []{ return core::rand_d(); });
+        const std::vector<float_t> prev_run_initial{ 0.271145, 0.439242, 0.105885, 0.31747, 0.639287, 0.232686, 0.589953, 0.382386, 0.326701, 0.0690268 };
+        std::vector<float_t> new_run_initial(10);
+        std::generate_n(new_run_initial.begin(), 10, []{ return core::rand_d(); });
         
         ASSERT_NE(prev_run_initial, new_run_initial);
     }
