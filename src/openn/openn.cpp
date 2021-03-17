@@ -69,8 +69,8 @@ namespace
 
 }
 NeuralNetwork::Layer::Layer(size_t layer_size, size_t prev_layer_size, ActivationFType activation_)
-    : w(core::randMatrix(layer_size, prev_layer_size))
-    , bias(core::randVec(layer_size))
+    : w(core::rand_matrix(layer_size, prev_layer_size))
+    , bias(core::rand_vec(layer_size))
     , activation(activation_)
     , _act_f(ACTIVATION_FUNCTIONS.at(activation_))
     , _der_f(DERIVATIVE_FUNCTIONS.at(activation_))

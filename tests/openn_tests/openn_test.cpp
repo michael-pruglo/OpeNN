@@ -18,7 +18,7 @@
 //
 //    ConstructNNParam::InsLayer ConstructNNParam::InsLayer::generateRand(size_t max_allowed_pos)
 //    {
-//        const bool use_pos = randi(0, 1);
+//        const bool use_pos = rand_i(0, 1);
 //        const auto layer_size = rand_size();
 //        const auto where = rand_size(max_allowed_pos);
 //        const auto activation = rand_activation();

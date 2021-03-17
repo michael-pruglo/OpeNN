@@ -15,7 +15,7 @@ namespace openn
     {
         return ActivationFType::sigmoid;
 //        const auto sz = static_cast<size_t>(ActivationFType::_SIZE);
-//        const auto idx = core::randi<size_t>(0, sz-1u);
+//        const auto idx = core::rand_i<size_t>(0, sz-1u);
 //        return static_cast<ActivationFType>(idx);
     }
 }

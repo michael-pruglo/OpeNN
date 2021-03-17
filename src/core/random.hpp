@@ -15,7 +15,7 @@ namespace core
     template<typename Floating = float_t>
     inline
     typename std::enable_if_t<std::is_floating_point_v<Floating>, Floating>
-    randd(Floating min = 0.0, Floating max = 1.0)
+    rand_d(Floating min = 0.0, Floating max = 1.0)
     {
         std::uniform_real_distribution<Floating> distibution(min, max);
         return distibution(rnd_engine);
@@ -24,22 +24,20 @@ namespace core
     template<typename Integral = int>
     inline
     typename std::enable_if_t<!std::is_floating_point_v<Integral>, Integral>
-    randi(Integral min, Integral max)
+    rand_i(Integral min, Integral max)
     {
         std::uniform_int_distribution<Integral> distribution(min, max);
         return distribution(rnd_engine);
     }
 
 
-
-    constexpr float_t _W_MIN = -10.0, _W_MAX = 10.0;
-    inline Vec randVec(size_t n)
+    inline Vec rand_vec(size_t n, float_t min = -10.0, float_t max = 10.0)
     {
-        return core::generate<float_t>(n, []{ return randd(_W_MIN, _W_MAX); });
+        return core::generate<float_t>(n, [min, max]{ return rand_d(min, max); });
     }
 
-    inline Matrix randMatrix(size_t n, size_t m)
+    inline Matrix rand_matrix(size_t n, size_t m)
     {
-        return core::generate<Vec>(n, [m]{ return randVec(m); });
+        return core::generate<Vec>(n, [m]{ return rand_vec(m); });
     }
 }
