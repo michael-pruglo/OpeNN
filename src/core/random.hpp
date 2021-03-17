@@ -33,11 +33,11 @@ namespace core
 
     inline Vec rand_vec(size_t n, float_t min = -10.0, float_t max = 10.0)
     {
-        return core::generate<float_t>(n, [min, max]{ return rand_d(min, max); });
+        return core::generate(n, [min, max]{ return rand_d(min, max); });
     }
 
     inline Matrix rand_matrix(size_t n, size_t m)
     {
-        return core::generate<Vec>(n, [m]{ return rand_vec(m); });
+        return core::generate(n, [m]{ return rand_vec(m); });
     }
 }

@@ -60,10 +60,10 @@ namespace core
 
     // generates an `std::vector<T>` of length `n`
     // generator is independent from the index: `v[i] = g()`
-    template<typename T, typename Generator>
-    std::vector<T> generate(size_t n, const Generator& g)
+    template<typename Generator>
+    auto generate(size_t n, const Generator& g)
     {
-        std::vector<T> res;
+        std::vector<decltype(g())> res;
         res.reserve(n);
         for (size_t i = 0; i < n; ++i)
             res.emplace_back(g());
@@ -72,10 +72,10 @@ namespace core
 
     // generates an `std::vector<T>` of length `n`
     // generator is dependent on the index: `v[i] = g(i)`
-    template<typename T, typename Generator>
-    std::vector<T> generate_i(size_t n, const Generator& g)
+    template<typename Generator>
+    auto generate_i(size_t n, const Generator& g)
     {
-        std::vector<T> res;
+        std::vector<decltype(g(0))> res;
         res.reserve(n);
         for (size_t i = 0; i < n; ++i)
             res.emplace_back(g(i));
@@ -83,8 +83,8 @@ namespace core
     }
 
     template<typename MapFunc, typename T>
-    std::vector<T> map(const MapFunc& map_func, const std::vector<T>& v)
+    auto map(const MapFunc& map_func, const std::vector<T>& v)
     {
-        return generate_i<T>(v.size(), [&](size_t i){ return map_func(v[i]); });
+        return generate_i(v.size(), [&](size_t i){ return map_func(v[i]); });
     }
 }

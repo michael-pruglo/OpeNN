@@ -180,57 +180,57 @@ namespace openn::utility
         TEST(CoreUtilityTest, Generate)
         {
             const auto& gen_42 = [](){ return 42; };
-            const auto& gen_str = [](){ return "str"; };
+            const auto& gen_str = [](){ return std::string("str"); };
             const auto& gen_rec = [](){ return std::vector<int>{ 1 }; };
             int siota = 0;
             const auto& gen_iota = [&siota](){ return siota++; };
 
-            EXPECT_EQ(core::generate<int>(0, gen_42), std::vector<int>{ });
-            EXPECT_EQ(core::generate<int>(1, gen_42), std::vector<int>(1, 42));
-            EXPECT_EQ(core::generate<int>(17, gen_42), std::vector<int>(17, 42));
+            EXPECT_EQ(core::generate(0, gen_42), std::vector<int>{ });
+            EXPECT_EQ(core::generate(1, gen_42), std::vector<int>(1, 42));
+            EXPECT_EQ(core::generate(17, gen_42), std::vector<int>(17, 42));
 
-            EXPECT_EQ(core::generate<std::string>(0, gen_str), std::vector<std::string>{ });
-            EXPECT_EQ(core::generate<std::string>(1, gen_str), std::vector<std::string>(1, "str"));
-            EXPECT_EQ(core::generate<std::string>(17, gen_str), std::vector<std::string>(17, "str"));
+            EXPECT_EQ(core::generate(0, gen_str), std::vector<std::string>{ });
+            EXPECT_EQ(core::generate(1, gen_str), std::vector<std::string>(1, "str"));
+            EXPECT_EQ(core::generate(17, gen_str), std::vector<std::string>(17, "str"));
 
-            EXPECT_EQ(core::generate<std::vector<int>>(0, gen_rec), std::vector<std::vector<int>>{ });
-            EXPECT_EQ(core::generate<std::vector<int>>(1, gen_rec), std::vector<std::vector<int>>(1, std::vector<int>{1}));
-            EXPECT_EQ(core::generate<std::vector<int>>(17, gen_rec), std::vector<std::vector<int>>(17, std::vector<int>{1}));
+            EXPECT_EQ(core::generate(0, gen_rec), std::vector<std::vector<int>>{ });
+            EXPECT_EQ(core::generate(1, gen_rec), std::vector<std::vector<int>>(1, std::vector<int>{1}));
+            EXPECT_EQ(core::generate(17, gen_rec), std::vector<std::vector<int>>(17, std::vector<int>{1}));
 
-            siota = 0; EXPECT_EQ(core::generate<int>(0, gen_iota), std::vector<int>({ }));
-            siota = 0; EXPECT_EQ(core::generate<int>(1, gen_iota), std::vector<int>({ 0 }));
-            siota = 0; EXPECT_EQ(core::generate<int>(3, gen_iota), std::vector<int>({ 0,1,2 }));
-            siota = 0; EXPECT_EQ(core::generate<int>(17, gen_iota), std::vector<int>({ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 }));
+            siota = 0; EXPECT_EQ(core::generate(0, gen_iota), std::vector<int>({ }));
+            siota = 0; EXPECT_EQ(core::generate(1, gen_iota), std::vector<int>({ 0 }));
+            siota = 0; EXPECT_EQ(core::generate(3, gen_iota), std::vector<int>({ 0,1,2 }));
+            siota = 0; EXPECT_EQ(core::generate(17, gen_iota), std::vector<int>({ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 }));
 
-            EXPECT_EQ(core::generate<int>(0, [](){ return 42; }), std::vector<int>{ });
-            EXPECT_EQ(core::generate<int>(1, [](){ return 42; }), std::vector<int>(1, 42));
-            EXPECT_EQ(core::generate<int>(17, [](){ return 42; }), std::vector<int>(17, 42));
+            EXPECT_EQ(core::generate(0, [](){ return 42; }), std::vector<int>{ });
+            EXPECT_EQ(core::generate(1, [](){ return 42; }), std::vector<int>(1, 42));
+            EXPECT_EQ(core::generate(17, [](){ return 42; }), std::vector<int>(17, 42));
         }
 
         TEST(CoreUtilityTest, Generate_i)
         {
             const auto& gen_42 = [](){ return 42; };
             const auto& gen_const = [](size_t i){ return 42; };
-            const auto& gen_rev = [](size_t i){ return 10-i; };
-            const auto& gen_iota = [](size_t i){ return i; };
-            const auto& gen_fun = [](size_t i){ return 3*i*i*i + 27*i*i - 34*i - 2; };
+            const auto& gen_rev = [](size_t i){ return 10-static_cast<int>(i); };
+            const auto& gen_iota = [](size_t i){ return static_cast<int>(i); };
+            const auto& gen_fun = [](size_t i){ return static_cast<int>(3*i*i*i + 27*i*i - 34*i - 2); };
             const auto& gen_dbl = [](size_t i){ return i/2.; };
 
-            EXPECT_EQ(core::generate_i<int>(0, gen_const), std::vector<int>({}));
-            EXPECT_EQ(core::generate_i<int>(1, gen_const), std::vector<int>({ 42 }));
-            EXPECT_EQ(core::generate_i<int>(13, gen_const), std::vector<int>(13, 42));
+            EXPECT_EQ(core::generate_i(0, gen_const), std::vector<int>({}));
+            EXPECT_EQ(core::generate_i(1, gen_const), std::vector<int>({ 42 }));
+            EXPECT_EQ(core::generate_i(13, gen_const), std::vector<int>(13, 42));
 
-            EXPECT_EQ(core::generate_i<int>(75, gen_const), core::generate<int>(75, gen_42));
+            EXPECT_EQ(core::generate_i(75, gen_const), core::generate(75, gen_42));
 
-            EXPECT_EQ(core::generate_i<int>(13, gen_rev), std::vector<int>({ 10,9,8,7,6,5,4,3,2,1,0,-1,-2 }));
+            EXPECT_EQ(core::generate_i(13, gen_rev), std::vector<int>({ 10,9,8,7,6,5,4,3,2,1,0,-1,-2 }));
 
-            EXPECT_EQ(core::generate_i<int>(13, gen_iota), std::vector<int>({ 0,1,2,3,4,5,6,7,8,9,10,11,12 }));
+            EXPECT_EQ(core::generate_i(13, gen_iota), std::vector<int>({ 0,1,2,3,4,5,6,7,8,9,10,11,12 }));
 
-            EXPECT_EQ(core::generate_i<int>(6, gen_fun), std::vector<int>({ -2,-6,62,220,486,878 }));
+            EXPECT_EQ(core::generate_i(6, gen_fun), std::vector<int>({ -2,-6,62,220,486,878 }));
 
-            EXPECT_EQ(core::generate_i<int>(6, [](size_t i){ return 3*i*i*i + 27*i*i - 34*i - 2; }), std::vector<int>({ -2,-6,62,220,486,878 }));
+            EXPECT_EQ(core::generate_i(6, [](size_t i){ return static_cast<int>(3*i*i*i + 27*i*i - 34*i - 2); }), std::vector<int>({ -2,-6,62,220,486,878 }));
 
-            EXPECT_EQ(core::generate_i<double>(6, gen_dbl), std::vector<double>({ 0., 0.5, 1., 1.5, 2., 2.5 }));
+            EXPECT_EQ(core::generate_i(6, gen_dbl), std::vector<double>({ 0., 0.5, 1., 1.5, 2., 2.5 }));
         }
 
         template<typename T> T my_abs(T arg) { return arg<0 ? -arg : arg; }
@@ -246,17 +246,17 @@ namespace openn::utility
 
             EXPECT_EQ(core::map([](int i){ return i+1; }, templ_iota), std::vector<int>({ 1,2,3,4,5 }));
             EXPECT_EQ(core::map(gen_inc, templ_iota), std::vector<int>({ 1,2,3,4,5 }));
-            EXPECT_EQ(core::map(gen_inc, templ_iota), core::generate_i<int>(5, gen_inc));
+            EXPECT_EQ(core::map(gen_inc, templ_iota), core::generate_i(5, gen_inc));
 
             EXPECT_EQ(core::map(my_abs<int>, templ_rev), std::vector<int>({ 2,1,0,1,2,3 }));
-            EXPECT_EQ(core::map(std::labs, templ_rev), std::vector<int>({ 2,1,0,1,2,3 }));
+            EXPECT_EQ(core::map(std::labs, templ_rev), std::vector<long>({ 2,1,0,1,2,3 }));
 
             EXPECT_EQ(core::map([](int i){ return i-41; }, templ_const), std::vector<int>(5, 1));
 
             expect_double_vec_eq(core::map([](double d){ return d/3.; }, templ_fl), { 6.1, 5.2, 6.4 });
 
-            EXPECT_EQ(core::map([](double _){ return 42; }, std::vector<double>{}), std::vector<double>{});
-            EXPECT_EQ(core::map([](std::string _){ return "str"; }, std::vector<std::string>{}), std::vector<std::string>{});
+            EXPECT_EQ(core::map([](double _){ return 42.; }, std::vector<double>{}), std::vector<double>{});
+            EXPECT_EQ(core::map([](std::string _){ return std::string("str"); }, std::vector<std::string>{}), std::vector<std::string>{});
         }
     }
 }

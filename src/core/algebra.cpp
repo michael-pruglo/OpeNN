@@ -18,14 +18,14 @@ core::float_t core::norm_diff(const Vec& v1, const Vec& v2)
 
 Vec core::operator*(const Matrix& m, const Vec& v)
 {
-    return generate_i<float_t>(v.size(), [&](size_t i) {
+    return generate_i(v.size(), [&](size_t i) {
         return std::inner_product(m[i].begin(), m[i].end(), v.begin(), 0.);
     });
 }
 
 Vec core::operator+(const Vec& v1, const Vec& v2)
 {
-    return generate_i<float_t>(v1.size(), [&](size_t i) {
+    return generate_i(v1.size(), [&](size_t i) {
         return v1[i] + v2[i];
     });
 }
