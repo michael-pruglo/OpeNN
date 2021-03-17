@@ -10,7 +10,7 @@ namespace openn
     template<typename T>
     std::vector<T> rand_param_vec(size_t n)
     {
-        return core::generate(n, []{ return T::generateRand(); });
+        return {};//core::generate(n, []{ return T::generateRand(); });
     }
 
     ActivationFType rand_activation();
