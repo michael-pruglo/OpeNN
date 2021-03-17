@@ -30,9 +30,9 @@ namespace openn::random
 
     void test_interval_d(float_t l, float_t r)
     {
-        constexpr const int SAMPLE_SIZE = 1'000'000, ZONES = 100;
+        constexpr const int SAMPLE_SIZE = 100'000, ZONES = 100;
         const auto& zone_idx = [r,l](float_t val) -> size_t {
-            const auto& zone_width = (r-l)/ZONES;
+            const float_t zone_width = (r-l)/ZONES;
             const size_t idx = std::floor((val - l) / zone_width);
             return idx;
         };
@@ -48,8 +48,38 @@ namespace openn::random
 
             ++amount_by_zone[zone_idx(gen)];
         }
-        EXPECT_NEAR(min_generated, l, 1e-3);
-        EXPECT_NEAR(max_generated, r, 1e-3);
+        const float_t tolerance = 1000./SAMPLE_SIZE;
+        EXPECT_NEAR(min_generated, l, tolerance);
+        EXPECT_NEAR(max_generated, r, tolerance);
+
+        std::ostringstream ss;
+        ss << amount_by_zone;
+        EXPECT_LE(diversity(amount_by_zone.begin(), amount_by_zone.end()), .05 * SAMPLE_SIZE/ZONES) << ss.str();
+    }
+
+    void test_interval_i(int l, int r)
+    {
+        constexpr const int SAMPLE_SIZE = 1'000'000, ZONES = 100;
+        const auto& zone_idx = [r,l](int val) -> size_t {
+            const float_t zone_width = static_cast<float_t>(r-l)/ZONES;
+            const size_t idx = (val-l)/zone_width;
+            return idx;
+        };
+
+        int max_generated = l, min_generated = r;
+        std::array<int, ZONES> amount_by_zone{};
+        for (int i = 0; i < SAMPLE_SIZE; ++i)
+        {
+            const auto gen = core::rand_i(l, r);
+
+            min_generated = std::min(gen, min_generated);
+            max_generated = std::max(gen, max_generated);
+
+            ++amount_by_zone[zone_idx(gen)];
+        }
+        const int tolerance = (r-l) * 5 / 100;
+        EXPECT_LE(min_generated, l+tolerance);
+        EXPECT_GE(max_generated, r-tolerance);
 
         std::ostringstream ss;
         ss << amount_by_zone;
@@ -66,4 +96,13 @@ namespace openn::random
         test_interval_d(-17.0, -4.34);
     }
 
+    TEST(CoreRandomTest, rand_i)
+    {
+        test_interval_i(0, 10);
+        test_interval_i(-10, 10);
+        test_interval_i(-64, 60);
+        test_interval_i(-64, -13);
+        test_interval_i(14, 14);
+        test_interval_i(-1234567, 12345678);
+    }
 }
