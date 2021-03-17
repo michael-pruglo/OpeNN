@@ -177,16 +177,40 @@ namespace openn::utility
             siota = 0; EXPECT_EQ(core::generate<int>(1, gen_iota), std::vector<int>({ 0 }));
             siota = 0; EXPECT_EQ(core::generate<int>(3, gen_iota), std::vector<int>({ 0,1,2 }));
             siota = 0; EXPECT_EQ(core::generate<int>(17, gen_iota), std::vector<int>({ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 }));
+
+            EXPECT_EQ(core::generate<int>(0, [](){ return 42; }), std::vector<int>{ });
+            EXPECT_EQ(core::generate<int>(1, [](){ return 42; }), std::vector<int>(1, 42));
+            EXPECT_EQ(core::generate<int>(17, [](){ return 42; }), std::vector<int>(17, 42));
         }
 
         TEST(CoreUtilityTest, Generate_i)
         {
+            const auto& gen_42 = [](){ return 42; };
+            const auto& gen_const = [](size_t i){ return 42; };
+            const auto& gen_rev = [](size_t i){ return 10-i; };
+            const auto& gen_iota = [](size_t i){ return i; };
+            const auto& gen_fun = [](size_t i){ return 3*i*i*i + 27*i*i - 34*i - 2; };
+            const auto& gen_dbl = [](size_t i){ return i/2.; };
 
+            EXPECT_EQ(core::generate_i<int>(0, gen_const), std::vector<int>({}));
+            EXPECT_EQ(core::generate_i<int>(1, gen_const), std::vector<int>({ 42 }));
+            EXPECT_EQ(core::generate_i<int>(13, gen_const), std::vector<int>(13, 42));
+
+            EXPECT_EQ(core::generate_i<int>(75, gen_const), core::generate<int>(75, gen_42));
+
+            EXPECT_EQ(core::generate_i<int>(13, gen_rev), std::vector<int>({ 10,9,8,7,6,5,4,3,2,1,0,-1,-2 }));
+
+            EXPECT_EQ(core::generate_i<int>(13, gen_iota), std::vector<int>({ 0,1,2,3,4,5,6,7,8,9,10,11,12 }));
+
+            EXPECT_EQ(core::generate_i<int>(6, gen_fun), std::vector<int>({ -2,-6,62,220,486,878 }));
+
+            EXPECT_EQ(core::generate_i<int>(6, [](size_t i){ return 3*i*i*i + 27*i*i - 34*i - 2; }), std::vector<int>({ -2,-6,62,220,486,878 }));
+
+            EXPECT_EQ(core::generate_i<double>(6, gen_dbl), std::vector<double>({ 0., 0.5, 1., 1.5, 2., 2.5 }));
         }
 
         TEST(CoreUtilityTest, Map)
         {
-
         }
     }
 }
