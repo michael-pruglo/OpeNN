@@ -87,7 +87,7 @@ namespace openn::random
         EXPECT_LE(diversity(amount_by_zone.begin(), amount_by_zone.end()), .05 * SAMPLE_SIZE/ZONES) << ss.str();
     }
 
-    TEST(CoreRandomTest, rand_d)
+    TEST(CoreRandomTest, RandD)
     {
         test_interval_d(0.0, 1.0);
         test_interval_d(-1.0, 1.0);
@@ -97,7 +97,7 @@ namespace openn::random
         test_interval_d(-17.0, -4.34);
     }
 
-    TEST(CoreRandomTest, rand_i)
+    TEST(CoreRandomTest, RandI)
     {
         test_interval_i(0, 10);
         test_interval_i(-10, 10);
@@ -107,13 +107,13 @@ namespace openn::random
         test_interval_i(-1234567, 12345678);
     }
 
-    TEST(CoreRandomTest, rand_vec)
+    TEST(CoreRandomTest, RandVec)
     {
         for (size_t sz: { 0, 1, 2, 5, 9, 42, 178, 599, 1234567})
             ASSERT_EQ(core::rand_vec(sz).size(), sz);
     }
 
-    TEST(CoreRandomTest, rand_matrix)
+    TEST(CoreRandomTest, RandMatrix)
     {
         for (size_t n: { 0, 1, 2, 5, 9, 42})
             for (size_t m: { 0, 1, 2, 5, 9, 42})

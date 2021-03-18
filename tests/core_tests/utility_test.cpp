@@ -10,7 +10,7 @@ namespace openn::utility
         struct Printable42{};
         void operator<<(std::ostream& os, const Printable42& _){ os<<"42"; }
 
-        TEST(CoreUtilityTest, VecOutput_Empty)
+        TEST(CoreUtilityTest, VecOutputEmpty)
         {
             using core::operator<<;
 
@@ -21,7 +21,7 @@ namespace openn::utility
             { std::ostringstream ss; ss << std::vector<Printable42>{};      EXPECT_EQ(ss.str(), "[  ]"); }
         }
 
-        TEST(CoreUtilityTest, VecOutput_Int)
+        TEST(CoreUtilityTest, VecOutputInt)
         {
             using core::operator<<;
 
@@ -34,7 +34,7 @@ namespace openn::utility
             { std::ostringstream ss; ss << std::vector<int>{ -51, 1234224828, 0, -89234781 }; EXPECT_EQ(ss.str(), "[ -51, 1234224828, 0, -89234781 ]"); }
         }
 
-        TEST(CoreUtilityTest, VecOutput_Floating)
+        TEST(CoreUtilityTest, VecOutputFloating)
         {
             using core::operator<<;
 
@@ -52,7 +52,7 @@ namespace openn::utility
             { std::ostringstream ss; ss << std::vector<double>{ -51., 1234224828., 0., -89234781. }; EXPECT_EQ(ss.str(), "[ -51, 1.23422e+09, 0, -8.92348e+07 ]"); }
         }
 
-        TEST(CoreUtilityTest, VecOutput_Recursive)
+        TEST(CoreUtilityTest, VecOutputRecursive)
         {
             using core::operator<<;
 
@@ -61,7 +61,7 @@ namespace openn::utility
             { std::ostringstream ss; ss << std::vector<std::vector<int>>{ {1,4},{1,0},{-1,9},{-9,1283} };  EXPECT_EQ(ss.str(), "[ [ 1, 4 ], [ 1, 0 ], [ -1, 9 ], [ -9, 1283 ] ]"); }
         }
 
-        TEST(CoreUtilityTest, VecOutput_Struct)
+        TEST(CoreUtilityTest, VecOutputStruct)
         {
             using core::operator<<;
 
@@ -70,7 +70,7 @@ namespace openn::utility
             { std::ostringstream ss; ss << std::vector<Printable42>(5); EXPECT_EQ(ss.str(), "[ 42, 42, 42, 42, 42 ]"); }
         }
 
-        TEST(CoreUtilityTest, VecOutput_SFINAE)
+        TEST(CoreUtilityTest, VecOutputSFINAE)
         {
             using core::operator<<;
 
@@ -95,7 +95,7 @@ namespace openn::utility
 
     namespace equal
     {
-        TEST(CoreUtilityTest, IsEqual_Integer)
+        TEST(CoreUtilityTest, IsEqualInteger)
         {
             EXPECT_TRUE(core::is_equal(1, 1));
             EXPECT_TRUE(core::is_equal(0, 0));
@@ -113,7 +113,7 @@ namespace openn::utility
             EXPECT_FALSE(core::is_equal(-8, -7));
         }
 
-        TEST(CoreUtilityTest, IsEqual_Floating)
+        TEST(CoreUtilityTest, IsEqualFloating)
         {
             EXPECT_TRUE(core::is_equal(18.f, 18.f));
             EXPECT_TRUE(core::is_equal(1.f+2.f, 51.f/17.f));
@@ -150,7 +150,7 @@ namespace openn::utility
 
         }
 
-        TEST(CoreUtilityTest, IsEqual_FloatingEps)
+        TEST(CoreUtilityTest, IsEqualFloatingEps)
         {
             EXPECT_TRUE(core::is_equal(16.0001, 16.0007, .001));
             EXPECT_TRUE(core::is_equal(16.002, 16.003, .001));
@@ -160,7 +160,7 @@ namespace openn::utility
             EXPECT_TRUE(core::is_equal(22'345'678'901'234.0123L, 12'345'678'901'234.0123L, 10'000'000'000'000.L));
         }
 
-        TEST(CoreUtilityTest, IsEqual_Other)
+        TEST(CoreUtilityTest, IsEqualOther)
         {
             EXPECT_TRUE(core::is_equal('c', 'c'));
             EXPECT_TRUE(core::is_equal('c', char(99)));
@@ -207,7 +207,7 @@ namespace openn::utility
             EXPECT_EQ(core::generate(17, [](){ return 42; }), std::vector<int>(17, 42));
         }
 
-        TEST(CoreUtilityTest, Generate_i)
+        TEST(CoreUtilityTest, GenerateI)
         {
             const auto& gen_42 = [](){ return 42; };
             const auto& gen_const = [](size_t i){ return 42; };

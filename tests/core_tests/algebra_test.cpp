@@ -3,12 +3,12 @@
 
 namespace openn::algebra
 {
-    TEST(CoreAlgebraTest, norm_diff)
+    TEST(CoreAlgebraDeathTest, NormDiff)
     {
 
     }
 
-    TEST(CoreAlgebraTest, matrix_mul_vec)
+    TEST(CoreAlgebraDeathTest, MatrixMulVec)
     {
 
     }
@@ -18,7 +18,22 @@ namespace openn::algebra
         return rand()%9001/1000.0;
     }
 
-    TEST(CoreAlgebraTest, vec_plus_vec)
+    TEST(CoreAlgebraDeathTest, VecPlusVecSmall)
+    {
+        using core::operator+;
+        expect_double_vec_eq(core::Vec{}+core::Vec{}, core::Vec{});
+        expect_double_vec_eq(core::Vec{1.7}+core::Vec{3.7}, core::Vec{5.4});
+    }
+    
+    TEST(CoreAlgebraDeathTest, VecPlusVecDeath)
+    {
+        using core::operator+;
+        EXPECT_DEATH(core::Vec{}+core::Vec({1}), "");
+        EXPECT_DEATH(core::Vec({1,2,3})+core::Vec({1}), "");
+        EXPECT_DEATH(core::Vec({1,2})+core::Vec({1,2,3}), "");
+    }
+
+    TEST(CoreAlgebraDeathTest, VecPlusVecRand)
     {
         using core::operator+;
         constexpr int TEST_CASES_AMOUNT = 1'000, MAX_VEC_LEN = 1'000;

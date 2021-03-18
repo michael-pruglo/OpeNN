@@ -25,6 +25,8 @@ Vec core::operator*(const Matrix& m, const Vec& v)
 
 Vec core::operator+(const Vec& v1, const Vec& v2)
 {
+    assert(v1.size() == v2.size());
+    
     return generate_i(v1.size(), [&](size_t i) {
         return v1[i] + v2[i];
     });
