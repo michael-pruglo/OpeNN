@@ -15,7 +15,14 @@ namespace openn::algebra
 
     TEST(CoreAlgebraDeathTest, MatrixMulVecSmall)
     {
-
+        using core::operator*;
+        //expect_double_vec_eq(core::Matrix({})*core::Vec({}), core::Vec({}));
+        const auto m = core::Matrix{{1,-1,2},{0,-3,1}};
+        const auto v = core::Vec{2,1,0};
+        expect_double_vec_eq(m*v, core::Vec{1,-3});
+        //expect_double_vec_eq(core::Matrix({{1,2,3},{4,5,6},{7,8,9},{10,11,12}})*core::Vec({-2,1,0}), core::Vec({0,-3,-6,-9}));
+        //expect_double_vec_eq(core::Matrix({{1,2,3},{4,5,6},{7,8,9}})*core::Vec({2,1,3}), core::Vec({13,31,49}));
+        //expect_double_vec_eq(core::Matrix({{2,3},{4,5},{-1,6}})*core::Vec({4,7}), core::Vec({29,51,38}));
     }
 
     TEST(CoreAlgebraDeathTest, VecPlusVecSmall)
