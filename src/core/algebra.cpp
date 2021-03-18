@@ -18,6 +18,8 @@ core::float_t core::norm_diff(const Vec& v1, const Vec& v2)
 
 Vec core::operator*(const Matrix& m, const Vec& v)
 {
+    assert(m.cols() == v.size());
+
     return generate_i(v.size(), [&](size_t i) {
         return std::inner_product(m[i].begin(), m[i].end(), v.begin(), 0.);
     });

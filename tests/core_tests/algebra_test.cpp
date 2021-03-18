@@ -3,19 +3,19 @@
 
 namespace openn::algebra
 {
+    core::float_t rand_float_t()
+    {
+        return rand()%9001/1000.0;
+    }
+
     TEST(CoreAlgebraDeathTest, NormDiff)
     {
 
     }
 
-    TEST(CoreAlgebraDeathTest, MatrixMulVec)
+    TEST(CoreAlgebraDeathTest, MatrixMulVecSmall)
     {
 
-    }
-
-    core::float_t rand_float_t()
-    {
-        return rand()%9001/1000.0;
     }
 
     TEST(CoreAlgebraDeathTest, VecPlusVecSmall)
