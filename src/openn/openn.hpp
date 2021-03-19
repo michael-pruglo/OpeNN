@@ -9,6 +9,7 @@ namespace openn
     {
     public:
         explicit NeuralNetwork(const std::vector<LayerMetadata>& nn_metadata = { {}, {} });
+        ~NeuralNetwork() override = default;
 
         LayerMetadata get_layer_metadata(size_t i) const override;
         Vec operator()(const Vec& input) const override;
@@ -18,7 +19,7 @@ namespace openn
         friend void to_json(nlohmann::json& j, const NeuralNetwork& nn);
         friend void from_json(const nlohmann::json& j, NeuralNetwork& nn);
 
-    private:
+    protected:
         struct Layer;
         std::vector<Layer> layers;
     };
