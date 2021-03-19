@@ -1,3 +1,44 @@
+#include <tests/common/helpers.hpp>
+#include <openn/openn.hpp>
+
+namespace openn::types
+{
+    void test_get_layer_metadata(const std::vector<LayerMetadata>& metadata_vec)
+    {
+        NeuralNetwork nn(metadata_vec);
+        const size_t N = metadata_vec.size();
+        for (size_t i = 0; i < N; ++i)
+        {
+            EXPECT_NO_THROW(nn.get_layer_metadata(i));
+            EXPECT_EQ(nn.get_layer_metadata(i), metadata_vec[i]);
+        }
+        EXPECT_THROW(nn.get_layer_metadata(N), std::out_of_range);
+    }
+
+    TEST(OpennTest, GetLayerMetadata)
+    {
+        NeuralNetwork nn_default;
+        EXPECT_NO_THROW(nn_default.get_layer_metadata(0));
+        EXPECT_NO_THROW(nn_default.get_layer_metadata(1));
+        EXPECT_EQ(nn_default.get_layer_metadata(0), (LayerMetadata{}));
+        EXPECT_EQ(nn_default.get_layer_metadata(1), (LayerMetadata{}));
+        EXPECT_THROW(nn_default.get_layer_metadata(2), std::out_of_range);
+
+        test_get_layer_metadata({ LayerMetadata{} });
+        test_get_layer_metadata({ {7, ActivationFType::ReLU} });
+        test_get_layer_metadata({
+            {16, ActivationFType::tanh},
+            {42, ActivationFType::ReLU},
+            {13, ActivationFType::sigmoid},
+            {4, ActivationFType::softplus},
+        });
+    }
+}
+
+
+
+
+
 //#include <GTest/TestOpenn/test_nn.hpp>
 //#include <OpeNN/OpeNN/opeNN.cpp>
 //

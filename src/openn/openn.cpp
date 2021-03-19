@@ -24,7 +24,7 @@ NeuralNetwork::NeuralNetwork(const std::vector<LayerMetadata>& nn_metadata)
 
 LayerMetadata NeuralNetwork::get_layer_metadata(size_t i) const
 {
-    return layers[i].metadata;
+    return layers.at(i).metadata;
 }
 
 Vec NeuralNetwork::operator()(const Vec& input) const
@@ -64,6 +64,7 @@ namespace
 NeuralNetwork::Layer::Layer(LayerMetadata metadata, size_t prev_layer_size)
     : w(core::rand_matrix(metadata.size, prev_layer_size))
     , bias(core::rand_vec(metadata.size))
+    , metadata(metadata)
 {
 }
 
