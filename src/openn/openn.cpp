@@ -30,8 +30,11 @@ LayerMetadata NeuralNetwork::get_layer_metadata(size_t i) const
 Vec NeuralNetwork::operator()(const Vec& input) const
 {
     auto res = input;
-    for (const auto& layer: layers)
+    for (size_t i = 1; i < layers.size(); ++i)
+    {
+        const auto& layer = layers[i];
         res = layer.activation_f(layer.w * res + layer.bias);
+    }
     return res;
 }
 

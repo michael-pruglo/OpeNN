@@ -43,7 +43,7 @@ namespace openn::types
         {
             TestableNeuralNetwork tnn({ {2}, {3} });
             tnn.set_layer(1, {{1.,2.},{3.,4.},{5.,6.}}, {1.,2.,3.});
-            const core::Vec input{1.,2.}, expected_output{ 1.,2.,3. };
+            const core::Vec input{1.,2.}, expected_output{ 0.99752737684336534,0.99999773967570205,0.99999999793884631 };
             expect_double_vec_eq(tnn(input), expected_output);
         }
     }
