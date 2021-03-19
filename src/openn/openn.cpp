@@ -35,11 +35,6 @@ Vec NeuralNetwork::operator()(const Vec& input) const
     return res;
 }
 
-bool NeuralNetwork::operator==(const NeuralNetwork& other) const
-{
-    return layers == other.layers;
-}
-
 
 
 namespace

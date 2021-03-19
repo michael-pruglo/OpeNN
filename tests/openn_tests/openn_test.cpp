@@ -37,6 +37,11 @@ namespace openn::types
             {4, ActivationFType::softplus},
         });
     }
+
+    TEST(OpennTest, NeuralNetComputation)
+    {
+        
+    }
 }
 
 
