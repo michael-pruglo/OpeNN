@@ -2,7 +2,7 @@
 #include <core/random.hpp>
 #include <algorithm>
 
-namespace openn::random
+namespace core::random
 {
     using core::operator<<;
     using core::float_t;

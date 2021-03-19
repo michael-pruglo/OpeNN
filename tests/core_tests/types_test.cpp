@@ -1,7 +1,7 @@
 #include <tests/common/helpers.hpp>
 #include <core/types.hpp>
 
-namespace openn::types
+namespace core::types
 {
     void test_dimensions(const core::Matrix& m, size_t exp_rows, size_t exp_cols)
     {

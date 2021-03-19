@@ -1,7 +1,7 @@
 #include <tests/common/helpers.hpp>
 #include <core/algebra.hpp>
 
-namespace openn::algebra
+namespace core::algebra
 {
     core::float_t rand_float_t()
     {

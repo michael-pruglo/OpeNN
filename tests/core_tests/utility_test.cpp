@@ -3,7 +3,7 @@
 #include <list>
 #include <queue>
 
-namespace openn::utility
+namespace core::utility
 {
     namespace vec_output
     {
