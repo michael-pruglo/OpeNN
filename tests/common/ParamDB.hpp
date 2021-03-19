@@ -15,7 +15,7 @@ namespace test_core
         using Filter_f = std::function<bool(ParamType_t)>;
 
     public:
-        Database(Data_t data_) : data(std::move(data_)) { }
+        Database(Data_t data) : data(std::move(data)) { }
         virtual ~Database() = default;
 
         [[nodiscard]] std::vector<T> get_everything() const;

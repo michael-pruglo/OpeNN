@@ -20,7 +20,7 @@ NeuralNetwork::NeuralNetwork(const std::vector<LayerMetadata>& nn_structure)
     }
 }
 
-LayerMetadata NeuralNetwork::getLayerMetadata(size_t i) const
+LayerMetadata NeuralNetwork::get_layer_metadata(size_t i) const
 {
     return { layers[i].size(), layers[i].activation };
 }

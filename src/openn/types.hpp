@@ -24,7 +24,7 @@ namespace openn
     public:
         virtual ~INeuralNetwork() = default;
 
-        virtual LayerMetadata	getLayerMetadata(size_t i) const = 0;
-        virtual Vec				operator()(const Vec& input) const = 0;
+        virtual LayerMetadata   get_layer_metadata(size_t i) const = 0;
+        virtual Vec	            operator()(const Vec& input) const = 0;
     };
 }

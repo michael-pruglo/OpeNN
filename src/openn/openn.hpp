@@ -10,7 +10,7 @@ namespace openn
     public:
         explicit NeuralNetwork(const std::vector<LayerMetadata>& nn_structure = { {}, {} });
 
-        inline LayerMetadata getLayerMetadata(size_t i) const override;
+        inline LayerMetadata get_layer_metadata(size_t i) const override;
         inline Vec operator()(const Vec& input) const override;
         inline bool operator==(const NeuralNetwork& other) const;
 
