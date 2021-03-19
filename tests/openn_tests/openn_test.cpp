@@ -15,7 +15,7 @@ namespace openn::types
         EXPECT_THROW(nn.get_layer_metadata(N), std::out_of_range);
     }
 
-    TEST(OpennTest, GetLayerMetadata)
+    void test_get_layer_metadata_default()
     {
         NeuralNetwork nn_default;
         EXPECT_NO_THROW(nn_default.get_layer_metadata(0));
@@ -23,7 +23,11 @@ namespace openn::types
         EXPECT_EQ(nn_default.get_layer_metadata(0), (LayerMetadata{}));
         EXPECT_EQ(nn_default.get_layer_metadata(1), (LayerMetadata{}));
         EXPECT_THROW(nn_default.get_layer_metadata(2), std::out_of_range);
+    }
 
+    TEST(OpennTest, GetLayerMetadata)
+    {
+        test_get_layer_metadata_default();
         test_get_layer_metadata({ LayerMetadata{} });
         test_get_layer_metadata({ {7, ActivationFType::ReLU} });
         test_get_layer_metadata({
