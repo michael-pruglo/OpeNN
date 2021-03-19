@@ -23,6 +23,16 @@ namespace openn::algebra
         expect_double_vec_eq(core::Matrix{{2.,3.},{4.,5.},{-1.,6.}}*core::Vec{4.,7.}, core::Vec{29.,51.,38.});
     }
 
+    TEST(CoreAlgebraDeathTest, MatrixMulVecDeath)
+    {
+        // matrix with M columns can only be multiplied by a vector of length M
+        using core::operator*;
+        EXPECT_DEATH((core::Matrix{{1.}}*core::Vec{}), "");
+        EXPECT_DEATH((core::Matrix{{1.,2.,3.}}*core::Vec{1.,2.}), "");
+        EXPECT_DEATH((core::Matrix{{1.,2.,3.},{1.,2.,3.}}*core::Vec{1.,2.}), "");
+        EXPECT_DEATH((core::Matrix{{1.,2.},{1.,2.},{1.,2.}}*core::Vec{1.,2.,3.}), "");
+    }
+
     TEST(CoreAlgebraDeathTest, VecPlusVecSmall)
     {
         using core::operator+;
@@ -32,9 +42,10 @@ namespace openn::algebra
     
     TEST(CoreAlgebraDeathTest, VecPlusVecDeath)
     {
+        // the vectors must have equal length
         using core::operator+;
-        EXPECT_DEATH(core::Vec{}+core::Vec({1}), "");
-        EXPECT_DEATH((core::Vec{1.,2.,3.}+core::Vec{1}), "");
+        EXPECT_DEATH((core::Vec{}+core::Vec{1.}), "");
+        EXPECT_DEATH((core::Vec{1.,2.,3.}+core::Vec{1.}), "");
         EXPECT_DEATH((core::Vec{1.,2.}+core::Vec{1.,2.,3.}), "");
     }
 
