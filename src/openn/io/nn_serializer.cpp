@@ -14,7 +14,7 @@ void openn::to_json(nlohmann::json& j, const NeuralNetwork& nn)
     {
         nlohmann::json layer_json;
         layer_json["layer#"] = i;
-        layer_json["activation"] = to_string(nn.layers[i].activation);
+        layer_json["activation"] = to_string(nn.layers[i].metadata.activation);
         layer_json["w"] = nn.layers[i].w;
         layer_json["bias"] = nn.layers[i].bias;
         j.push_back(layer_json);
@@ -27,7 +27,7 @@ void openn::from_json(const nlohmann::json& j, NeuralNetwork& nn)
     for (const auto& subj : j)
     {
         const size_t idx = subj.at("layer#");
-        nn.layers[idx].activation = string_to_activation_type(subj.at("activation"));
+        nn.layers[idx].metadata.activation = string_to_activation_type(subj.at("activation"));
         subj.at("w").get_to( nn.layers[idx].w );
         subj.at("bias").get_to( nn.layers[idx].bias );
     }

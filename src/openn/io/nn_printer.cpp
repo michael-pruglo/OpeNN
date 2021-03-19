@@ -34,7 +34,7 @@ std::string NeuralNetworkPrinter::getActivationLine() const
     std::string res(HGAP+LAYER_W, ' ');
     for (size_t i = 1; i < nn.layers.size(); ++i)
     {
-        auto act_s = to_string(nn.layers[i].activation);
+        auto act_s = to_string(nn.layers[i].metadata.activation);
         act_s.resize(LAYER_W);
         res += std::string(HGAP, ' ') + act_s;
     }

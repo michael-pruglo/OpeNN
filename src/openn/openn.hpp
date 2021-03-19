@@ -8,14 +8,12 @@ namespace openn
     class NeuralNetwork : public INeuralNetwork
     {
     public:
-        explicit NeuralNetwork(const std::vector<LayerMetadata>& nn_structure = { {}, {} });
+        explicit NeuralNetwork(const std::vector<LayerMetadata>& nn_metadata = { {}, {} });
 
         inline LayerMetadata get_layer_metadata(size_t i) const override;
         inline Vec operator()(const Vec& input) const override;
         inline bool operator==(const NeuralNetwork& other) const;
 
-    private:
-        Vec _forward(const Vec& input, size_t idx) const;
     private:
         friend class NeuralNetworkPrinter;
         friend void to_json(nlohmann::json& j, const NeuralNetwork& nn);
@@ -28,21 +26,16 @@ namespace openn
 
     struct NeuralNetwork::Layer
     {
-        explicit Layer(
-                size_t layer_size = 0,
-                size_t prev_layer_size = 0,
-                ActivationFType activation = ActivationFType::sigmoid
-        );
+        explicit Layer(LayerMetadata metadata = {}, size_t prev_layer_size = 0);
 
         Vec activation_f(const Vec& v) const;
         Vec derivative_f(const Vec& v) const;
 
-        inline size_t size() const { return bias.size(); }
+        inline size_t size() const { return metadata.size; }
         inline bool operator==(const Layer& other) const;
 
         Matrix w;
         Vec bias;
-        ActivationFType activation;
-        AlgebraicF _act_f, _der_f;
+        LayerMetadata metadata;
     };
 }
