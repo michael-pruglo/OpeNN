@@ -8,9 +8,21 @@ namespace openn::algebra
         return rand()%9001/1000.0;
     }
 
-    TEST(CoreAlgebraDeathTest, NormDiff)
+    TEST(CoreAlgebraDeathTest, NormDiffSmall)
     {
+        EXPECT_DOUBLE_EQ(core::norm_diff(core::Vec{}, core::Vec{}), 0.);
+        EXPECT_DOUBLE_EQ(core::norm_diff(core::Vec{7.}, core::Vec{7.}), 0.);
+        EXPECT_DOUBLE_EQ(core::norm_diff(core::Vec{2.,5.,3.}, core::Vec{1.,7.,0.}), 14.);
+        EXPECT_DOUBLE_EQ(core::norm_diff(core::Vec{-2.,-5.,-3.}, core::Vec{-1.,-7.,0.}), 14.);
+        EXPECT_DOUBLE_EQ(core::norm_diff(core::Vec{-5.,0.,-1.,7.}, core::Vec{-4.,3.,-5.,6.}), 27.);
+    }
 
+    TEST(CoreAlgebraDeathTest, NormDiffDeath)
+    {
+        // the vectors must have equal length
+        EXPECT_DEATH(core::norm_diff(core::Vec{}, core::Vec{1.}), "");
+        EXPECT_DEATH(core::norm_diff(core::Vec{1.,2.,3.}, core::Vec{1.}), "");
+        EXPECT_DEATH(core::norm_diff(core::Vec{1.,2.}, core::Vec{1.,2.,3.}), "");
     }
 
     TEST(CoreAlgebraDeathTest, MatrixMulVecSmall)

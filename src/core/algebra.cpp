@@ -8,9 +8,10 @@ using namespace core;
 
 core::float_t core::norm_diff(const Vec& v1, const Vec& v2)
 {
+    //TODO: maybe this should be SQRT?
     assert(v1.size() == v2.size());
 
-    float_t c = 0;
+    float_t c = 0.;
     for (size_t i = 0; i < v2.size(); ++i)
         c += std::pow(v1[i] - v2[i], 2);
     return c;
