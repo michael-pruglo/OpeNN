@@ -52,37 +52,124 @@ namespace openn::types
         expect_double_vec_eq(tnn({54.,0.,1.}), (core::Vec{0.26}), 0.01);
     }
 
-    void test_forward_intermediate(
+    void test_forwardpass_intermediate_results(
         const Vec& input,
         const std::vector<LayerMetadata>& nn_metadata,
-        const std::vector<std::tuple<Matrix, Vec, Vec>>& layers,
+        const std::vector<std::pair<Matrix, Vec>>& layers,
+        const std::vector<Vec>& intermediate_results,
         float_t tolerance = 0.01
     )
     {
         for (size_t depth = 1; depth < nn_metadata.size(); ++depth)
         {
-            TestableNeuralNetwork tnn({nn_metadata.begin(), nn_metadata.begin()+depth+1});
+            TestableNeuralNetwork tnn({nn_metadata.begin(), nn_metadata.begin()+depth+1U});
             for (size_t i = 1; i <= depth; ++i)
             {
-                const auto& [weights, bias, _] = layers[i];
+                const auto& [weights, bias] = layers[i];
                 tnn.set_layer(i, weights, bias);
             }
 
-            const auto& exp_res = std::get<2>(layers[depth]);
-            expect_double_vec_eq(tnn(input), exp_res, tolerance);
+            expect_double_vec_eq(tnn(input), intermediate_results[depth], tolerance);
         }
     }
 
     TEST(OpennTest, NeuralNetComputationSmallSigmoid)
     {
-        test_forward_intermediate(
-            {-1.,1.},
-            { {2}, {3}, {1}, {2} },
+        test_forwardpass_intermediate_results(
+            {-1., 1.},
+            {{2}, {3}, {1}, {2}},
             {
                 {},
-                { {{.23,.69},{.01,.99},{.14,.74}}, {.94,.49,.68}, {.8,.81,.78} },
-                { {{.39,.97,.54}}, {.96}, {.92} },
-                { {{.56},{.89}}, {.87,.77}, {.8,.83} }
+                { {{.23, .69}, {.01, .99}, {.14, .74}}, {.94, .49, .68} },
+                { {{.39, .97, .54}}, {.96} },
+                { {{.56}, {.89}}, {.87, .77} }
+            },
+            {
+                {},
+                {.8, .81, .78},
+                {.92},
+                {.8, .83}
+            }
+        );
+    }
+
+    TEST(OpennTest, NeuralNetComputationSmallReLU)
+    {
+        test_forwardpass_intermediate_results(
+            {1.4, 1.3},
+            {
+                {2},
+                {2, ActivationFType::ReLU},
+                {4, ActivationFType::ReLU},
+                {3, ActivationFType::ReLU}
+            },
+            {
+                {},
+                { {{.24, .93}, {.79, .88}}, {.7, .65} },
+                { {{.03, .07}, {.12, .8}, {.99, .79}, {.92, .21}}, {.06, .7, .62, .53} },
+                { {{.44, .28, .21, .53}, {.5, .02, .29, .68}, {.58, .22, .71, .94}}, {.48, .95, .85} },
+            },
+            {
+                {},
+                {2.25, 2.89},
+                {.33, 3.28, 5.13, 3.2},
+                {4.33, 4.85, 8.42}
+            }
+        );
+    }
+
+    TEST(OpennTest, NeuralNetComputationSmallTanh)
+    {
+        test_forwardpass_intermediate_results(
+            {1.4, 1.3},
+            {
+                {2, ActivationFType::tanh},
+                {5, ActivationFType::tanh},
+                {2, ActivationFType::tanh},
+                {3, ActivationFType::tanh}
+            },
+            {
+                {},
+                { {{.93, -1.41}, {-1.36, -1.04}, {.23, .04}, {3.49, .6}, {-.62, 2.31}}, {1.58, 4.14, 1.15, -.63, 1.38} },
+                { {{.78, .37, -.84, .26, .4}, {2.3, 2.66, -2.45, 2.51, 2.88}}, {-1.32, -3.57} },
+                { {{.63, -.03}, {-.84, .77}, {-.03, -.99}}, {.5, -.03, 1.02} }
+            },
+            {
+                {},
+                {.78, .7, .91, 1., 1.},
+                {-0.51, 1.},
+                {.148, .823, .052}
+            }
+        );
+    }
+
+    TEST(OpennTest, NeuralNetComputationMeduimMixed)
+    {
+        test_forwardpass_intermediate_results(
+            {1.4, 1.3},
+            {
+                {2},
+                {5, ActivationFType::tanh},
+                {3, ActivationFType::sigmoid},
+                {2, ActivationFType::ReLU},
+                {4, ActivationFType::tanh},
+                {3, ActivationFType::sigmoid},
+            },
+            {
+                {},
+                { {{.68, .59},{.44, .14},{.09, .32},{.14, .61},{.52, .65}}, {.23, .43, .26, .88, .17} },
+                { {{.13, .96, .02, .32, .25},{.94, .49, .5, .46, .85},{.38, .07, -.01, .31, .01}}, {.65, .57, .15} },
+                { {{-.07, -.17, .45},{-.13, .01, .4}}, {-.12, -.18} },
+                { {{.6,-.11},{.99, .33},{.31, .69},{.54, -.04}}, {0., -.01, 0., 0.} },
+                { {{.01, -.7, -.35, .45},{.1, -.42, -.21, .27},{.01, -.37, -.19, .24, .22}}, {-1.7, -.82, .23} },
+            },
+            {
+                {},
+                {.96, .84, .67, .95, .94},
+                {.89, .97, .71},
+                {0., 0.},
+                {0., -.01, 0., 0.},
+                {.16, .31, .56}
             }
         );
     }
