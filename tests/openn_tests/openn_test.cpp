@@ -38,13 +38,52 @@ namespace openn::types
         });
     }
 
-    TEST(OpennTest, NeuralNetComputation)
+    TEST(OpennTest, NeuralNetComputationSmallSigmoidMultiInput)
     {
+        TestableNeuralNetwork tnn({ {3}, {1} });
+        tnn.set_layer(1, {{-0.0169, 0.704, -0.1163}}, {0.});
+        expect_double_vec_eq(tnn({22.,0.,1.}), (core::Vec{0.38}), 0.01);
+        expect_double_vec_eq(tnn({38.,1.,1.}), (core::Vec{0.49}), 0.01);
+        expect_double_vec_eq(tnn({26.,1.,1.}), (core::Vec{0.54}), 0.01);
+        expect_double_vec_eq(tnn({35.,1.,1.}), (core::Vec{0.50}), 0.01);
+        expect_double_vec_eq(tnn({35.,0.,1.}), (core::Vec{0.33}), 0.01);
+        expect_double_vec_eq(tnn({14.,1.,1.}), (core::Vec{0.59}), 0.01);
+        expect_double_vec_eq(tnn({25.,0.,1.}), (core::Vec{0.37}), 0.01);
+        expect_double_vec_eq(tnn({54.,0.,1.}), (core::Vec{0.26}), 0.01);
+    }
+
+    void test_forward_intermediate(
+        const Vec& input,
+        const std::vector<LayerMetadata>& nn_metadata,
+        const std::vector<std::tuple<Matrix, Vec, Vec>>& layers,
+        float_t tolerance = 0.01
+    )
+    {
+        for (size_t depth = 1; depth < nn_metadata.size(); ++depth)
         {
-            TestableNeuralNetwork tnn({ {2}, {3} });
-            tnn.set_layer(1, {{1.,2.},{3.,4.},{5.,6.}}, {1.,2.,3.});
-            const core::Vec input{1.,2.}, expected_output{ 0.99752737684336534,0.99999773967570205,0.99999999793884631 };
-            expect_double_vec_eq(tnn(input), expected_output);
+            TestableNeuralNetwork tnn({nn_metadata.begin(), nn_metadata.begin()+depth+1});
+            for (size_t i = 1; i <= depth; ++i)
+            {
+                const auto& [weights, bias, _] = layers[i];
+                tnn.set_layer(i, weights, bias);
+            }
+
+            const auto& exp_res = std::get<2>(layers[depth]);
+            expect_double_vec_eq(tnn(input), exp_res, tolerance);
         }
+    }
+
+    TEST(OpennTest, NeuralNetComputationSmallSigmoid)
+    {
+        test_forward_intermediate(
+            {-1.,1.},
+            { {2}, {3}, {1}, {2} },
+            {
+                {},
+                { {{.23,.69},{.01,.99},{.14,.74}}, {.94,.49,.68}, {.8,.81,.78} },
+                { {{.39,.97,.54}}, {.96}, {.92} },
+                { {{.56},{.89}}, {.87,.77}, {.8,.83} }
+            }
+        );
     }
 }
