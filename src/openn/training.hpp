@@ -3,12 +3,15 @@
 #include <core/random.hpp>
 #include <core/algebra.hpp>
 #include <openn/openn.hpp>
+#include <iostream>
+
+using core::operator+;
 
 namespace openn
 {
     struct TrainingSample
     {
-        Vec input, output;
+        Vec input, expected;
     };
 
     inline float_t cost(const Vec& output, const Vec& expected)
@@ -16,25 +19,39 @@ namespace openn
         return core::norm_diff(output, expected);
     }
 
-    void process_batch(std::vector<TrainingSample>::iterator b, std::vector<TrainingSample>::iterator e, NeuralNetwork& nn)
+    inline Vec grad(const TrainingSample& sample, NeuralNetwork& nn)
     {
 
     }
 
-    void epoch(std::vector<TrainingSample> training_data, size_t batch_size, NeuralNetwork& nn)
+    inline Vec batch_grad(std::vector<TrainingSample>::iterator b, std::vector<TrainingSample>::iterator e, NeuralNetwork& nn)
+    {
+        const size_t N = std::distance(b, e);
+        Vec average_grad;
+        for (auto sample = b; sample != e; ++sample)
+        {
+            const auto& gradient = grad(*sample, nn);
+            average_grad = average_grad.empty() ? gradient : average_grad + gradient;
+        }
+        for (auto& item: average_grad)
+            item /= N;
+        return average_grad;
+    }
+
+    inline void process_batch(std::vector<TrainingSample>::iterator b, std::vector<TrainingSample>::iterator e, NeuralNetwork& nn)
+    {
+        nn.apply_grad(batch_grad(b, e, nn));
+    }
+
+    inline void epoch(std::vector<TrainingSample> training_data, size_t batch_size, NeuralNetwork& nn)
     {
         std::shuffle(training_data.begin(), training_data.end(), core::rnd_engine);
 
-        const size_t batches = training_data.size()/batch_size;
-        for (size_t i = 0; i < batches; ++i)
+        for (auto start = training_data.begin(), end = start; start < training_data.end(); start = end)
         {
-            const auto start = training_data.begin() + i*batch_size;
-            process_batch(start, start+batch_size, nn);
+            end = std::min(start + batch_size, training_data.end());
+            process_batch(start, end, nn);
         }
-
-        const auto last_batch_start = training_data.begin() + batches*batch_size;
-        if (last_batch_start < training_data.end())
-            process_batch(last_batch_start, training_data.end(), nn);
     }
 
 }
