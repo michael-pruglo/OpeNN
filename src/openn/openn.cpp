@@ -74,8 +74,3 @@ Vec NeuralNetwork::Layer::derivative_f(const Vec& v) const
 {
     return core::map(DERIVATIVE_FUNCTIONS.at(metadata.activation), v);
 }
-
-bool NeuralNetwork::Layer::operator==(const Layer& other) const
-{
-    return w == other.w && bias == other.bias && metadata == other.metadata;
-}

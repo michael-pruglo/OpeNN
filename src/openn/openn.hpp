@@ -32,7 +32,6 @@ namespace openn
         Vec derivative_f(const Vec& v) const;
 
         inline size_t size() const { return metadata.size; }
-        inline bool operator==(const Layer& other) const;
 
         Matrix w;
         Vec bias;
