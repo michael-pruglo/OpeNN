@@ -13,13 +13,9 @@ bool openn::operator==(const LayerMetadata& lm1, const LayerMetadata& lm2)
 
 FeedForwardNetwork::FeedForwardNetwork(const std::vector<LayerMetadata>& nn_metadata)
 {
-    const size_t n = nn_metadata.size();
-    layers.reserve(n);
-    for (size_t i = 0; i < n; ++i)
-    {
-        const auto& prev_size = i ? nn_metadata[i-1].size : 0;
-        layers.emplace_back(nn_metadata[i], prev_size);
-    }
+    layers = core::generate_i(nn_metadata.size()-1, [&nn_metadata](size_t i){
+        return Layer(nn_metadata[i+1], nn_metadata[i].size);
+    });
 }
 
 LayerMetadata FeedForwardNetwork::get_layer_metadata(size_t i) const
@@ -30,11 +26,8 @@ LayerMetadata FeedForwardNetwork::get_layer_metadata(size_t i) const
 Vec FeedForwardNetwork::operator()(const Vec& input) const
 {
     auto res = input;
-    for (size_t i = 1; i < layers.size(); ++i)
-    {
-        const auto& layer = layers[i];
+    for (const auto& layer: layers)
         res = layer.activation_f(layer.w * res + layer.bias);
-    }
     return res;
 }
 

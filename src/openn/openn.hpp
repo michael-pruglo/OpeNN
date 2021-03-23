@@ -8,7 +8,7 @@ namespace openn
     class FeedForwardNetwork : public INeuralNetwork
     {
     public:
-        explicit FeedForwardNetwork(const std::vector<LayerMetadata>& nn_metadata = {{}, {} });
+        explicit FeedForwardNetwork(const std::vector<LayerMetadata>& nn_metadata = { {}, {} });
         ~FeedForwardNetwork() override = default;
 
         LayerMetadata get_layer_metadata(size_t i) const override;
