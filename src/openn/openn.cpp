@@ -60,7 +60,7 @@ namespace
     };
 
     const std::unordered_map<ActivationFType, AlgebraicF> DERIVATIVE_FUNCTIONS = {
-        { ActivationFType::ReLU,     [](float_t x) -> float_t { return x > 0.; } },
+        { ActivationFType::ReLU,     [](float_t x) -> float_t { return x >= 0.; } },
         { ActivationFType::SIGMOID,  [](float_t x) -> float_t { const auto& f = ACTIVATION_FUNCTIONS.at(ActivationFType::SIGMOID); return f(x)*(1. - f(x)); } },
         { ActivationFType::SOFTPLUS, [](float_t x) -> float_t { return 1. / (1. + std::exp(-x)); } },
         { ActivationFType::TANH,     [](float_t x) -> float_t { return 1. - std::pow(std::tanh(x), 2); } },

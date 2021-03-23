@@ -106,22 +106,39 @@ namespace openn::types
         TEST(OpennTypesTest, DerivativeSigmoid)
         {
             const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(derivative_f(ActivationFType::SIGMOID, x), exp, 1e-11);
+                EXPECT_NEAR(derivative_f(ActivationFType::SIGMOID, x), exp, 1e-8);
             };
+            tst(-5.0, .0066480567);
+            tst(-1.4, .1586849);
+            tst(-0.3, .24445831);
+            tst(0.0, 0.25);
+            tst(.6, .22878424);
+            tst(1.7, .13060575);
+            tst(19.0, 5.602796e-9);
         }
 
         TEST(OpennTypesTest, DerivativeSigmoidVector)
         {
             const auto tst = [](const Vec& v, const Vec& exp){
-                expect_double_vec_eq(derivative_f(ActivationFType::SIGMOID, v), exp, 1e-11);
+                expect_double_vec_eq(derivative_f(ActivationFType::SIGMOID, v), exp, 1e-8);
             };
+            tst({}, {});
+            tst({1.7}, {.13060575});
+            tst({-5.0,.6,0.0}, {.0066480567,.22878424,0.25});
         }
 
         TEST(OpennTypesTest, DerivativeReLU)
         {
             const auto tst = [](float_t x, float_t exp){
-                EXPECT_DOUBLE_EQ(derivative_f(ActivationFType::ReLU, x), exp);
+                EXPECT_DOUBLE_EQ(derivative_f(ActivationFType::ReLU, x), exp)<<x;
             };
+            tst(-17.45, 0.);
+            tst(-2.5, 0.);
+            tst(-1e-11, 0.);
+            tst(0., 1.);
+            tst(1e-11, 1.);
+            tst(10., 1.);
+            tst(182., 1.);
         }
 
         TEST(OpennTypesTest, DerivativeReLUVector)
@@ -129,36 +146,61 @@ namespace openn::types
             const auto tst = [](const Vec& v, const Vec& exp){
                 expect_double_vec_eq(derivative_f(ActivationFType::ReLU, v), exp);
             };
+            tst({}, {});
+            tst({16.7}, {1.});
+            tst({9.4,-15.5,0.0}, {1.,0.,1.});
         }
 
         TEST(OpennTypesTest, DerivativeSoftplus)
         {
             const auto tst = [](float_t x, float_t exp){
-                EXPECT_DOUBLE_EQ(derivative_f(ActivationFType::SOFTPLUS, x), exp);
+                EXPECT_NEAR(derivative_f(ActivationFType::SOFTPLUS, x), exp, 1e-11);
             };
-
+            tst(-20.00, 0.00000000206);
+            tst(-15.39, 0.00000020711);
+            tst( -5.67, 0.00343601835);
+            tst( -2.06, 0.11304583007);
+            tst( -0.53, 0.37051688803);
+            tst(  0.00, 0.5);
+            tst(  0.44, 0.60825903075);
+            tst(  2.11, 0.89187133324);
+            tst(  6.55, 0.99857192671);
+            tst( 14.61, 0.99999954819);
+            tst( 20.00, 0.99999999794);
         }
 
         TEST(OpennTypesTest, DerivativeSoftplusVector)
         {
             const auto tst = [](const Vec &v, const Vec &exp){
-                expect_double_vec_eq(derivative_f(ActivationFType::SOFTPLUS, v), exp);
+                expect_double_vec_eq(derivative_f(ActivationFType::SOFTPLUS, v), exp, 1e-11);
             };
+            tst({}, {});
+            tst({2.11}, {0.89187133324});
+            tst({-15.39,14.61,0.0}, {0.00000020711,0.99999954819,0.5});
         }
 
         TEST(OpennTypesTest, DerivativeTanh)
         {
             const auto tst = [](float_t x, float_t exp){
-                EXPECT_DOUBLE_EQ(derivative_f(ActivationFType::TANH, x), exp);
+                EXPECT_NEAR(derivative_f(ActivationFType::TANH, x), exp, 1e-8);
             };
-
+            tst(-5.0, 1.815832e-4);
+            tst(-1.4, 0.21615246);
+            tst(-0.3, 0.91513696);
+            tst(0.0, 1.0);
+            tst(.6, .71157776);
+            tst(1.7, .12500987);
+            tst(19.0, 2.220446e-16);
         }
 
         TEST(OpennTypesTest, DerivativeTanhVector)
         {
             const auto tst = [](const Vec &v, const Vec &exp){
-                expect_double_vec_eq(derivative_f(ActivationFType::TANH, v), exp);
+                expect_double_vec_eq(derivative_f(ActivationFType::TANH, v), exp, 1e-8);
             };
+            tst({}, {});
+            tst({.6}, {.71157776});
+            tst({19.0,-1.4,0.0}, {2.220446e-16,0.21615246,1.});
         }
     }
     
