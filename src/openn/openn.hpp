@@ -16,6 +16,7 @@ namespace openn
 
         ~FeedForwardNetwork() override = default;
 
+    public:
         Vec operator()(const Vec& input) const override;
 
     protected:
