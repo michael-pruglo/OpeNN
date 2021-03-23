@@ -11,7 +11,7 @@ bool openn::operator==(const LayerMetadata& lm1, const LayerMetadata& lm2)
     return lm1.size == lm2.size && lm1.activation == lm2.activation;
 }
 
-NeuralNetwork::NeuralNetwork(const std::vector<LayerMetadata>& nn_metadata)
+FeedForwardNetwork::FeedForwardNetwork(const std::vector<LayerMetadata>& nn_metadata)
 {
     const size_t n = nn_metadata.size();
     layers.reserve(n);
@@ -22,12 +22,12 @@ NeuralNetwork::NeuralNetwork(const std::vector<LayerMetadata>& nn_metadata)
     }
 }
 
-LayerMetadata NeuralNetwork::get_layer_metadata(size_t i) const
+LayerMetadata FeedForwardNetwork::get_layer_metadata(size_t i) const
 {
     return layers.at(i).metadata;
 }
 
-Vec NeuralNetwork::operator()(const Vec& input) const
+Vec FeedForwardNetwork::operator()(const Vec& input) const
 {
     auto res = input;
     for (size_t i = 1; i < layers.size(); ++i)
@@ -59,18 +59,18 @@ namespace
     };
 
 }
-NeuralNetwork::Layer::Layer(LayerMetadata metadata, size_t prev_layer_size)
+FeedForwardNetwork::Layer::Layer(LayerMetadata metadata, size_t prev_layer_size)
     : w(core::rand_matrix(metadata.size, prev_layer_size))
     , bias(core::rand_vec(metadata.size))
     , metadata(metadata)
 {
 }
 
-Vec NeuralNetwork::Layer::activation_f(const Vec& v) const
+Vec FeedForwardNetwork::Layer::activation_f(const Vec& v) const
 {
     return core::map(ACTIVATION_FUNCTIONS.at(metadata.activation), v);
 }
-Vec NeuralNetwork::Layer::derivative_f(const Vec& v) const
+Vec FeedForwardNetwork::Layer::derivative_f(const Vec& v) const
 {
     return core::map(DERIVATIVE_FUNCTIONS.at(metadata.activation), v);
 }

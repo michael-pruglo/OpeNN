@@ -5,9 +5,9 @@
 
 namespace openn
 {
-    void to_json(nlohmann::json& j, const NeuralNetwork& nn);
-    void from_json(const nlohmann::json& j, NeuralNetwork& nn);
+    void to_json(nlohmann::json& j, const FeedForwardNetwork& nn);
+    void from_json(const nlohmann::json& j, FeedForwardNetwork& nn);
 
-    void save_to_file(const std::string& filename, const NeuralNetwork& nn);
-    NeuralNetwork load_from_file(const std::string& filename);
+    void save_to_file(const std::string& filename, const FeedForwardNetwork& nn);
+    FeedForwardNetwork load_from_file(const std::string& filename);
 }

@@ -19,12 +19,12 @@ namespace openn
         return core::norm_diff(output, expected);
     }
 
-    inline Vec grad(const TrainingSample& sample, NeuralNetwork& nn)
+    inline Vec grad(const TrainingSample& sample, FeedForwardNetwork& nn)
     {
-
+        return {};
     }
 
-    inline Vec batch_grad(std::vector<TrainingSample>::iterator b, std::vector<TrainingSample>::iterator e, NeuralNetwork& nn)
+    inline Vec batch_grad(std::vector<TrainingSample>::iterator b, std::vector<TrainingSample>::iterator e, FeedForwardNetwork& nn)
     {
         const size_t N = std::distance(b, e);
         Vec average_grad;
@@ -38,12 +38,12 @@ namespace openn
         return average_grad;
     }
 
-    inline void process_batch(std::vector<TrainingSample>::iterator b, std::vector<TrainingSample>::iterator e, NeuralNetwork& nn)
+    inline void process_batch(std::vector<TrainingSample>::iterator b, std::vector<TrainingSample>::iterator e, FeedForwardNetwork& nn)
     {
-        nn.apply_grad(batch_grad(b, e, nn));
+        //nn.apply_grad(batch_grad(b, e, nn));
     }
 
-    inline void epoch(std::vector<TrainingSample> training_data, size_t batch_size, NeuralNetwork& nn)
+    inline void epoch(std::vector<TrainingSample> training_data, size_t batch_size, FeedForwardNetwork& nn)
     {
         std::shuffle(training_data.begin(), training_data.end(), core::rnd_engine);
 

@@ -5,26 +5,26 @@
 
 namespace openn
 {
-    class NeuralNetwork : public INeuralNetwork
+    class FeedForwardNetwork : public INeuralNetwork
     {
     public:
-        explicit NeuralNetwork(const std::vector<LayerMetadata>& nn_metadata = { {}, {} });
-        ~NeuralNetwork() override = default;
+        explicit FeedForwardNetwork(const std::vector<LayerMetadata>& nn_metadata = {{}, {} });
+        ~FeedForwardNetwork() override = default;
 
         LayerMetadata get_layer_metadata(size_t i) const override;
         Vec operator()(const Vec& input) const override;
 
     private:
         friend class NeuralNetworkPrinter;
-        friend void to_json(nlohmann::json& j, const NeuralNetwork& nn);
-        friend void from_json(const nlohmann::json& j, NeuralNetwork& nn);
+        friend void to_json(nlohmann::json& j, const FeedForwardNetwork& nn);
+        friend void from_json(const nlohmann::json& j, FeedForwardNetwork& nn);
 
     protected:
         struct Layer;
         std::vector<Layer> layers;
     };
 
-    struct NeuralNetwork::Layer
+    struct FeedForwardNetwork::Layer
     {
         explicit Layer(LayerMetadata metadata = {}, size_t prev_layer_size = 0);
 

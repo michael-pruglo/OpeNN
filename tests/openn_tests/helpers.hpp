@@ -8,10 +8,10 @@ namespace openn
 {
     ActivationFType rand_activation();
 
-    class TestableNeuralNetwork : public NeuralNetwork
+    class TestableFeedForwardNetwork : public FeedForwardNetwork
     {
     public:
-        using NeuralNetwork::NeuralNetwork;
+        using FeedForwardNetwork::FeedForwardNetwork;
         void set_layer(size_t idx, Matrix w, Vec bias);
     };
 }

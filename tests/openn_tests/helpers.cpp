@@ -10,7 +10,7 @@ namespace openn
         return static_cast<const ActivationFType>(idx);
     }
 
-    void TestableNeuralNetwork::set_layer(size_t idx, Matrix w, Vec bias)
+    void TestableFeedForwardNetwork::set_layer(size_t idx, Matrix w, Vec bias)
     {
         auto& layer = layers[idx];
 

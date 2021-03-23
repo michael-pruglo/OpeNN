@@ -7,7 +7,7 @@ namespace openn
     class NeuralNetworkPrinter
     {
     public:
-        explicit NeuralNetworkPrinter(const NeuralNetwork& nn);
+        explicit NeuralNetworkPrinter(const FeedForwardNetwork& nn);
         std::string getDebugString() const;
     private:
         std::string getHeader() const;
@@ -18,11 +18,11 @@ namespace openn
         size_t		getHeight() const;
 
     private:
-        const NeuralNetwork& nn;
+        const FeedForwardNetwork& nn;
         const size_t HGAP = 5, LAYER_W = 11, TOTAL_W;
     };
 
-    std::ostream& operator<<(std::ostream & os, const NeuralNetwork& nn);
+    std::ostream& operator<<(std::ostream & os, const FeedForwardNetwork& nn);
 
     std::string to_string(const ActivationFType& activation_type);
     ActivationFType string_to_activation_type(const std::string& s);

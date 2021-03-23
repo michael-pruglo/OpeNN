@@ -6,14 +6,14 @@
 
 using namespace openn;
 
-std::ostream& openn::operator<<(std::ostream& os, const NeuralNetwork& nn)
+std::ostream& openn::operator<<(std::ostream& os, const FeedForwardNetwork& nn)
 {
     return os << NeuralNetworkPrinter(nn).getDebugString();
 }
 
 
 
-NeuralNetworkPrinter::NeuralNetworkPrinter(const NeuralNetwork& nn_)
+NeuralNetworkPrinter::NeuralNetworkPrinter(const FeedForwardNetwork& nn_)
         : nn(nn_)
           , TOTAL_W((HGAP + LAYER_W) * nn_.layers.size())
 {}
@@ -63,7 +63,7 @@ std::string NeuralNetworkPrinter::getBody() const
 size_t NeuralNetworkPrinter::getHeight() const
 {
     const auto& it_to_longest = std::max_element(nn.layers.begin(), nn.layers.end(),
-                                                 [](const NeuralNetwork::Layer& l1, const NeuralNetwork::Layer& l2){ return l1.size() < l2.size(); }
+                                                 [](const FeedForwardNetwork::Layer& l1, const FeedForwardNetwork::Layer& l2){ return l1.size() < l2.size(); }
     );
     return it_to_longest->size();
 }

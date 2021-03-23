@@ -5,7 +5,7 @@ namespace openn::types
 {
     void test_get_layer_metadata(const std::vector<LayerMetadata>& metadata_vec)
     {
-        NeuralNetwork nn(metadata_vec);
+        FeedForwardNetwork nn(metadata_vec);
         const size_t N = metadata_vec.size();
         for (size_t i = 0; i < N; ++i)
         {
@@ -17,7 +17,7 @@ namespace openn::types
 
     void test_get_layer_metadata_default()
     {
-        NeuralNetwork nn_default;
+        FeedForwardNetwork nn_default;
         EXPECT_NO_THROW(nn_default.get_layer_metadata(0));
         EXPECT_NO_THROW(nn_default.get_layer_metadata(1));
         EXPECT_EQ(nn_default.get_layer_metadata(0), (LayerMetadata{}));
@@ -40,7 +40,7 @@ namespace openn::types
 
     TEST(OpennTest, NeuralNetComputationSmallSigmoidMultiInput)
     {
-        TestableNeuralNetwork tnn({ {3}, {1} });
+        TestableFeedForwardNetwork tnn({{3}, {1} });
         tnn.set_layer(1, {{-0.0169, 0.704, -0.1163}}, {0.});
         expect_double_vec_eq(tnn({22.,0.,1.}), (core::Vec{0.38}), 0.01);
         expect_double_vec_eq(tnn({38.,1.,1.}), (core::Vec{0.49}), 0.01);
@@ -62,7 +62,7 @@ namespace openn::types
     {
         for (size_t depth = 1; depth < nn_metadata.size(); ++depth)
         {
-            TestableNeuralNetwork tnn({nn_metadata.begin(), nn_metadata.begin()+depth+1U});
+            TestableFeedForwardNetwork tnn({nn_metadata.begin(), nn_metadata.begin() + depth + 1U});
             for (size_t i = 1; i <= depth; ++i)
             {
                 const auto& [weights, bias] = layers[i];

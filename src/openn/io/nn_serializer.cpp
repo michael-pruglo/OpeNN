@@ -8,7 +8,7 @@
 
 using namespace openn;
 
-void openn::to_json(nlohmann::json& j, const NeuralNetwork& nn)
+void openn::to_json(nlohmann::json& j, const FeedForwardNetwork& nn)
 {
     for (size_t i = 0; i < nn.layers.size(); ++i)
     {
@@ -21,7 +21,7 @@ void openn::to_json(nlohmann::json& j, const NeuralNetwork& nn)
     }
 }
 
-void openn::from_json(const nlohmann::json& j, NeuralNetwork& nn)
+void openn::from_json(const nlohmann::json& j, FeedForwardNetwork& nn)
 {
     nn.layers.resize(j.size());
     for (const auto& subj : j)
@@ -33,12 +33,12 @@ void openn::from_json(const nlohmann::json& j, NeuralNetwork& nn)
     }
 }
 
-void openn::save_to_file(const std::string& filename, const NeuralNetwork& nn)
+void openn::save_to_file(const std::string& filename, const FeedForwardNetwork& nn)
 {
     std::ofstream(filename) << std::setw(2) << nlohmann::json(nn);
 }
 
-NeuralNetwork openn::load_from_file(const std::string& filename)
+FeedForwardNetwork openn::load_from_file(const std::string& filename)
 {
     nlohmann::json j;
     std::ifstream in_file(filename);
