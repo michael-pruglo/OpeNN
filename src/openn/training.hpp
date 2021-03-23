@@ -16,7 +16,7 @@ namespace openn
 
     inline float_t cost(const Vec& output, const Vec& expected)
     {
-        return core::norm_diff(output, expected);
+        return core::mean_squared_eror(output, expected);
     }
 
     inline Vec grad(const TrainingSample& sample, FeedForwardNetwork& nn)

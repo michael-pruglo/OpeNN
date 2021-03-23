@@ -1,1 +1,1 @@
-add_executable(openn main.cpp core/types.hpp core/random.hpp core/utility.hpp core/algebra.cpp core/algebra.hpp openn/openn.cpp openn/openn.hpp openn/training.cpp openn/training.hpp openn/types.hpp)
+add_executable(openn main.cpp core/types.hpp core/random.hpp core/utility.hpp core/algebra.cpp core/algebra.hpp openn/openn.cpp openn/openn.hpp openn/training.cpp openn/training.hpp openn/types.hpp openn/types.cpp)
