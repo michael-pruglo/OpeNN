@@ -28,37 +28,15 @@ Vec FeedForwardNetwork::operator()(const Vec& input) const
 {
     auto res = input;
     for (const auto& layer: layers)
-        res = layer.activation_f(layer.w * res + layer.bias);
+        res = activation_f(layer.activation_type, layer.w * res + layer.bias);
     return res;
-}
-
-
-
-namespace
-{
-    using openn::float_t;
-
-    const std::unordered_map<ActivationFType, AlgebraicF> ACTIVATION_FUNCTIONS = {
-        { ActivationFType::ReLU,        [](float_t x) -> float_t { return std::max(0., x); } },
-        { ActivationFType::sigmoid,     [](float_t x) -> float_t { return 1. / (1. + std::exp(-x)); } },
-        { ActivationFType::softplus,    [](float_t x) -> float_t { return std::log(1. + std::exp(x)); } },
-        { ActivationFType::tanh,        [](float_t x) -> float_t { return std::tanh(x); } },
-    };
-
-    const std::unordered_map<ActivationFType, AlgebraicF> DERIVATIVE_FUNCTIONS = {
-        { ActivationFType::ReLU,        [](float_t x) -> float_t { return x > 0.; } },
-        { ActivationFType::sigmoid,     [](float_t x) -> float_t { const auto& f = ACTIVATION_FUNCTIONS.at(ActivationFType::sigmoid); return f(x)*(1. - f(x)); } },
-        { ActivationFType::softplus,    [](float_t x) -> float_t { return 1. / (1. + std::exp(-x)); } },
-        { ActivationFType::tanh,        [](float_t x) -> float_t { return 1. - std::pow(std::tanh(x), 2); } },
-    };
-
 }
 
 FeedForwardNetwork::Layer::Layer(size_t prev_size, size_t size, ActivationFType activation_type)
     : WnB{
-        .w = core::rand_matrix(size, prev_size),
-        .bias = core::rand_vec(size)
-    }
+    .w = core::rand_matrix(size, prev_size),
+    .bias = core::rand_vec(size)
+}
     , activation_type(activation_type)
 {
 }
@@ -69,11 +47,45 @@ FeedForwardNetwork::Layer::Layer(ActivationFType activation_type, WnB wnb)
 {
 }
 
-Vec FeedForwardNetwork::Layer::activation_f(const Vec& v) const
+
+namespace
 {
-    return core::map(ACTIVATION_FUNCTIONS.at(activation_type), v);
+    using openn::float_t;
+
+    const std::unordered_map<ActivationFType, AlgebraicF> ACTIVATION_FUNCTIONS = {
+        { ActivationFType::ReLU,     [](float_t x) -> float_t { return std::max(0., x); } },
+        { ActivationFType::SIGMOID,  [](float_t x) -> float_t { return 1. / (1. + std::exp(-x)); } },
+        { ActivationFType::SOFTPLUS, [](float_t x) -> float_t { return std::log(1. + std::exp(x)); } },
+        { ActivationFType::TANH,     [](float_t x) -> float_t { return std::tanh(x); } },
+    };
+
+    const std::unordered_map<ActivationFType, AlgebraicF> DERIVATIVE_FUNCTIONS = {
+        { ActivationFType::ReLU,     [](float_t x) -> float_t { return x > 0.; } },
+        { ActivationFType::SIGMOID,  [](float_t x) -> float_t { const auto& f = ACTIVATION_FUNCTIONS.at(ActivationFType::SIGMOID); return f(x)*(1. - f(x)); } },
+        { ActivationFType::SOFTPLUS, [](float_t x) -> float_t { return 1. / (1. + std::exp(-x)); } },
+        { ActivationFType::TANH,     [](float_t x) -> float_t { return 1. - std::pow(std::tanh(x), 2); } },
+    };
+
 }
-Vec FeedForwardNetwork::Layer::derivative_f(const Vec& v) const
+
+core::float_t openn::activation_f(ActivationFType activation_type, float_t x)
 {
-    return core::map(DERIVATIVE_FUNCTIONS.at(activation_type), v);
+    const auto& f = ACTIVATION_FUNCTIONS.at(activation_type);
+    return f(x);
+}
+Vec openn::activation_f(ActivationFType activation_type, const Vec& v)
+{
+    const auto& f = ACTIVATION_FUNCTIONS.at(activation_type);
+    return core::map(f, v);
+}
+
+core::float_t openn::derivative_f(ActivationFType activation_type, float_t x)
+{
+    const auto& f = DERIVATIVE_FUNCTIONS.at(activation_type);
+    return f(x);
+}
+Vec openn::derivative_f(ActivationFType activation_type, const Vec& v)
+{
+    const auto& f = DERIVATIVE_FUNCTIONS.at(activation_type);
+    return core::map(f, v);
 }

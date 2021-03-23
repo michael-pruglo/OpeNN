@@ -10,7 +10,11 @@ namespace openn
     using core::Matrix;
 
     using AlgebraicF = std::function<float_t(float_t)>;
-    enum class ActivationFType { sigmoid, ReLU, softplus, tanh, _SIZE };
+    enum class ActivationFType { SIGMOID, ReLU, SOFTPLUS, TANH };
+    float_t activation_f(ActivationFType type, float_t x);
+    Vec     activation_f(ActivationFType type, const Vec& v);
+    float_t derivative_f(ActivationFType type, float_t x);
+    Vec     derivative_f(ActivationFType type, const Vec& v);
 
     class INeuralNetwork
     {
