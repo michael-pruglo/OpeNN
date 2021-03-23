@@ -9,6 +9,7 @@ namespace openn
     {
     public:
         using FeedForwardNetwork::FeedForwardNetwork;
+        TransparentFFN(const TransparentFFN&) = default;
 
         const std::vector<Layer>& get_layers() const { return layers; }
     };
