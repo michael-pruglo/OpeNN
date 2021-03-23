@@ -1,1 +1,1 @@
-add_executable(openn main.cpp core/types.hpp core/random.hpp core/utility.hpp core/algebra.cpp core/algebra.hpp openn/io/nn_printer.cpp openn/io/nn_printer.hpp openn/io/nn_serializer.cpp openn/io/nn_serializer.hpp openn/openn.cpp openn/openn.hpp openn/training.cpp openn/training.hpp openn/types.hpp)
+add_executable(openn main.cpp core/types.hpp core/random.hpp core/utility.hpp core/algebra.cpp core/algebra.hpp openn/openn.cpp openn/openn.hpp openn/training.cpp openn/training.hpp openn/types.hpp)

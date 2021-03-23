@@ -6,21 +6,22 @@ using namespace openn;
 using core::operator*;
 using core::operator+;
 
-bool openn::operator==(const LayerMetadata& lm1, const LayerMetadata& lm2)
+FeedForwardNetwork::FeedForwardNetwork(size_t input_size, const std::vector<LayerInitRandData>& nn_structure)
 {
-    return lm1.size == lm2.size && lm1.activation == lm2.activation;
-}
-
-FeedForwardNetwork::FeedForwardNetwork(const std::vector<LayerMetadata>& nn_metadata)
-{
-    layers = core::generate_i(nn_metadata.size()-1, [&nn_metadata](size_t i){
-        return Layer(nn_metadata[i+1], nn_metadata[i].size);
+    layers = core::generate_i(nn_structure.size(), [&nn_structure, input_size](size_t i){
+        return Layer(
+            i ? nn_structure[i-1].size : input_size,
+            nn_structure[i].size,
+            nn_structure[i].activation_type
+        );
     });
 }
 
-LayerMetadata FeedForwardNetwork::get_layer_metadata(size_t i) const
+FeedForwardNetwork::FeedForwardNetwork(const std::vector<LayerInitValuesData>& values)
 {
-    return layers.at(i).metadata;
+    layers = core::generate_i(values.size(), [&values](size_t i){
+        return Layer(values[i].activation_type, values[i].wnb);
+    });
 }
 
 Vec FeedForwardNetwork::operator()(const Vec& input) const
@@ -52,18 +53,27 @@ namespace
     };
 
 }
-FeedForwardNetwork::Layer::Layer(LayerMetadata metadata, size_t prev_layer_size)
-    : w(core::rand_matrix(metadata.size, prev_layer_size))
-    , bias(core::rand_vec(metadata.size))
-    , metadata(metadata)
+
+FeedForwardNetwork::Layer::Layer(size_t prev_size, size_t size, ActivationFType activation_type)
+    : WnB{
+        .w = core::rand_matrix(size, prev_size),
+        .bias = core::rand_vec(size)
+    }
+    , activation_type(activation_type)
+{
+}
+
+FeedForwardNetwork::Layer::Layer(ActivationFType activation_type, WnB wnb)
+    : WnB(std::move(wnb))
+    , activation_type(activation_type)
 {
 }
 
 Vec FeedForwardNetwork::Layer::activation_f(const Vec& v) const
 {
-    return core::map(ACTIVATION_FUNCTIONS.at(metadata.activation), v);
+    return core::map(ACTIVATION_FUNCTIONS.at(activation_type), v);
 }
 Vec FeedForwardNetwork::Layer::derivative_f(const Vec& v) const
 {
-    return core::map(DERIVATIVE_FUNCTIONS.at(metadata.activation), v);
+    return core::map(DERIVATIVE_FUNCTIONS.at(activation_type), v);
 }

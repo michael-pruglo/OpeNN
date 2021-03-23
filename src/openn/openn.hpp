@@ -8,33 +8,29 @@ namespace openn
     class FeedForwardNetwork : public INeuralNetwork
     {
     public:
-        explicit FeedForwardNetwork(const std::vector<LayerMetadata>& nn_metadata = { {}, {} });
+        struct LayerInitRandData{ size_t size=0; ActivationFType activation_type=ActivationFType::sigmoid; };
+        FeedForwardNetwork(size_t input_size, const std::vector<LayerInitRandData>& nn_structure);
+
+        struct LayerInitValuesData{ ActivationFType activation_type=ActivationFType::sigmoid; WnB wnb; };
+        FeedForwardNetwork(const std::vector<LayerInitValuesData>& values);
+
         ~FeedForwardNetwork() override = default;
 
-        LayerMetadata get_layer_metadata(size_t i) const override;
         Vec operator()(const Vec& input) const override;
-
-    private:
-        friend class NeuralNetworkPrinter;
-        friend void to_json(nlohmann::json& j, const FeedForwardNetwork& nn);
-        friend void from_json(const nlohmann::json& j, FeedForwardNetwork& nn);
 
     protected:
         struct Layer;
         std::vector<Layer> layers;
     };
 
-    struct FeedForwardNetwork::Layer
+    struct FeedForwardNetwork::Layer : public WnB
     {
-        explicit Layer(LayerMetadata metadata = {}, size_t prev_layer_size = 0);
+        Layer(size_t prev_size, size_t size, ActivationFType activation_type);
+        Layer(ActivationFType activation_type, WnB wnb);
 
         Vec activation_f(const Vec& v) const;
         Vec derivative_f(const Vec& v) const;
 
-        inline size_t size() const { return metadata.size; }
-
-        Matrix w;
-        Vec bias;
-        LayerMetadata metadata;
+        ActivationFType activation_type;
     };
 }
