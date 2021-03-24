@@ -8,11 +8,13 @@ namespace openn::types
     namespace activations_derivatives
     {
         using AlgebraicPred = std::function<float_t(float_t)>;
+
         void test_behaves_as(const AlgebraicPred& candidate, const AlgebraicPred& standard)
         {
             for (const auto& x: core::rand_vec(20, -10.0, 10.0))
                 EXPECT_DOUBLE_EQ(candidate(x), standard(x));
         }
+
         void test_behaves_as(const std::function<Vec(const Vec&)>& candidate, const AlgebraicPred& standard)
         {
             for (const auto& vec: core::rand_matrix(20, 20, -10.0, 10.0))
@@ -23,49 +25,28 @@ namespace openn::types
             }
         }
 
-        TEST(OpennTypesTest, ActivationSigmoid)
+        void test_act(ActivationFType type, const AlgebraicPred& standard)
         {
-            test_behaves_as([](float_t x){    return openn::activation_f(ActivationFType::SIGMOID, x); }, core::sigmoid);
-            test_behaves_as([](const Vec& v){ return openn::activation_f(ActivationFType::SIGMOID, v); }, core::sigmoid);
+            test_behaves_as([type](float_t x){    return openn::activation_f(type, x); }, standard);
+            test_behaves_as([type](const Vec& v){ return openn::activation_f(type, v); }, standard);
         }
-        TEST(OpennTypesTest, DerivativeSigmoid)
+        void test_der(ActivationFType type, const AlgebraicPred& standard)
         {
-            test_behaves_as([](float_t x){    return openn::derivative_f(ActivationFType::SIGMOID, x); }, core::der_sigmoid);
-            test_behaves_as([](const Vec& v){ return openn::derivative_f(ActivationFType::SIGMOID, v); }, core::der_sigmoid);
-        }
-
-        TEST(OpennTypesTest, ActivationReLU)
-        {
-            test_behaves_as([](float_t x){    return openn::activation_f(ActivationFType::ReLU, x); }, core::relu);
-            test_behaves_as([](const Vec& v){ return openn::activation_f(ActivationFType::ReLU, v); }, core::relu);
-        }
-        TEST(OpennTypesTest, DerivativeReLU)
-        {
-            test_behaves_as([](float_t x){    return openn::derivative_f(ActivationFType::ReLU, x); }, core::der_relu);
-            test_behaves_as([](const Vec& v){ return openn::derivative_f(ActivationFType::ReLU, v); }, core::der_relu);
+            test_behaves_as([type](float_t x){    return openn::derivative_f(type, x); }, standard);
+            test_behaves_as([type](const Vec& v){ return openn::derivative_f(type, v); }, standard);
         }
 
-        TEST(OpennTypesTest, ActivationSoftplus)
-        {
-            test_behaves_as([](float_t x){    return openn::activation_f(ActivationFType::SOFTPLUS, x); }, core::softplus);
-            test_behaves_as([](const Vec& v){ return openn::activation_f(ActivationFType::SOFTPLUS, v); }, core::softplus);
-        }
-        TEST(OpennTypesTest, DerivativeSoftplus)
-        {
-            test_behaves_as([](float_t x){    return openn::derivative_f(ActivationFType::SOFTPLUS, x); }, core::der_softplus);
-            test_behaves_as([](const Vec& v){ return openn::derivative_f(ActivationFType::SOFTPLUS, v); }, core::der_softplus);
-        }
+        TEST(OpennTypesTest, ActivationSigmoid) { test_act(ActivationFType::SIGMOID, core::sigmoid); }
+        TEST(OpennTypesTest, DerivativeSigmoid) { test_der(ActivationFType::SIGMOID, core::der_sigmoid); }
 
-        TEST(OpennTypesTest, ActivationTanh)
-        {
-            test_behaves_as([](float_t x){    return openn::activation_f(ActivationFType::TANH, x); }, core::tanh);
-            test_behaves_as([](const Vec& v){ return openn::activation_f(ActivationFType::TANH, v); }, core::tanh);
-        }
-        TEST(OpennTypesTest, DerivativeTanh)
-        {
-            test_behaves_as([](float_t x){    return openn::derivative_f(ActivationFType::TANH, x); }, core::der_tanh);
-            test_behaves_as([](const Vec& v){ return openn::derivative_f(ActivationFType::TANH, v); }, core::der_tanh);
-        }
+        TEST(OpennTypesTest, ActivationReLU) { test_act(ActivationFType::ReLU, core::relu); }
+        TEST(OpennTypesTest, DerivativeReLU) { test_der(ActivationFType::ReLU, core::der_relu); }
+
+        TEST(OpennTypesTest, ActivationSoftplus) { test_act(ActivationFType::SOFTPLUS, core::softplus); }
+        TEST(OpennTypesTest, DerivativeSoftplus) { test_der(ActivationFType::SOFTPLUS, core::der_softplus); }
+
+        TEST(OpennTypesTest, ActivationTanh) { test_act(ActivationFType::TANH, core::tanh); }
+        TEST(OpennTypesTest, DerivativeTanh) { test_der(ActivationFType::TANH, core::der_tanh); }
     }
 
     namespace nn_constructors
