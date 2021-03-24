@@ -1,209 +1,73 @@
 #include <tests/common/helpers.hpp>
 #include <tests/openn_tests/helpers.hpp>
+#include <core/algebra.hpp>
+#include <core/random.hpp>
 
 namespace openn::types
 {
-    namespace activations
+    namespace activations_derivatives
     {
+        using AlgebraicPred = std::function<float_t(float_t)>;
+        void test_behaves_as(const AlgebraicPred& candidate, const AlgebraicPred& standard)
+        {
+            for (const auto& x: core::rand_vec(20, -10.0, 10.0))
+                EXPECT_DOUBLE_EQ(candidate(x), standard(x));
+        }
+        void test_behaves_as(const std::function<Vec(const Vec&)>& candidate, const AlgebraicPred& standard)
+        {
+            for (const auto& vec: core::rand_matrix(20, 20, -10.0, 10.0))
+            {
+                const auto given = candidate(vec);
+                for (size_t i = 0; i < vec.size(); ++i)
+                    EXPECT_DOUBLE_EQ(given[i], standard(vec[i]));
+            }
+        }
+
         TEST(OpennTypesTest, ActivationSigmoid)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(activation_f(ActivationFType::SIGMOID, x), exp, 1e-11);
-            };
-            tst(-20.00, 0.00000000206);
-            tst(-15.39, 0.00000020711);
-            tst( -5.67, 0.00343601835);
-            tst( -2.06, 0.11304583007);
-            tst( -0.53, 0.37051688803);
-            tst(  0.00, 0.5);
-            tst(  0.44, 0.60825903075);
-            tst(  2.11, 0.89187133324);
-            tst(  6.55, 0.99857192671);
-            tst( 14.61, 0.99999954819);
-            tst( 20.00, 0.99999999794);
+            test_behaves_as([](float_t x){    return openn::activation_f(ActivationFType::SIGMOID, x); }, core::sigmoid);
+            test_behaves_as([](const Vec& v){ return openn::activation_f(ActivationFType::SIGMOID, v); }, core::sigmoid);
         }
-    
-        TEST(OpennTypesTest, ActivationSigmoidVector)
-        {
-            const auto tst = [](const Vec& v, const Vec& exp){
-                expect_double_vec_eq(activation_f(ActivationFType::SIGMOID, v), exp, 1e-11);
-            };
-            tst({}, {});
-            tst({2.11}, {0.89187133324});
-            tst({-15.39,14.61,0.0}, {0.00000020711,0.99999954819,0.5});
-        }
-    
-        TEST(OpennTypesTest, ActivationReLU)
-        {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_DOUBLE_EQ(activation_f(ActivationFType::ReLU, x), exp);
-            };
-            tst(-20.00, 0.);
-            tst( -4.00, 0.);
-            tst(  0.00, 0.);
-            tst(  3.14, 3.14);
-            tst( 17.00, 17.);
-        }
-    
-        TEST(OpennTypesTest, ActivationReLUVector)
-        {
-            const auto tst = [](const Vec& v, const Vec& exp){
-                expect_double_vec_eq(activation_f(ActivationFType::ReLU, v), exp);
-            };
-            tst({}, {});
-            tst({-2.11}, {0.});
-            tst({-15.39,14.61,0.0}, {0.,14.61,0.});
-        }
-    
-        TEST(OpennTypesTest, ActivationSoftplus)
-        {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(activation_f(ActivationFType::SOFTPLUS, x), exp, 1e-7);
-            };
-            tst( 1.0, 1.31326163);
-            tst(-0.5, 0.474076986);
-            tst( 3.4, 3.43282847042);
-            tst(-2.1, 0.115519524);
-            tst( 0.0, 0.693147182);
-            tst(-6.5, 0.00150233845);
-        }
-    
-        TEST(OpennTypesTest, ActivationSoftplusVector)
-        {
-            const auto tst = [](const Vec &v, const Vec &exp){
-                expect_double_vec_eq(activation_f(ActivationFType::SOFTPLUS, v), exp, 1e-7);
-            };
-            tst({}, {});
-            tst({3.4}, {3.43282847042});
-            tst({1.0,-6.5,0.0}, {1.31326163,0.00150233845,0.693147182});
-        }
-    
-        TEST(OpennTypesTest, ActivationTanh)
-        {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(activation_f(ActivationFType::TANH, x), exp, 1e-11);
-            };
-            tst(-7.80, -0.999999664235);
-            tst(-0.75, -0.635148952387);
-            tst( 0.00, 0.);
-            tst( 1.00, 0.761594155956);
-            tst( 3.14, 0.996260204946);
-        }
-    
-        TEST(OpennTypesTest, ActivationTanhVector)
-        {
-            const auto tst = [](const Vec &v, const Vec &exp){
-                expect_double_vec_eq(activation_f(ActivationFType::TANH, v), exp, 1e-11);
-            };
-            tst({}, {});
-            tst({3.14}, {0.996260204946});
-            tst({0.0,-7.80,1.00}, {0.,-0.999999664235,0.761594155956});
-        }
-    }
-    
-    namespace derivatives
-    {
         TEST(OpennTypesTest, DerivativeSigmoid)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(derivative_f(ActivationFType::SIGMOID, x), exp, 1e-8);
-            };
-            tst(-5.0, .0066480567);
-            tst(-1.4, .1586849);
-            tst(-0.3, .24445831);
-            tst(0.0, 0.25);
-            tst(.6, .22878424);
-            tst(1.7, .13060575);
-            tst(19.0, 5.602796e-9);
+            test_behaves_as([](float_t x){    return openn::derivative_f(ActivationFType::SIGMOID, x); }, core::der_sigmoid);
+            test_behaves_as([](const Vec& v){ return openn::derivative_f(ActivationFType::SIGMOID, v); }, core::der_sigmoid);
         }
 
-        TEST(OpennTypesTest, DerivativeSigmoidVector)
+        TEST(OpennTypesTest, ActivationReLU)
         {
-            const auto tst = [](const Vec& v, const Vec& exp){
-                expect_double_vec_eq(derivative_f(ActivationFType::SIGMOID, v), exp, 1e-8);
-            };
-            tst({}, {});
-            tst({1.7}, {.13060575});
-            tst({-5.0,.6,0.0}, {.0066480567,.22878424,0.25});
+            test_behaves_as([](float_t x){    return openn::activation_f(ActivationFType::ReLU, x); }, core::relu);
+            test_behaves_as([](const Vec& v){ return openn::activation_f(ActivationFType::ReLU, v); }, core::relu);
         }
-
         TEST(OpennTypesTest, DerivativeReLU)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_DOUBLE_EQ(derivative_f(ActivationFType::ReLU, x), exp)<<x;
-            };
-            tst(-17.45, 0.);
-            tst(-2.5, 0.);
-            tst(-1e-11, 0.);
-            tst(0., 1.);
-            tst(1e-11, 1.);
-            tst(10., 1.);
-            tst(182., 1.);
+            test_behaves_as([](float_t x){    return openn::derivative_f(ActivationFType::ReLU, x); }, core::der_relu);
+            test_behaves_as([](const Vec& v){ return openn::derivative_f(ActivationFType::ReLU, v); }, core::der_relu);
         }
 
-        TEST(OpennTypesTest, DerivativeReLUVector)
+        TEST(OpennTypesTest, ActivationSoftplus)
         {
-            const auto tst = [](const Vec& v, const Vec& exp){
-                expect_double_vec_eq(derivative_f(ActivationFType::ReLU, v), exp);
-            };
-            tst({}, {});
-            tst({16.7}, {1.});
-            tst({9.4,-15.5,0.0}, {1.,0.,1.});
+            test_behaves_as([](float_t x){    return openn::activation_f(ActivationFType::SOFTPLUS, x); }, core::softplus);
+            test_behaves_as([](const Vec& v){ return openn::activation_f(ActivationFType::SOFTPLUS, v); }, core::softplus);
         }
-
         TEST(OpennTypesTest, DerivativeSoftplus)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(derivative_f(ActivationFType::SOFTPLUS, x), exp, 1e-11);
-            };
-            tst(-20.00, 0.00000000206);
-            tst(-15.39, 0.00000020711);
-            tst( -5.67, 0.00343601835);
-            tst( -2.06, 0.11304583007);
-            tst( -0.53, 0.37051688803);
-            tst(  0.00, 0.5);
-            tst(  0.44, 0.60825903075);
-            tst(  2.11, 0.89187133324);
-            tst(  6.55, 0.99857192671);
-            tst( 14.61, 0.99999954819);
-            tst( 20.00, 0.99999999794);
+            test_behaves_as([](float_t x){    return openn::derivative_f(ActivationFType::SOFTPLUS, x); }, core::der_softplus);
+            test_behaves_as([](const Vec& v){ return openn::derivative_f(ActivationFType::SOFTPLUS, v); }, core::der_softplus);
         }
 
-        TEST(OpennTypesTest, DerivativeSoftplusVector)
+        TEST(OpennTypesTest, ActivationTanh)
         {
-            const auto tst = [](const Vec &v, const Vec &exp){
-                expect_double_vec_eq(derivative_f(ActivationFType::SOFTPLUS, v), exp, 1e-11);
-            };
-            tst({}, {});
-            tst({2.11}, {0.89187133324});
-            tst({-15.39,14.61,0.0}, {0.00000020711,0.99999954819,0.5});
+            test_behaves_as([](float_t x){    return openn::activation_f(ActivationFType::TANH, x); }, core::tanh);
+            test_behaves_as([](const Vec& v){ return openn::activation_f(ActivationFType::TANH, v); }, core::tanh);
         }
-
         TEST(OpennTypesTest, DerivativeTanh)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(derivative_f(ActivationFType::TANH, x), exp, 1e-8);
-            };
-            tst(-5.0, 1.815832e-4);
-            tst(-1.4, 0.21615246);
-            tst(-0.3, 0.91513696);
-            tst(0.0, 1.0);
-            tst(.6, .71157776);
-            tst(1.7, .12500987);
-            tst(19.0, 2.220446e-16);
-        }
-
-        TEST(OpennTypesTest, DerivativeTanhVector)
-        {
-            const auto tst = [](const Vec &v, const Vec &exp){
-                expect_double_vec_eq(derivative_f(ActivationFType::TANH, v), exp, 1e-8);
-            };
-            tst({}, {});
-            tst({.6}, {.71157776});
-            tst({19.0,-1.4,0.0}, {2.220446e-16,0.21615246,1.});
+            test_behaves_as([](float_t x){    return openn::derivative_f(ActivationFType::TANH, x); }, core::der_tanh);
+            test_behaves_as([](const Vec& v){ return openn::derivative_f(ActivationFType::TANH, v); }, core::der_tanh);
         }
     }
-    
+
     namespace nn_constructors
     {
         void expect_layer_structure(auto layer, size_t prev_size, size_t curr_size, ActivationFType activ_type)
