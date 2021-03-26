@@ -241,5 +241,14 @@ namespace core::algebra
             EXPECT_DEATH(core::hadamard(core::Vec{1.,2.,3.}, core::Vec{1.}), "");
             EXPECT_DEATH(core::hadamard(core::Vec{1.,2.}, core::Vec{1.,2.,3.}), "");
         }
+
+        TEST(CoreAlgebraDeathTest, MatrixTranspose)
+        {
+            expect_double_matrix_eq((core::Matrix{}.t()), (core::Matrix{}));
+            expect_double_matrix_eq((core::Matrix{{1.}}.t()), (core::Matrix{{1.}}));
+            expect_double_matrix_eq((core::Matrix{{1.}, {2.}}.t()), (core::Matrix{{1., 2.}}));
+            expect_double_matrix_eq((core::Matrix{{1., 2.}}.t()), (core::Matrix{{1.}, {2.}}));
+            expect_double_matrix_eq((core::Matrix{{1.,2.,3.},{4.,5.,6.},{7.,8.,9.},{10.,11.,12.},{13.,14.,15.}}.t()), (core::Matrix{{1.,4.,7.,10.,13.}, {2.,5.,8.,11.,14.,}, {3.,6.,9.,12.,15.}}));
+        }
     }
 }

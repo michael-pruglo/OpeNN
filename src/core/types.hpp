@@ -17,5 +17,6 @@ namespace core
 
         size_t rows() const { return size(); }
         size_t cols() const { return empty() ? 0 : begin()->size(); }
+        Matrix t() const;
     };
 }

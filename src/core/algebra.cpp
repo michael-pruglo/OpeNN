@@ -82,3 +82,14 @@ Vec core::hadamard(const Vec& v1, const Vec& v2)
         return v1[i] * v2[i];
     });
 }
+
+Matrix core::Matrix::t() const
+{
+    auto res = Matrix(cols(), Vec(rows()));
+
+    for (size_t i = 0; i < rows(); ++i)
+        for (size_t j = 0; j < cols(); ++j)
+            res[j][i] = (*this)[i][j];
+
+    return res;
+}

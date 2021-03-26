@@ -15,3 +15,17 @@ inline void expect_double_vec_eq(const std::vector<double>& v1, const std::vecto
     for (int i = 0; i < v1.size(); ++i)
         EXPECT_NEAR(v1[i], v2[i], tolerance) << "i = " << i;
 }
+
+inline void expect_double_matrix_eq(const std::vector<std::vector<double>>& m1, const std::vector<std::vector<double>>& m2)
+{
+    ASSERT_EQ(m1.size(), m2.size());
+    for (size_t i = 0; i < m1.size(); ++i)
+        expect_double_vec_eq(m1[i], m2[i]);
+}
+
+inline void expect_double_matrix_eq(const std::vector<std::vector<double>>& m1, const std::vector<std::vector<double>>& m2, double tolerance)
+{
+    ASSERT_EQ(m1.size(), m2.size());
+    for (size_t i = 0; i < m1.size(); ++i)
+        expect_double_vec_eq(m1[i], m2[i], tolerance);
+}
