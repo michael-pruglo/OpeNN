@@ -50,7 +50,7 @@ core::float_t core::mean_squared_eror(const Vec& v, const Vec& exp)
     return c;
 }
 
-core::float_t core::cross_entropy(const Vec &v, const Vec &exp)
+core::float_t core::cross_entropy(const Vec& v, const Vec& exp)
 {
     assert(v.size() == exp.size());
     return 0.;
@@ -71,5 +71,14 @@ Vec core::operator+(const Vec& v1, const Vec& v2)
     
     return generate_i(v1.size(), [&](size_t i) {
         return v1[i] + v2[i];
+    });
+}
+
+Vec core::hadamard(const Vec& v1, const Vec& v2)
+{
+    assert(v1.size() == v2.size());
+
+    return generate_i(v1.size(), [&](size_t i) {
+        return v1[i] * v2[i];
     });
 }

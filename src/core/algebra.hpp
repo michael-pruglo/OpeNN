@@ -19,4 +19,5 @@ namespace core
 
     Vec operator*(const Matrix& m, const Vec& v);
     Vec operator+(const Vec& v1, const Vec& v2);
+    Vec hadamard(const Vec& v1, const Vec& v2);
 }

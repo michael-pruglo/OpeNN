@@ -225,5 +225,21 @@ namespace core::algebra
                 expect_double_vec_eq(v1+v2, expected);
             }
         }
+
+        TEST(CoreAlgebraDeathTest, HadamardSmall)
+        {
+            expect_double_vec_eq(core::hadamard(core::Vec{}, core::Vec{}), core::Vec{});
+            expect_double_vec_eq(core::hadamard(core::Vec{1.7}, core::Vec{3.7}), core::Vec{6.29});
+            expect_double_vec_eq(core::hadamard(core::Vec{6., 14., 0., -9., -3.}, core::Vec{-8., 5., 0., 0., -8.,}), core::Vec{-48., 70., 0., 0., 24.});
+        }
+
+        TEST(CoreAlgebraDeathTest, HadamardDeath)
+        {
+            // the vectors must have equal length
+            using core::operator+;
+            EXPECT_DEATH(core::hadamard(core::Vec{}, core::Vec{1.}), "");
+            EXPECT_DEATH(core::hadamard(core::Vec{1.,2.,3.}, core::Vec{1.}), "");
+            EXPECT_DEATH(core::hadamard(core::Vec{1.,2.}, core::Vec{1.,2.,3.}), "");
+        }
     }
 }
