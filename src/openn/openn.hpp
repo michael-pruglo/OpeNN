@@ -5,7 +5,7 @@
 
 namespace openn
 {
-    class FeedForwardNetwork : public INeuralNetwork
+    class FeedForwardNetwork : public NeuralNetwork
     {
     public:
         struct LayerInitRandData{ size_t size=0; ActivationFType activation_type=ActivationFType::SIGMOID; };

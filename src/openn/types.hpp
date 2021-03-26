@@ -19,10 +19,10 @@ namespace openn
     enum class CostFType { MSE, CROSS_ENTROPY };
     float_t cost_f(CostFType type, const Vec& v, const Vec& exp);
 
-    class INeuralNetwork
+    class NeuralNetwork
     {
     public:
-        virtual ~INeuralNetwork() = default;
+        virtual ~NeuralNetwork() = default;
         virtual Vec operator()(const Vec& input) const = 0;
     };
 
