@@ -15,6 +15,7 @@ namespace openn
     float_t derivative_f(ActivationFType type, float_t x);
     Vec     derivative_f(ActivationFType type, const Vec& v);
 
+    // cost/loss/objective function
     enum class CostFType { MSE, CROSS_ENTROPY };
     float_t cost_f(CostFType type, const Vec& v, const Vec& exp);
 
