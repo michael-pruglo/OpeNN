@@ -150,12 +150,16 @@ namespace core::algebra
 
         TEST(CoreAlgebraDeathTest, CrossEntropySmall)
         {
+            EXPECT_DOUBLE_EQ(core::cross_entropy(core::Vec{}, core::Vec{}), 0.);
             FAIL();
         }
 
         TEST(CoreAlgebraDeathTest, CrossEntropyDeath)
         {
-            FAIL();
+            // the vectors must have equal length
+            EXPECT_DEATH(core::cross_entropy(core::Vec{}, core::Vec{1.}), "");
+            EXPECT_DEATH(core::cross_entropy(core::Vec{1., 2., 3.}, core::Vec{1.}), "");
+            EXPECT_DEATH(core::cross_entropy(core::Vec{1., 2.}, core::Vec{1., 2., 3.}), "");
         }
     }
 
