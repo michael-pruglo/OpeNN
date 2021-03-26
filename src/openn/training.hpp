@@ -54,4 +54,47 @@ namespace openn
         }
     }
 
+    /*
+
+    epoch_gradient_descent(training_data, ...)
+    {
+      for (training_sample: training_data)
+      {
+        grad = backprop(training_sample)
+        total_grad += grad
+      }
+      total_grad /= n
+      nn.update(total_grad)
+    }
+
+    epoch_stochastic_gradient_descent(training_data, batch_size, ...)
+    {
+      random_shuffle(training_data)
+      for (batch : training_data.split(batch_size))
+        epoch_gradient_descent(batch)
+    }
+
+    //a.k.a incremental learning
+    epoch_online_learning(training_data, ...)
+    {
+      random_shuffle(training_data)
+      epoch_stochastic_gradient_descent(training_data, 1, ...) //unless we can get a significant optimization
+    }
+
+    //learning_rate is a.k.a. 'eta' - greek letter η
+    //gradient is a.k.a. 'nabla' - inverted delta symbol ∇
+
+    float_t evaluate(nn, test_data)
+    {
+      for ([input, output]: training_data)
+        total_cost += cost(forward(input), output)
+      return total_cost / n  //may be omitted, rescaling the learning rate
+    }
+
+    //make an evaluation/display wrapper that will evaluate every step and diplay graphs
+
+    //test it on the setups used in chapter 1 http://neuralnetworksanddeeplearning.com/chap1.html
+
+    */
+
 }
