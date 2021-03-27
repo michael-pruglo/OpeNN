@@ -1,8 +1,6 @@
 #include <misc/resource_unpacker.hpp>
 #include <cassert>
-#include <functional>
 #include <numeric>
-#include <iostream>
 
 namespace
 {
