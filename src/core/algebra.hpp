@@ -14,8 +14,9 @@ namespace core
     float_t der_softplus(float_t x);
     float_t der_tanh    (float_t x);
 
-    float_t mean_squared_eror(const Vec& v, const Vec& exp);
-    float_t cross_entropy    (const Vec& v, const Vec& exp);
+    //`a` = given, `y` = expected
+    float_t mean_squared_eror(const Vec& a, const Vec& y);
+    float_t cross_entropy    (const Vec& a, const Vec& y);
 
     Vec operator*(const Matrix& m, const Vec& v);
     Vec operator+(const Vec& v1, const Vec& v2);

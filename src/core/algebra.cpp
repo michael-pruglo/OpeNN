@@ -40,20 +40,24 @@ core::float_t core::der_tanh(float_t x)
     return 1. - std::pow(std::tanh(x), 2);
 }
 
-core::float_t core::mean_squared_eror(const Vec& v, const Vec& exp)
+core::float_t core::mean_squared_eror(const Vec& a, const Vec& y)
 {
-    assert(v.size() == exp.size());
+    assert(a.size() == y.size());
 
-    float_t c = 0.;
-    for (size_t i = 0; i < exp.size(); ++i)
-        c += std::pow(v[i]-exp[i], 2);
-    return c;
+    float_t cost = 0.;
+    for (size_t i = 0; i < y.size(); ++i)
+        cost += std::pow(a[i]-y[i], 2);
+    return cost;
 }
 
-core::float_t core::cross_entropy(const Vec& v, const Vec& exp)
+core::float_t core::cross_entropy(const Vec& a, const Vec& y)
 {
-    assert(v.size() == exp.size());
-    return 0.;
+    assert(a.size() == y.size());
+
+    float_t cost = 0.;
+    for (size_t i = 0; i < y.size(); ++i)
+        cost += -( y[i]*log(a[i]) + (1.-y[i])*log(1.-a[i]) );
+    return cost;
 }
 
 Vec core::operator*(const Matrix& m, const Vec& v)
