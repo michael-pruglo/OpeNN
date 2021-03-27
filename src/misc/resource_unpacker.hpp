@@ -21,6 +21,9 @@ namespace misc
         static IdxFileFormat unpack(const std::string& filename);
 
     private:
-        static IdxFileFormat read_from_file(std::ifstream& infile);
+        static IdxFileFormat read_from_file   (std::ifstream& infile);
+        static void          read_magic_number(std::ifstream& infile, IdxFileFormat& ret);
+        static void          read_dimensions  (std::ifstream& infile, IdxFileFormat& ret);
+        static void          read_data        (std::ifstream& infile, IdxFileFormat& ret);
     };
 }
