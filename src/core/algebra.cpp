@@ -60,6 +60,9 @@ core::float_t core::cross_entropy(const Vec& a, const Vec& y)
     return cost;
 }
 
+
+
+
 Vec core::operator*(const Matrix& m, const Vec& v)
 {
     assert(m.cols() == v.size());
@@ -69,22 +72,14 @@ Vec core::operator*(const Matrix& m, const Vec& v)
     });
 }
 
-Vec core::operator+(const Vec& v1, const Vec& v2)
+Matrix core::operator+(const Matrix& m1, const Matrix& m2)
 {
-    assert(v1.size() == v2.size());
-    
-    return generate_i(v1.size(), [&](size_t i) {
-        return v1[i] + v2[i];
-    });
+    throw "not implemented";
 }
 
-Vec core::hadamard(const Vec& v1, const Vec& v2)
+Matrix core::operator/(const Matrix& m, float_t divisor)
 {
-    assert(v1.size() == v2.size());
-
-    return generate_i(v1.size(), [&](size_t i) {
-        return v1[i] * v2[i];
-    });
+    throw "not implemented";
 }
 
 Matrix core::Matrix::t() const
@@ -96,4 +91,30 @@ Matrix core::Matrix::t() const
             res[j][i] = (*this)[i][j];
 
     return res;
+}
+
+
+
+
+Vec core::operator+(const Vec& v1, const Vec& v2)
+{
+    assert(v1.size() == v2.size());
+    
+    return generate_i(v1.size(), [&](size_t i) {
+        return v1[i] + v2[i];
+    });
+}
+
+Vec core::operator/(const Vec& v1, float_t divisor)
+{
+    throw "not implemented";
+}
+
+Vec core::hadamard(const Vec& v1, const Vec& v2)
+{
+    assert(v1.size() == v2.size());
+
+    return generate_i(v1.size(), [&](size_t i) {
+        return v1[i] * v2[i];
+    });
 }

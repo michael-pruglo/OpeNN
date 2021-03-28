@@ -2,11 +2,14 @@
 
 #include <src/projects/mnist/types.hpp>
 #include <misc/resource_unpacker.hpp>
+#include <openn/training.hpp>
 #include <vector>
 #include <string>
 
 namespace projects::mnist
 {
+    using openn::NetworkTrainer;
+
     class TrainingEnvironment
     {
     public:
@@ -23,6 +26,7 @@ namespace projects::mnist
 
     private:
         std::vector<TrainingSample> training_data, validation_data, test_data;
+        std::unique_ptr<NetworkTrainer> network_trainer;
     };
 
     class TrainingEnvironment::Reader

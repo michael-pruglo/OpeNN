@@ -3,6 +3,9 @@
 #include <core/utility.hpp>
 
 using namespace openn;
+using core::operator+;
+using core::operator/;
+using core::operator*;
 
 namespace
 {
@@ -48,10 +51,12 @@ Vec openn::derivative_f(ActivationFType type, const Vec& v)
 
 void WnB::operator+=(const WnB& other)
 {
-    throw "not implemented";
+    w = w + other.w;
+    bias = bias + other.bias;
 }
 
 void WnB::operator/=(core::float_t x)
 {
-    throw "not implemented";
+    w = w / x;
+    bias = bias / x;
 }

@@ -2,11 +2,8 @@
 
 #include <openn/openn.hpp>
 
-
 namespace openn
 {
-    using core::float_t;
-
     // cost/loss/objective function
     enum class CostFType
     {
@@ -19,6 +16,7 @@ namespace openn
     {
         Vec input, expected;
     };
+    using TrainingDataPtr   = std::shared_ptr<const std::vector<TrainingSample>>;
     using TrainingConstIt   = std::vector<TrainingSample>::const_iterator;
     using TrainingIt        = std::vector<TrainingSample>::iterator;
 
@@ -32,7 +30,7 @@ namespace openn
     struct TrainingHyperParameters
     {
         size_t epochs{ 0 };
-        float_t eta{ 0.0 };
+        float_t eta{ 0.0 }; //greek letter 'η', a.k.a. learning_rate
         CostFType cost_f_type{ CostFType::MEAN_SQUARED_ERROR };
         TrainingMethod method{ TrainingMethod::STOCHASTIC_GRAD_DESCENT };
         size_t batch_size{ 1 };
@@ -41,18 +39,40 @@ namespace openn
     class NetworkTrainer
     {
     public:
-        NetworkTrainer() = default;
+        //initialization
+        virtual void    set_network            (std::shared_ptr<NeuralNetwork> network) = 0;
+        virtual void    set_hyper_parameters   (TrainingHyperParameters hyper_parameters) = 0;
+        virtual void    set_training_data      (TrainingDataPtr training_data) = 0;
+        virtual void    set_validation_data    (TrainingDataPtr validation_data) = 0;
+        virtual void    set_test_data          (TrainingDataPtr test_data) = 0;
 
-        void set_network(NeuralNetwork* network);
-        void set_hyper_parameters(TrainingHyperParameters hyper_parameters);
-        void set_training_data(const std::vector<TrainingSample>* training_data);
-        void set_validation_data(const std::vector<TrainingSample>* validation_data);
-        void set_test_data(const std::vector<TrainingSample>* test_data);
-        void train(bool verbose = false);
+        //training
+        virtual void    train(bool verbose = false) = 0;
 
         //evaluation
-        float_t eval_average_cost();
-        size_t  eval_correct_guesses();
+        virtual float_t eval_average_cost() = 0;
+        virtual size_t  eval_correct_guesses() = 0;
+
+    protected:
+        std::shared_ptr<NeuralNetwork> nn;
+        TrainingHyperParameters hyper_parameters;
+        TrainingDataPtr training_data, validation_data, test_data;
+    };
+
+
+    class FeedForwardNetworkTrainer : public NetworkTrainer
+    {
+    public:
+        void    set_network            (std::shared_ptr<NeuralNetwork> network) override;
+        void    set_hyper_parameters   (TrainingHyperParameters hyper_parameters) override;
+        void    set_training_data      (TrainingDataPtr training_data) override;
+        void    set_validation_data    (TrainingDataPtr validation_data) override;
+        void    set_test_data          (TrainingDataPtr test_data) override;
+
+        void    train(bool verbose = false) override;
+
+        float_t eval_average_cost() override;
+        size_t  eval_correct_guesses() override;
 
     private:
         void epoch_full_gradient_descent       (TrainingConstIt first, TrainingConstIt last);
@@ -62,17 +82,11 @@ namespace openn
         void epoch_sgd_destructive(TrainingIt first, TrainingIt last, size_t batch_size);
 
         Gradient backprop(const TrainingSample& sample);
-
-    private:
-        NeuralNetwork* nn{ nullptr };
-        TrainingHyperParameters hyper_parameters;
-        const std::vector<TrainingSample> *training_data{ nullptr }, *validation_data{ nullptr }, *test_data{ nullptr };
     };
 
 
     /*
 
-    //learning_rate is a.k.a. 'eta' - greek letter η
     //gradient is a.k.a. 'nabla' - inverted delta symbol ∇
 
     //test it on the setups used in chapter 1 http://neuralnetworksanddeeplearning.com/chap1.html

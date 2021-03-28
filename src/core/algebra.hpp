@@ -18,7 +18,13 @@ namespace core
     float_t mean_squared_eror(const Vec& a, const Vec& y);
     float_t cross_entropy    (const Vec& a, const Vec& y);
 
-    Vec operator*(const Matrix& m, const Vec& v);
-    Vec operator+(const Vec& v1, const Vec& v2);
-    Vec hadamard(const Vec& v1, const Vec& v2);
+    //Matrix algebra
+    Vec     operator*(const Matrix& m,  const Vec& v);
+    Matrix  operator+(const Matrix& m1, const Matrix& m2);
+    Matrix  operator/(const Matrix& m,  float_t divisor);
+
+    //Vec algebra
+    Vec     operator+(const Vec& v1, const Vec& v2);
+    Vec     operator/(const Vec& v1, float_t divisor);
+    Vec     hadamard (const Vec& v1, const Vec& v2);
 }
