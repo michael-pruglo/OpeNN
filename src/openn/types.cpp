@@ -46,21 +46,12 @@ Vec openn::derivative_f(ActivationFType type, const Vec& v)
     return core::map(f, v);
 }
 
-
-
-namespace
+void WnB::operator+=(const WnB& other)
 {
-    using openn::float_t;
-    using CostF = std::function<float_t(const Vec&, const Vec&)>;
-
-    const std::unordered_map<CostFType, CostF> COST_FUNCTIONS = {
-        { CostFType::MSE,           core::mean_squared_eror },
-        { CostFType::CROSS_ENTROPY, core::cross_entropy },
-    };
+    throw "not implemented";
 }
 
-core::float_t cost_f(CostFType type, const Vec &v, const Vec &exp)
+void WnB::operator/=(core::float_t x)
 {
-    const auto& f = COST_FUNCTIONS.at(type);
-    return f(v, exp);
+    throw "not implemented";
 }

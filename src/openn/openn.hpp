@@ -18,6 +18,7 @@ namespace openn
 
     public:
         Vec operator()(const Vec& input) const override;
+        virtual void update(const Gradient& grad, float_t eta) override;
 
     protected:
         struct Layer;

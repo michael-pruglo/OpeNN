@@ -32,6 +32,12 @@ Vec FeedForwardNetwork::operator()(const Vec& input) const
     return res;
 }
 
+void FeedForwardNetwork::update(const Gradient& grad, float_t eta)
+{
+    throw "not implemented";
+}
+
+
 FeedForwardNetwork::Layer::Layer(size_t prev_size, size_t size, ActivationFType activation_type)
     : WnB{
     .w = core::rand_matrix(size, prev_size),

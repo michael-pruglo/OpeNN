@@ -15,21 +15,21 @@ namespace openn
     float_t derivative_f(ActivationFType type, float_t x);
     Vec     derivative_f(ActivationFType type, const Vec& v);
 
-    // cost/loss/objective function
-    enum class CostFType { MSE, CROSS_ENTROPY };
-    float_t cost_f(CostFType type, const Vec& v, const Vec& exp);
+    struct WnB
+    {
+        void operator+=(const WnB& other);
+        void operator/=(float_t x);
+
+        Matrix w;
+        Vec bias;
+    };
+    using Gradient = WnB;
 
     class NeuralNetwork
     {
     public:
         virtual ~NeuralNetwork() = default;
         virtual Vec operator()(const Vec& input) const = 0;
+        virtual void update(const Gradient& grad, float_t eta) = 0;
     };
-
-    struct WnB
-    {
-        Matrix w;
-        Vec bias;
-    };
-    using Gradient = WnB;
 }
