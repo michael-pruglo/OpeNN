@@ -14,6 +14,8 @@ namespace projects::mnist
         void init_test_data(const std::string& img_file, const std::string& label_file);
 
         void display_training_sample(size_t i) const;
+        void display_validating_sample(size_t i) const;
+        void display_testing_sample(size_t i) const;
 
     private:
         class Reader;
@@ -41,9 +43,10 @@ namespace projects::mnist
     class TrainingEnvironment::Visualizer
     {
     public:
-        static void display(const TrainingSample& training_sample);
+        static void display(const TrainingSample& training_sample, const std::string& id);
         static void display(const Image& image);
-        static void display(const Label& label);
+    private:
+        static char pixel_to_char(uint8_t intensity);
     };
 }
 

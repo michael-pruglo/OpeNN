@@ -5,18 +5,16 @@
 
 namespace projects::mnist
 {
-    using core::Vec;
-
     struct Image
     {
-        Image(Vec pixels = {}, size_t height = 0, size_t width = 0)
+        Image(std::vector<uint8_t> pixels = {}, size_t height = 0, size_t width = 0)
             : pixels(std::move(pixels))
             , height(height)
             , width(width)
         {}
 
         size_t height, width;
-        Vec pixels;
+        std::vector<uint8_t> pixels;
     };
 
     using Label = uint8_t;

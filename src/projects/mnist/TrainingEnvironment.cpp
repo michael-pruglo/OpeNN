@@ -33,7 +33,15 @@ void TrainingEnvironment::init_test_data(const std::string& img_file, const std:
 
 void TrainingEnvironment::display_training_sample(size_t i) const
 {
-    Visualizer::display(training_data[i]);
+    Visualizer::display(training_data.at(i), "train#"+std::to_string(i));
+}
+void TrainingEnvironment::display_validating_sample(size_t i) const
+{
+    Visualizer::display(validation_data.at(i), "validation#"+std::to_string(i));
+}
+void TrainingEnvironment::display_testing_sample(size_t i) const
+{
+    Visualizer::display(test_data.at(i), "test#"+std::to_string(i));
 }
 
 
@@ -86,10 +94,14 @@ std::vector<TrainingSample> TrainingEnvironment::Reader::construct_training_samp
 
 
 
-void TrainingEnvironment::Visualizer::display(const TrainingSample& training_sample)
+void TrainingEnvironment::Visualizer::display(const TrainingSample& training_sample, const std::string& id)
 {
+    std::string line(50, '=');
+    std::cout << line << "\n";
+    std::cout << "id: " << id << "\n";
     display(training_sample.image);
-    display(training_sample.label);
+    std::cout << "label: " << int(training_sample.label) << "\n";
+    std::cout << line << "\n";
 }
 
 void TrainingEnvironment::Visualizer::display(const Image& image)
@@ -101,13 +113,20 @@ void TrainingEnvironment::Visualizer::display(const Image& image)
             const auto& idx = i*image.width + j;
             const auto& px = image.pixels[idx];
 
-            std::cout << px << " ";
+            std::cout << pixel_to_char(px);
         }
         std::cout << "\n";
     }
 }
 
-void TrainingEnvironment::Visualizer::display(const Label& label)
+char TrainingEnvironment::Visualizer::pixel_to_char(uint8_t intensity)
 {
-    std::cout << "Label: '" << int(label) << "'\n";
+    return intensity > 230 ? '@' :
+           intensity > 185 ? '$' :
+           intensity > 163 ? 'x' :
+           intensity > 140 ? 'o' :
+           intensity > 110 ? ':' :
+           intensity > 50  ? '`' :
+           intensity > 20  ? '.' :
+                             ' ' ;
 }
