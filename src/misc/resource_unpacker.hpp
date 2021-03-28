@@ -6,6 +6,24 @@
 namespace misc
 {
     template<typename T>
+    void read_bytes(std::ifstream& in, T& data) //reverse bytes to flip to big-endian
+    {
+        auto* const addr = (char*)&data;
+        const size_t len = sizeof(data);
+        in.read(addr, len);
+        std::reverse(addr, addr+len);
+    }
+
+    template<typename T>
+    void write_bytes(std::ofstream& os, T data) //reverse bytes to flip to big-endian
+    {
+        auto* const addr = (char*)&data;
+        const size_t len = sizeof(data);
+        std::reverse(addr, addr+len);
+        os.write(addr, len);
+    }
+
+    template<typename T>
     struct IdxFileGeneralFormat
     {
         uint32_t magic_number;

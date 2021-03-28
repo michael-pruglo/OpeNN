@@ -2,19 +2,9 @@
 #include <cassert>
 #include <numeric>
 
-namespace
-{
-    template<typename T>
-    void read_bytes(std::ifstream& in, T& val)
-    {
-        in.read((char*)(&val), sizeof(val));
-    }
-}
-
-
 misc::IdxFileFormat misc::IdxFileUnpacker::unpack(const std::string& filename)
 {
-    std::ifstream infile(filename, std::ios::in|std::ios::binary);
+    std::ifstream infile(filename, std::ios::in | std::ios::binary);
     assert(infile);
 
     auto ret = read_from_file(infile);

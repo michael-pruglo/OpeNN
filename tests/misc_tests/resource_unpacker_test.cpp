@@ -13,14 +13,9 @@ namespace misc
 namespace misc::resource_unpacker
 {
     using misc::IdxFileFormat;
+    using misc::write_bytes;
 
     const std::string PATH_PREF = "../../tests/misc_tests/";
-
-    template<typename T>
-    void write_bytes(std::ofstream& os, T data)
-    {
-        os.write((char*)&data, sizeof(data));
-    }
 
     void create_idx_file(const std::string& filename, const IdxFileFormat& idx_file)
     {
@@ -40,9 +35,9 @@ namespace misc::resource_unpacker
     TEST(MiscResourceUnpackerTest, OneDimensional)
     {
         const std::string filename = PATH_PREF + "ru_test_1.idx1-ubyte";
-        const std::vector<uint8_t> data{ 67U,65U,78U,65U,82U,89U };
+        const std::vector<uint8_t> data{ 67u,65u,78u,65u,82u,89u };
         const IdxFileFormat idx_file{
-            .magic_number = 0x00000801U,
+            .magic_number = 0x00000801,
             .dimensions = { static_cast<uint32_t>(data.size()) },
             .data = data
         };
@@ -55,14 +50,14 @@ namespace misc::resource_unpacker
     TEST(MiscResourceUnpackerTest, TwoDimensional)
     {
         const std::string filename = PATH_PREF + "ru_test_2.idx2-ubyte";
-        const std::vector<uint8_t> data{ 67U,65U,78U,65U,82U,84U };
+        const std::vector<uint8_t> data{ 67u,65u,78u,65u,82u,84u };
         const IdxFileFormat idx_file{
-            .magic_number = 0x00000802U,
+            .magic_number = 0x00000802,
             .dimensions = { 3u, 2u },
             .data = data
         };
 
-        ///create_idx_file(filename, idx_file);
+        //create_idx_file(filename, idx_file);
 
         EXPECT_EQ(IdxFileUnpacker::unpack(filename), idx_file);
     }
@@ -78,7 +73,7 @@ namespace misc::resource_unpacker
             105u,106u,107u,108u,109u,110u,
         };
         const IdxFileFormat idx_file{
-            .magic_number = 0x00000803U,
+            .magic_number = 0x00000803,
             .dimensions = { 5u, 2u, 3u },
             .data = data
         };

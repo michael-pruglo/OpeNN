@@ -9,13 +9,21 @@ namespace projects::mnist
 
     struct Image
     {
-        Image(Vec pixels = {}) : pixels(std::move(pixels)) {}
+        Image(Vec pixels = {}, size_t height = 0, size_t width = 0)
+            : pixels(std::move(pixels))
+            , height(height)
+            , width(width)
+        {}
+
+        size_t height, width;
         Vec pixels;
     };
+
+    using Label = uint8_t;
 
     struct TrainingSample
     {
         Image image;
-        uint8_t label;
+        Label label;
     };
 }
