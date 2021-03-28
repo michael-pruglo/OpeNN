@@ -97,10 +97,10 @@ void NetworkTrainer::epoch_stochastic_gradient_descent(TrainingConstIt first, Tr
 void NetworkTrainer::epoch_sgd_destructive(TrainingIt first, TrainingIt last, size_t batch_size)
 {
     std::shuffle(first, last, core::rnd_engine);
-    for (auto start = first, end = start; start < last; start = end)
+    for (TrainingIt batch_start = first, batch_end; batch_start < last; batch_start = batch_end)
     {
-        end = std::min(start + batch_size, last);
-        epoch_full_gradient_descent(start, end);
+        batch_end = std::min(batch_start + batch_size, last);
+        epoch_full_gradient_descent(batch_start, batch_end);
     }
 }
 
