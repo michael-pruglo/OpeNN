@@ -2,6 +2,7 @@
 #include <core/utility.hpp>
 #include <list>
 #include <queue>
+#include <array>
 
 namespace core::utility
 {
@@ -164,14 +165,14 @@ namespace core::utility
         {
             EXPECT_TRUE(core::is_equal('c', 'c'));
             EXPECT_TRUE(core::is_equal('c', char(99)));
-            EXPECT_TRUE(core::is_equal("fluff", "fluff"));
+            EXPECT_TRUE(core::is_equal(std::string("fluff"), std::string("fluff")));
             EXPECT_TRUE(core::is_equal(std::vector<int>{}, std::vector<int>{}));
             struct Comparable { bool operator==(const Comparable& other) const { return true; } };
             EXPECT_TRUE(core::is_equal(Comparable{}, Comparable{}));
             EXPECT_TRUE(core::is_equal(std::vector<Comparable>(6), std::vector<Comparable>(6)));
 
             EXPECT_FALSE(core::is_equal('t', 'f'));
-            EXPECT_FALSE(core::is_equal("fluff", "12345"));
+            EXPECT_FALSE(core::is_equal("address", "address"));
         }
     }
 

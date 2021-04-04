@@ -95,7 +95,7 @@ Matrix core::Matrix::t() const
 
 
 
-
+#include <xtensor-blas/xlinalg.hpp>
 Vec core::operator+(const Vec& v1, const Vec& v2)
 {
     assert(v1.size() == v2.size());

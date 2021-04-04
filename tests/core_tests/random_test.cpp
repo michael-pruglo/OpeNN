@@ -1,6 +1,7 @@
 #include <tests/common/helpers.hpp>
 #include <core/random.hpp>
 #include <algorithm>
+#include <array>
 
 namespace core::random
 {
@@ -29,27 +30,34 @@ namespace core::random
         return sum / n;
     }
 
-    void test_interval_d(float_t l, float_t r)
+    constexpr const int SAMPLE_SIZE = 100'000, ZONES = 100;
+    size_t zone_idx(float_t l, float_t r, float_t val)
     {
-        constexpr const int SAMPLE_SIZE = 100'000, ZONES = 100;
-        const auto& zone_idx = [r,l](float_t val) -> size_t {
-            const float_t zone_width = (r-l)/ZONES;
-            const size_t idx = std::floor((val - l) / zone_width);
-            return idx;
-        };
+        const float_t zone_width = (r-l) / ZONES;
+        return zone_width > 1e-7 ? std::floor((val-l) / zone_width) : 0.;
+    };
 
-        float_t max_generated = l, min_generated = r;
-        std::array<int, ZONES> amount_by_zone{};
+    template<typename RNGen>
+    void test_interval(auto l, auto r, RNGen random_gen)
+    {
+        auto max_generated = l, min_generated = r;
+        std::array<int, ZONES+1> amount_by_zone{};
+        amount_by_zone.fill(0);
+
         for (int i = 0; i < SAMPLE_SIZE; ++i)
         {
-            const auto gen = core::rand_d(l, r);
+            const auto gen = random_gen(l, r);
+            EXPECT_GE(gen, l);
+            EXPECT_LE(gen, r);
 
             min_generated = std::min(gen, min_generated);
             max_generated = std::max(gen, max_generated);
 
-            ++amount_by_zone[zone_idx(gen)];
+            const auto idx = zone_idx(l, r, gen);
+            ASSERT_LT(idx, amount_by_zone.size());
+            ++amount_by_zone.at(idx);
         }
-        const float_t tolerance = 1000./SAMPLE_SIZE;
+        const auto tolerance = (r-l) * 5. / 100.;
         EXPECT_NEAR(min_generated, l, tolerance);
         EXPECT_NEAR(max_generated, r, tolerance);
 
@@ -58,53 +66,24 @@ namespace core::random
         EXPECT_LE(diversity(amount_by_zone.begin(), amount_by_zone.end()), .05 * SAMPLE_SIZE/ZONES) << ss.str();
     }
 
-    void test_interval_i(int l, int r)
-    {
-        constexpr const int SAMPLE_SIZE = 100'000, ZONES = 100;
-        const auto& zone_idx = [r,l](int val) -> size_t {
-            const float_t zone_width = static_cast<float_t>(r-l)/ZONES;
-            const size_t idx = (val-l)/zone_width;
-            return idx;
-        };
-
-        int max_generated = l, min_generated = r;
-        std::array<int, ZONES> amount_by_zone{};
-        for (int i = 0; i < SAMPLE_SIZE; ++i)
-        {
-            const auto gen = core::rand_i(l, r);
-
-            min_generated = std::min(gen, min_generated);
-            max_generated = std::max(gen, max_generated);
-
-            ++amount_by_zone[zone_idx(gen)];
-        }
-        const int tolerance = (r-l) * 5 / 100;
-        EXPECT_LE(min_generated, l+tolerance);
-        EXPECT_GE(max_generated, r-tolerance);
-
-        std::ostringstream ss;
-        ss << amount_by_zone;
-        EXPECT_LE(diversity(amount_by_zone.begin(), amount_by_zone.end()), .05 * SAMPLE_SIZE/ZONES) << ss.str();
-    }
-
     TEST(CoreRandomTest, RandD)
     {
-        test_interval_d(0.0, 1.0);
-        test_interval_d(-1.0, 1.0);
-        test_interval_d(1.76, 1.76);
-        test_interval_d(0.0, 100.0);
-        test_interval_d(95.0, 178.99);
-        test_interval_d(-17.0, -4.34);
+        test_interval(0.0, 1.0, core::rand_d<float_t>);
+        test_interval(-1.0, 1.0, core::rand_d<float_t>);
+        test_interval(1.76, 1.76, core::rand_d<float_t>);
+        test_interval(0.0, 100.0, core::rand_d<float_t>);
+        test_interval(95.0, 178.99, core::rand_d<float_t>);
+        test_interval(-17.0, -4.34, core::rand_d<float_t>);
     }
 
     TEST(CoreRandomTest, RandI)
     {
-        test_interval_i(0, 10);
-        test_interval_i(-10, 10);
-        test_interval_i(-64, 60);
-        test_interval_i(-64, -13);
-        test_interval_i(14, 14);
-        test_interval_i(-1234567, 12345678);
+        test_interval(0, 10, core::rand_i<int>);
+        test_interval(-10, 10, core::rand_i<int>);
+        test_interval(-64, 60, core::rand_i<int>);
+        test_interval(-64, -13, core::rand_i<int>);
+        test_interval(14, 14, core::rand_i<int>);
+        test_interval(-1234567, 12345678, core::rand_i<int>);
     }
 
     TEST(CoreRandomTest, RandVec)

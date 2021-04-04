@@ -51,7 +51,8 @@ namespace openn::types
 
     namespace nn_constructors
     {
-        void expect_layer_structure(auto layer, size_t prev_size, size_t curr_size, ActivationFType activ_type)
+        using LayerT = decltype(std::declval<TransparentFFN>().get_layers().front());
+        void expect_layer_structure(LayerT layer, size_t prev_size, size_t curr_size, ActivationFType activ_type)
         {
             EXPECT_EQ(layer.bias.size(), curr_size);
             EXPECT_EQ(layer.w.rows(), curr_size);

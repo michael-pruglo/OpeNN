@@ -51,11 +51,15 @@ void misc::IdxFileUnpacker::read_data(std::ifstream& infile, IdxFileFormat& ret)
     ret.data.resize(expected_data_items);
     while (true)
     {
-        read_bytes(infile, ret.data[n]);
+        decltype(ret.data)::value_type data;
+        read_bytes(infile, data);
         if (infile.eof())
             break;
         else
-            ++n;
+        {
+            assert(n < ret.data.size() && "file has more data than specified in the header");
+            ret.data.at(n++) = std::move(data);
+        }
     }
 
     assert(expected_data_items == n);
