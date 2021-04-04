@@ -3,9 +3,6 @@
 #include <core/utility.hpp>
 
 using namespace openn;
-using core::operator+;
-using core::operator/;
-using core::operator*;
 
 namespace
 {
@@ -49,14 +46,14 @@ Vec openn::derivative_f(ActivationFType type, const Vec& v)
     return core::map(f, v);
 }
 
-void WnB::operator+=(const WnB& other)
+void openn::operator+=(Gradient& grad, const Gradient& addend)
 {
-    w = w + other.w;
-    bias = bias + other.bias;
+    grad.w = grad.w + addend.w;
+    grad.bias = grad.bias + addend.bias;
 }
 
-void WnB::operator/=(core::float_t x)
+void openn::operator/=(Gradient& grad, float_t divisor)
 {
-    w = w / x;
-    bias = bias / x;
+    grad.w = grad.w / divisor;
+    grad.bias = grad.bias / divisor;
 }

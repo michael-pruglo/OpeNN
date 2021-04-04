@@ -4,42 +4,10 @@
 #include <type_traits>
 #include <limits>
 #include <cmath>
+#include <xtensor/xtensor.hpp>
 
 namespace core
 {
-    namespace detail
-    {
-        template<typename, typename = void>
-        struct is_iterable : std::false_type {};
-        template<typename T>
-        struct is_iterable<T, std::void_t<
-            decltype(std::declval<T>().begin()),
-            decltype(std::declval<T>().end()),
-            decltype(++std::declval<decltype(std::declval<T&>().begin())&>()),
-            decltype(std::declval<T>().begin() != std::declval<T>().end())
-        >> : std::true_type {};
-    }
-
-    template<typename LinearContainer>
-    constexpr
-    typename std::enable_if_t<
-        detail::is_iterable<LinearContainer>::value
-        && !std::is_same_v<typename LinearContainer::value_type, char>,
-    std::ostream&>
-    operator<<(std::ostream& os, const LinearContainer& c)
-    {
-        os << "[ ";
-        for (auto it = c.begin(); it != c.end(); )
-        {
-            os << *it;
-            if (++it != c.end())
-                os << ", ";
-        }
-        os << " ]";
-        return os;
-    }
-
-
     template<typename T>
     constexpr
     typename std::enable_if_t<!std::is_floating_point_v<T>, bool>
@@ -58,32 +26,34 @@ namespace core
     }
 
 
-    // generates an `std::vector<T>` of length `n`
+    // generates a vector of length `n`
     // generator is independent from the index: `v[i] = g()`
     template<typename Generator>
     auto generate(size_t n, const Generator& g)
     {
-        std::vector<decltype(g())> res;
-        res.reserve(n);
+        using Tensor = xt::xtensor<decltype(g()), 1>;
+        typename Tensor::shape_type shape = {n};
+        Tensor res(shape);
         for (size_t i = 0; i < n; ++i)
-            res.emplace_back(g());
+            res[i] = g();
         return res;
     }
 
-    // generates an `std::vector<T>` of length `n`
+    // generates a vector of length `n`
     // generator is dependent on the index: `v[i] = g(i)`
     template<typename Generator>
     auto generate_i(size_t n, const Generator& g)
     {
-        std::vector<decltype(g(0))> res;
-        res.reserve(n);
+        using Tensor = xt::xtensor<decltype(g(0)), 1>;
+        typename Tensor::shape_type shape = {n};
+        Tensor res(shape);
         for (size_t i = 0; i < n; ++i)
-            res.emplace_back(g(i));
+            res[i] = g(i);
         return res;
     }
 
-    template<typename MapFunc, typename T>
-    auto map(const MapFunc& map_func, const std::vector<T>& v)
+    template<typename MapFunc, typename Container>
+    auto map(const MapFunc& map_func, const Container& v)
     {
         return generate_i(v.size(), [&](size_t i){ return map_func(v[i]); });
     }

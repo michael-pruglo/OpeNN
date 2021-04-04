@@ -1,7 +1,6 @@
 #pragma once
 
 #include <openn/types.hpp>
-#include <nlohmann/json.hpp>
 
 namespace openn
 {

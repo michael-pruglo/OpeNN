@@ -1,99 +1,10 @@
 #include <tests/common/helpers.hpp>
 #include <core/utility.hpp>
-#include <list>
 #include <queue>
 #include <array>
 
 namespace core::utility
 {
-    namespace vec_output
-    {
-        struct Printable42{};
-        void operator<<(std::ostream& os, const Printable42& _){ os<<"42"; }
-
-        TEST(CoreUtilityTest, VecOutputEmpty)
-        {
-            using core::operator<<;
-
-            { std::ostringstream ss; ss << std::vector<int>{};              EXPECT_EQ(ss.str(), "[  ]"); }
-            { std::ostringstream ss; ss << std::vector<float>{};            EXPECT_EQ(ss.str(), "[  ]"); }
-            { std::ostringstream ss; ss << std::vector<std::string>{};      EXPECT_EQ(ss.str(), "[  ]"); }
-            { std::ostringstream ss; ss << std::vector<std::vector<int>>{}; EXPECT_EQ(ss.str(), "[  ]"); }
-            { std::ostringstream ss; ss << std::vector<Printable42>{};      EXPECT_EQ(ss.str(), "[  ]"); }
-        }
-
-        TEST(CoreUtilityTest, VecOutputInt)
-        {
-            using core::operator<<;
-
-            { std::ostringstream ss; ss << std::vector<int>{ 1 };           EXPECT_EQ(ss.str(), "[ 1 ]"); }
-            { std::ostringstream ss; ss << std::vector<int>{ -91 };         EXPECT_EQ(ss.str(), "[ -91 ]"); }
-            { std::ostringstream ss; ss << std::vector<int>{ 0 };           EXPECT_EQ(ss.str(), "[ 0 ]"); }
-            { std::ostringstream ss; ss << std::vector<int>{ 15, 87 };      EXPECT_EQ(ss.str(), "[ 15, 87 ]"); }
-            { std::ostringstream ss; ss << std::vector<int>{ -14, 2 };      EXPECT_EQ(ss.str(), "[ -14, 2 ]"); }
-            { std::ostringstream ss; ss << std::vector<int>{ -5, 0, 5 };    EXPECT_EQ(ss.str(), "[ -5, 0, 5 ]"); }
-            { std::ostringstream ss; ss << std::vector<int>{ -51, 1234224828, 0, -89234781 }; EXPECT_EQ(ss.str(), "[ -51, 1234224828, 0, -89234781 ]"); }
-        }
-
-        TEST(CoreUtilityTest, VecOutputFloating)
-        {
-            using core::operator<<;
-
-            { std::ostringstream ss; ss << std::vector<double>{ 1. };                   EXPECT_EQ(ss.str(), "[ 1 ]"); }
-            { std::ostringstream ss; ss << std::vector<double>{ -91.7842144 };          EXPECT_EQ(ss.str(), "[ -91.7842 ]"); }
-            { std::ostringstream ss; ss << std::vector<double>{ 91.7842144 };           EXPECT_EQ(ss.str(), "[ 91.7842 ]"); }
-            { std::ostringstream ss; ss << std::vector<double>{ -12345.678901234 };     EXPECT_EQ(ss.str(), "[ -12345.7 ]"); }
-            { std::ostringstream ss; ss << std::vector<double>{ -12345678.901234 };     EXPECT_EQ(ss.str(), "[ -1.23457e+07 ]"); }
-            { std::ostringstream ss; ss << std::vector<double>{ -91.000001 };           EXPECT_EQ(ss.str(), "[ -91 ]"); }
-            { std::ostringstream ss; ss << std::vector<double>{ 0. };                   EXPECT_EQ(ss.str(), "[ 0 ]"); }
-            { std::ostringstream ss; ss << std::vector<double>{ 0.000007 };             EXPECT_EQ(ss.str(), "[ 7e-06 ]"); }
-            { std::ostringstream ss; ss << std::vector<double>{ 15., 87. };             EXPECT_EQ(ss.str(), "[ 15, 87 ]"); }
-            { std::ostringstream ss; ss << std::vector<double>{ -14.114123413, 2.431 }; EXPECT_EQ(ss.str(), "[ -14.1141, 2.431 ]"); }
-            { std::ostringstream ss; ss << std::vector<double>{ 123456789.11, 0.000000091, 5.470000000 }; EXPECT_EQ(ss.str(), "[ 1.23457e+08, 9.1e-08, 5.47 ]"); }
-            { std::ostringstream ss; ss << std::vector<double>{ -51., 1234224828., 0., -89234781. }; EXPECT_EQ(ss.str(), "[ -51, 1.23422e+09, 0, -8.92348e+07 ]"); }
-        }
-
-        TEST(CoreUtilityTest, VecOutputRecursive)
-        {
-            using core::operator<<;
-
-            { std::ostringstream ss; ss << std::vector<std::vector<int>>{ {1,-2},{} };  EXPECT_EQ(ss.str(), "[ [ 1, -2 ], [  ] ]"); }
-            { std::ostringstream ss; ss << std::vector<std::vector<int>>{ {1,2},{-9,1283} };  EXPECT_EQ(ss.str(), "[ [ 1, 2 ], [ -9, 1283 ] ]"); }
-            { std::ostringstream ss; ss << std::vector<std::vector<int>>{ {1,4},{1,0},{-1,9},{-9,1283} };  EXPECT_EQ(ss.str(), "[ [ 1, 4 ], [ 1, 0 ], [ -1, 9 ], [ -9, 1283 ] ]"); }
-        }
-
-        TEST(CoreUtilityTest, VecOutputStruct)
-        {
-            using core::operator<<;
-
-            { std::ostringstream ss; ss << std::vector<Printable42>(1); EXPECT_EQ(ss.str(), "[ 42 ]"); }
-            { std::ostringstream ss; ss << std::vector<Printable42>(2); EXPECT_EQ(ss.str(), "[ 42, 42 ]"); }
-            { std::ostringstream ss; ss << std::vector<Printable42>(5); EXPECT_EQ(ss.str(), "[ 42, 42, 42, 42, 42 ]"); }
-        }
-
-        TEST(CoreUtilityTest, VecOutputSFINAE)
-        {
-            using core::operator<<;
-
-            EXPECT_TRUE(core::detail::is_iterable<std::vector<int>>::value);
-            EXPECT_TRUE(core::detail::is_iterable<decltype(std::array<int,5>{})>::value);
-            EXPECT_TRUE(core::detail::is_iterable<std::list<int>>::value);
-            EXPECT_FALSE(core::detail::is_iterable<decltype(std::queue<int>{})>::value);
-            EXPECT_FALSE(core::detail::is_iterable<decltype(std::pair<int, int>{})>::value);
-
-            std::ostringstream ss;
-
-            //should compile
-            ss << std::vector<int>{ 1, 2, 3, 4, 5 };
-            ss << std::array<int, 5>{ 1, 2, 3, 4, 5 };
-            ss << std::list<int>{ 1, 2 };
-
-            //should NOT compile
-            //ss << std::queue<int>{};
-            //ss << std::pair<int, int>{};
-        }
-    }
-
     namespace equal
     {
         TEST(CoreUtilityTest, IsEqualInteger)
@@ -175,7 +86,7 @@ namespace core::utility
             EXPECT_FALSE(core::is_equal("address", "address"));
         }
     }
-
+    /*
     namespace generate
     {
         TEST(CoreUtilityTest, Generate)
@@ -260,4 +171,5 @@ namespace core::utility
             EXPECT_EQ(core::map([](std::string _){ return std::string("str"); }, std::vector<std::string>{}), std::vector<std::string>{});
         }
     }
+    */
 }

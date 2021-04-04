@@ -1,7 +1,7 @@
 #pragma once
 
 #include <core/types.hpp>
-#include <functional>
+#include <xtensor-blas/xlinalg.hpp>
 
 namespace openn
 {
@@ -17,13 +17,13 @@ namespace openn
 
     struct WnB
     {
-        void operator+=(const WnB& other);
-        void operator/=(float_t x);
-
         Matrix w;
         Vec bias;
     };
     using Gradient = WnB;
+
+    void operator+=(Gradient& grad, const Gradient& addend);
+    void operator/=(Gradient& grad, float_t divisor);
 
     class NeuralNetwork
     {

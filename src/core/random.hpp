@@ -1,7 +1,5 @@
 #pragma once
 
-#include <core/types.hpp>
-#include <core/utility.hpp>
 #include <random>
 #include <ctime>
 #include <type_traits>
@@ -28,16 +26,5 @@ namespace core
     {
         std::uniform_int_distribution<Integral> distribution(min, max);
         return distribution(rnd_engine);
-    }
-
-
-    inline Vec rand_vec(size_t n, float_t min = -10.0, float_t max = 10.0)
-    {
-        return core::generate(n, [min, max]{ return rand_d(min, max); });
-    }
-
-    inline Matrix rand_matrix(size_t cols, size_t rows, float_t min = -10.0, float_t max = 10.0)
-    {
-        return core::generate(cols, [rows, min, max]{ return rand_vec(rows, min, max); });
     }
 }

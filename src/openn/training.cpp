@@ -1,9 +1,9 @@
 #include <openn/training.hpp>
 #include <core/random.hpp>
 #include <core/algebra.hpp>
+#include <core/utility.hpp>
 
 using namespace openn;
-using core::operator+;
 
 namespace
 {
@@ -129,7 +129,7 @@ namespace
         for (const auto& [_, expected]: *test_data)
         {
             const auto count = [&expected](float_t x){
-                return std::count_if(expected.begin(), expected.end(), [x](auto y){ return core::is_equal(y, x); });
+                return std::count_if(expected.begin(), expected.end(), [x](float_t y){ return core::is_equal(y, x); });
             };
 
             if (count(1.0) != 1 || count(0.0) != expected.size()-1)

@@ -1,22 +1,20 @@
 #pragma once
 
-#include <vector>
+#include <xtensor/xtensor.hpp>
+#include <core/random.hpp>
 
 namespace core
 {
     using float_t = double;
+    using Vec     = xt::xtensor<float_t, 1>;
+    using Matrix  = xt::xtensor<float_t, 2>;
 
-    using Vec = std::vector<float_t>;
-
-    using BaseMatrix = std::vector<std::vector<float_t>>;
-    class Matrix : public BaseMatrix
+    template<typename Tensor>
+    Tensor rand_tensor(typename Tensor::shape_type shape, float_t min = 0.0, float_t max = 1.0)
     {
-    public:
-        using BaseMatrix::BaseMatrix;
-        Matrix(BaseMatrix v) : BaseMatrix(std::move(v)) {}
-
-        size_t rows() const { return size(); }
-        size_t cols() const { return empty() ? 0 : begin()->size(); }
-        Matrix t() const; //transpose
-    };
+        Tensor res(shape);
+        for (auto& x: res)
+            x = rand_d(min, max);
+        return res;
+    }
 }
