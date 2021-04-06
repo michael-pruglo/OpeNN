@@ -4,38 +4,39 @@
 
 using namespace core;
 
-core::float_t core::sigmoid(float_t x)
+core::Vec core::sigmoid(const Vec& x)
 {
-    return 1. / (1. + std::exp(-x));
+    return 1. / (1. + xt::exp(-x));
 }
-core::float_t core::relu(float_t x)
+core::Vec core::relu(const Vec& x)
 {
-    return std::max(0., x);
+    Vec zeros = xt::zeros<float_t>({x.size()});
+    return xt::maximum(zeros, x);
 }
-core::float_t core::softplus(float_t x)
+core::Vec core::softplus(const Vec& x)
 {
-    return std::log(1. + std::exp(x));
+    return xt::log(1. + xt::exp(x));
 }
-core::float_t core::tanh(float_t x)
+core::Vec core::tanh(const Vec& x)
 {
-    return std::tanh(x);
+    return xt::tanh(x);
 }
 
-core::float_t core::der_sigmoid(float_t x)
+core::Vec core::der_sigmoid(const Vec& x)
 {
     return sigmoid(x)*(1. - sigmoid(x));
 }
-core::float_t core::der_relu(float_t x)
+core::Vec core::der_relu(const Vec& x)
 {
     return x >= 0.;
 }
-core::float_t core::der_softplus(float_t x)
+core::Vec core::der_softplus(const Vec& x)
 {
-    return 1. / (1. + std::exp(-x));
+    return 1. / (1. + xt::exp(-x));
 }
-core::float_t core::der_tanh(float_t x)
+core::Vec core::der_tanh(const Vec& x)
 {
-    return 1. - std::pow(std::tanh(x), 2);
+    return 1. - xt::pow(xt::tanh(x), 2);
 }
 
 core::float_t core::mean_squared_eror(const Vec& a, const Vec& y)

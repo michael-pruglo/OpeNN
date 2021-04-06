@@ -7,7 +7,7 @@ using namespace openn;
 namespace
 {
     using openn::float_t;
-    using AlgebraicF = std::function<float_t(float_t)>;
+    using AlgebraicF = std::function<Vec(const Vec&)>;
 
     const std::unordered_map<ActivationFType, AlgebraicF> ACTIVATION_FUNCTIONS = {
         { ActivationFType::SIGMOID,  core::sigmoid },
@@ -24,26 +24,16 @@ namespace
     };
 }
 
-core::float_t openn::activation_f(ActivationFType type, float_t x)
-{
-    const auto& f = ACTIVATION_FUNCTIONS.at(type);
-    return f(x);
-}
 Vec openn::activation_f(ActivationFType type, const Vec& v)
 {
     const auto& f = ACTIVATION_FUNCTIONS.at(type);
-    return core::map(f, v);
+    return f(v);
 }
 
-core::float_t openn::derivative_f(ActivationFType type, float_t x)
-{
-    const auto& f = DERIVATIVE_FUNCTIONS.at(type);
-    return f(x);
-}
 Vec openn::derivative_f(ActivationFType type, const Vec& v)
 {
     const auto& f = DERIVATIVE_FUNCTIONS.at(type);
-    return core::map(f, v);
+    return f(v);
 }
 
 void openn::operator+=(Gradient& grad, const Gradient& addend)

@@ -5,66 +5,41 @@ namespace core::algebra
 {
     using core::float_t;
 
-    float_t rand_float_t()
-    {
-        return rand()%9001/1000.0;
-    }
-
     namespace activation_f
     {
         TEST(CoreAlgebraDeathTest, ActivationSigmoid)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(core::sigmoid(x), exp, 1e-11);
-            };
-            tst(-20.00, 0.00000000206);
-            tst(-15.39, 0.00000020711);
-            tst( -5.67, 0.00343601835);
-            tst( -2.06, 0.11304583007);
-            tst( -0.53, 0.37051688803);
-            tst(  0.00, 0.5);
-            tst(  0.44, 0.60825903075);
-            tst(  2.11, 0.89187133324);
-            tst(  6.55, 0.99857192671);
-            tst( 14.61, 0.99999954819);
-            tst( 20.00, 0.99999999794);
+            expect_double_vec_eq(
+                core::sigmoid({-20.00, -15.39, -5.67, -2.06, -0.53, 0.00, 0.44, 2.11, 6.55, 14.61, 20.00}),
+                {0.00000000206,0.00000020711,0.00343601835,0.11304583007,0.37051688803,0.5,0.60825903075,0.89187133324,0.99857192671,0.99999954819,0.99999999794},
+                1e-11
+            );
         }
 
         TEST(CoreAlgebraDeathTest, ActivationReLU)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_DOUBLE_EQ(core::relu(x), exp);
-            };
-            tst(-20.00, 0.);
-            tst( -4.00, 0.);
-            tst(  0.00, 0.);
-            tst(  3.14, 3.14);
-            tst( 17.00, 17.);
+            expect_double_vec_eq(
+                core::relu({-20.00, -4.00, 0.00, 3.14, 17.00}),
+                {0.,0.,0.,3.14,17.}
+            );
         }
 
         TEST(CoreAlgebraDeathTest, ActivationSoftplus)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(core::softplus(x), exp, 1e-7);
-            };
-            tst( 1.0, 1.31326163);
-            tst(-0.5, 0.474076986);
-            tst( 3.4, 3.43282847042);
-            tst(-2.1, 0.115519524);
-            tst( 0.0, 0.693147182);
-            tst(-6.5, 0.00150233845);
+            expect_double_vec_eq(
+                core::softplus({1.0, -0.5, 3.4, -2.1, 0.0, -6.5}),
+                {1.31326163,0.474076986,3.43282847042,0.115519524,0.693147182,0.00150233845},
+                1e-7
+            );
         }
 
         TEST(CoreAlgebraDeathTest, ActivationTanh)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(core::tanh(x), exp, 1e-11);
-            };
-            tst(-7.80, -0.999999664235);
-            tst(-0.75, -0.635148952387);
-            tst( 0.00, 0.);
-            tst( 1.00, 0.761594155956);
-            tst( 3.14, 0.996260204946);
+            expect_double_vec_eq(
+                core::tanh({-7.80, -0.75, 0.00, 1.00, 3.14}),
+                {-0.999999664235,-0.635148952387,0.,0.761594155956,0.996260204946},
+                1e-11
+            );
         }
     }
 
@@ -72,62 +47,38 @@ namespace core::algebra
     {
         TEST(CoreAlgebraDeathTest, DerivativeSigmoid)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(core::der_sigmoid(x), exp, 1e-8);
-            };
-            tst(-5.0, .0066480567);
-            tst(-1.4, .1586849);
-            tst(-0.3, .24445831);
-            tst(0.0, 0.25);
-            tst(.6, .22878424);
-            tst(1.7, .13060575);
-            tst(19.0, 5.602796e-9);
+            expect_double_vec_eq(
+                core::der_sigmoid({-5.0, -1.4, -0.3, 0.0, .6, 1.7, 19.0}),
+                {.0066480567,.1586849,.24445831,0.25,.22878424,.13060575,5.602796e-9},
+                1e-8
+            );
         }
 
         TEST(CoreAlgebraDeathTest, DerivativeReLU)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_DOUBLE_EQ(core::der_relu(x), exp);
-            };
-            tst(-17.45, 0.);
-            tst(-2.5, 0.);
-            tst(-1e-11, 0.);
-            tst(0., 1.);
-            tst(1e-11, 1.);
-            tst(10., 1.);
-            tst(182., 1.);
+
+            expect_double_vec_eq(
+                core::der_relu({-17.45, -2.5, -1e-11, 0., 1e-11, 10., 182.}),
+                {0., 0., 0., 1., 1., 1., 1.}
+            );
         }
 
         TEST(CoreAlgebraDeathTest, DerivativeSoftplus)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(core::der_softplus(x), exp, 1e-11);
-            };
-            tst(-20.00, 0.00000000206);
-            tst(-15.39, 0.00000020711);
-            tst( -5.67, 0.00343601835);
-            tst( -2.06, 0.11304583007);
-            tst( -0.53, 0.37051688803);
-            tst(  0.00, 0.5);
-            tst(  0.44, 0.60825903075);
-            tst(  2.11, 0.89187133324);
-            tst(  6.55, 0.99857192671);
-            tst( 14.61, 0.99999954819);
-            tst( 20.00, 0.99999999794);
+            expect_double_vec_eq(
+                core::der_softplus({-20.00, -15.39, -5.67, -2.06, -0.53, 0.00, 0.44, 2.11, 6.55, 14.61, 20.00}),
+                {0.00000000206,0.00000020711,0.00343601835,0.11304583007,0.37051688803,0.5,0.60825903075,0.89187133324,0.99857192671,0.99999954819,0.99999999794},
+                1e-11
+            );
         }
 
         TEST(CoreAlgebraDeathTest, DerivativeTanh)
         {
-            const auto tst = [](float_t x, float_t exp){
-                EXPECT_NEAR(core::der_tanh(x), exp, 1e-8);
-            };
-            tst(-5.0, 1.815832e-4);
-            tst(-1.4, 0.21615246);
-            tst(-0.3, 0.91513696);
-            tst(0.0, 1.0);
-            tst(.6, .71157776);
-            tst(1.7, .12500987);
-            tst(19.0, 2.220446e-16);
+            expect_double_vec_eq(
+                core::der_tanh({-5.0, -1.4, -0.3, 0.0, .6, 1.7, 19.0}),
+                {1.815832e-4,0.21615246,0.91513696,1.0,.71157776,.12500987,2.220446e-16},
+                1e-8
+            );
         }
     }
 

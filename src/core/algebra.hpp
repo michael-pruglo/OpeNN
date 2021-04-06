@@ -4,15 +4,15 @@
 
 namespace core
 {
-    float_t sigmoid (float_t x);
-    float_t relu    (float_t x);
-    float_t softplus(float_t x);
-    float_t tanh    (float_t x);
+    Vec sigmoid (const Vec& x);
+    Vec relu    (const Vec& x);
+    Vec softplus(const Vec& x);
+    Vec tanh    (const Vec& x);
 
-    float_t der_sigmoid (float_t x);
-    float_t der_relu    (float_t x);
-    float_t der_softplus(float_t x);
-    float_t der_tanh    (float_t x);
+    Vec der_sigmoid (const Vec& x);
+    Vec der_relu    (const Vec& x);
+    Vec der_softplus(const Vec& x);
+    Vec der_tanh    (const Vec& x);
 
     //`a` = given, `y` = expected
     float_t mean_squared_eror(const Vec& a, const Vec& y);
