@@ -27,4 +27,15 @@ namespace core
         std::uniform_int_distribution<Integral> distribution(min, max);
         return distribution(rnd_engine);
     }
+
+    template<typename Tensor>
+    inline
+    Tensor
+    rand_tensor(typename Tensor::shape_type shape, float_t min = 0.0, float_t max = 1.0)
+    {
+        Tensor res(shape);
+        for (auto& x: res)
+            x = rand_d(min, max);
+        return res;
+    }
 }

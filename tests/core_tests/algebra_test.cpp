@@ -3,8 +3,6 @@
 
 namespace core::algebra
 {
-    using core::float_t;
-
     namespace activation_f
     {
         TEST(CoreAlgebraDeathTest, ActivationSigmoid)

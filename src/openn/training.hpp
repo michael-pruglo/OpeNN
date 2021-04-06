@@ -39,6 +39,8 @@ namespace openn
     class NetworkTrainer
     {
     public:
+        virtual         ~NetworkTrainer() = default;
+
         //initialization
         virtual void    set_network            (std::shared_ptr<NeuralNetwork> network) = 0;
         virtual void    set_hyper_parameters   (TrainingHyperParameters hyper_parameters) = 0;
@@ -63,6 +65,8 @@ namespace openn
     class FeedForwardNetworkTrainer : public NetworkTrainer
     {
     public:
+        virtual ~FeedForwardNetworkTrainer() = default;
+
         void    set_network            (std::shared_ptr<NeuralNetwork> network) override;
         void    set_hyper_parameters   (TrainingHyperParameters hyper_parameters) override;
         void    set_training_data      (TrainingDataPtr training_data) override;
@@ -74,7 +78,7 @@ namespace openn
         float_t eval_average_cost() override;
         size_t  eval_correct_guesses() override;
 
-    private:
+    protected:
         void epoch_full_gradient_descent       (TrainingConstIt first, TrainingConstIt last);
         void epoch_stochastic_gradient_descent (TrainingConstIt first, TrainingConstIt last, size_t batch_size);
         void epoch_online_learning             (TrainingConstIt first, TrainingConstIt last);

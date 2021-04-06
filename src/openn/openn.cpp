@@ -1,4 +1,5 @@
 #include <openn/openn.hpp>
+#include <core/random.hpp>
 
 using namespace openn;
 using xt::linalg::dot;
