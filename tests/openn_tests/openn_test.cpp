@@ -1,6 +1,6 @@
 #include <tests/openn_tests/helpers.hpp>
 
-namespace openn::types
+namespace openn
 {
     TEST(OpennTest, NeuralNetComputationSmallSigmoidMultiInput)
     {
@@ -36,7 +36,7 @@ namespace openn::types
 
         tffn.forward(input);
         for (size_t i = 1; i < N; ++i)
-            expect_double_vec_eq(tffn.get_a()[i], intermediate_results[i], 0.01);
+            expect_double_vec_eq(tffn.get_a()[i], intermediate_results[i], tolerance);
     }
 
     TEST(OpennTest, NeuralNetComputationSmallSigmoid)

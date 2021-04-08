@@ -1,6 +1,5 @@
 #include <tests/common/helpers.hpp>
 #include <tests/openn_tests/helpers.hpp>
-#include <core/algebra.hpp>
 #include <core/random.hpp>
 
 namespace openn::types
