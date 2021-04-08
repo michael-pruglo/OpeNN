@@ -15,7 +15,7 @@ FeedForwardNetwork::FeedForwardNetwork(
             Matrixes weights({L});
 
             for (size_t i = 1; i < L; ++i)
-                weights[i-1] = core::rand_tensor<Matrix>({layer_sizes[i], layer_sizes[i-1]});
+                weights[i] = core::rand_tensor<Matrix>({layer_sizes[i], layer_sizes[i-1]});
 
             return weights;
         }(),
@@ -24,7 +24,7 @@ FeedForwardNetwork::FeedForwardNetwork(
             Vectors biases({L});
 
             for (size_t i = 1; i < L; ++i)
-                biases[i-1] = core::rand_tensor<Vec>({layer_sizes[i]});
+                biases[i] = core::rand_tensor<Vec>({layer_sizes[i]});
 
             return biases;
         }(),
