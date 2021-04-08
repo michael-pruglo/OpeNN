@@ -1,5 +1,4 @@
 #include <tests/openn_tests/helpers.hpp>
-#include <openn/openn.hpp>
 
 namespace openn::types
 {

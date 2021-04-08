@@ -11,7 +11,7 @@ FeedForwardNetwork::FeedForwardNetwork(
 )
     : FeedForwardNetwork(
         [&layer_sizes](){
-            const size_t L = layer_sizes.size();
+            const size_t L = layer_sizes.size() - 1;
             Matrixes weights({L});
 
             for (size_t i = 1; i < L; ++i)
@@ -20,7 +20,7 @@ FeedForwardNetwork::FeedForwardNetwork(
             return weights;
         }(),
         [&layer_sizes](){
-            const size_t L = layer_sizes.size();
+            const size_t L = layer_sizes.size() - 1;
             Vectors biases({L});
 
             for (size_t i = 1; i < L; ++i)
@@ -36,7 +36,7 @@ FeedForwardNetwork::FeedForwardNetwork(
 FeedForwardNetwork::FeedForwardNetwork(const std::vector<size_t>& layer_sizes, ActivationFType universal_activation)
     : FeedForwardNetwork(
         layer_sizes,
-        std::vector<ActivationFType>(layer_sizes.size(), universal_activation)
+        std::vector<ActivationFType>(layer_sizes.size()-1, universal_activation)
     )
 {
 }
@@ -45,14 +45,14 @@ FeedForwardNetwork::FeedForwardNetwork(Matrixes weights, Vectors biases, std::ve
     : layers_count(activation_types.size()+1)
     , w(std::move(weights))
     , b(std::move(biases))
-    , z({layers_count})
-    , a({layers_count})
+    , z({layers_count - 1})
+    , a({layers_count - 1})
     , activation_types(std::move(activation_types))
 {
-    assert(weights.size() == layers_count);
-    assert(biases.size()  == layers_count);
+    assert(w.size() == layers_count - 1);
+    assert(b.size() == layers_count - 1);
 
-    for (size_t i = 0; i < layers_count; ++i)
+    for (size_t i = 0; i < layers_count - 1; ++i)
     {
         z[i] = xt::zeros_like(b[i]);
         a[i] = xt::zeros_like(b[i]);
@@ -66,14 +66,13 @@ FeedForwardNetwork::FeedForwardNetwork(Matrixes weights, Vectors biases, Activat
         std::vector<ActivationFType>(weights.size(), universal_activation)
     )
 {
-    assert(weights.size() == biases.size());
 }
 
 
 Vec FeedForwardNetwork::forward(const Vec& input)
 {
     a[0] = input;
-    for (int i = 1; i < layers_count; ++i)
+    for (int i = 1; i < layers_count - 1; ++i)
     {
         z[i] = dot(w[i], a[i-1]) + b[i];
         a[i] = activation_f(activation_types[i], z[i]);
@@ -83,8 +82,8 @@ Vec FeedForwardNetwork::forward(const Vec& input)
 
 Gradient FeedForwardNetwork::backprop(const Vec& expected, CostFType cost_f_type)
 {
-    Gradient grad{ .w = Matrixes({layers_count}), .b = Vectors({layers_count}) };
-    for (size_t i = 0; i < layers_count; ++i)
+    Gradient grad{ .w = Matrixes({layers_count - 1}), .b = Vectors({layers_count - 1}) };
+    for (size_t i = 0; i < layers_count - 1; ++i)
     {
         grad.w[i] = xt::zeros_like(w[i]);
         grad.b[i] = xt::zeros_like(b[i]);
@@ -98,14 +97,10 @@ Gradient FeedForwardNetwork::backprop(const Vec& expected, CostFType cost_f_type
     grad.b[-1] = delta;
 
     //prev layers
-    for (int l = 2; l < layers_count; ++l)
+    for (int l = 2; l < layers_count - 1; ++l)
     {
-        const auto& trans = xt::transpose(w[-l+1]);
-        const Vec dotpr = dot(trans, delta);
-        const Vec sp = activation_der(activation_types[-l], z[-l]);
-        const auto& res = dotpr * sp;
-        const Vec vec_res = res;
-        delta = vec_res;
+        delta = dot(xt::transpose(w[-l+1]), delta)
+            * activation_der(activation_types[-l], z[-l]);
         grad.w[-l] = dot(delta, xt::transpose(a[-l-1]));
         grad.b[-l] = delta;
     }
