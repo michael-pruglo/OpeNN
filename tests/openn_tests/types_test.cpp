@@ -7,109 +7,114 @@ namespace openn::types
 {
     namespace nn_constructors
     {
-        using LayerT = decltype(std::declval<TransparentFFN>().get_layers().front());
-        void expect_layer_structure(LayerT layer, size_t prev_size, size_t curr_size, ActivationFType activ_type)
+        void check_nn_shape(
+            const TransparentFFN& tffn,
+            const std::vector<size_t>& layer_sizes,
+            const std::vector<ActivationFType>& activations
+        )
         {
-            EXPECT_EQ(layer.bias.shape(), decltype(layer.bias)::shape_type({curr_size}));
-            EXPECT_EQ(layer.w.shape(), decltype(layer.w)::shape_type({curr_size, prev_size}));
-            EXPECT_EQ(layer.activation_type, activ_type);
-        }
-    
-        TEST(OpennTypesTest, InitNNRandDef)
-        {
-            TransparentFFN tffn_def(7, {});
-            const auto& lrs_def = tffn_def.get_layers();
-            ASSERT_EQ(lrs_def.size(), 0);
-        }
-    
-        TEST(OpennTypesTest, InitNNRand1)
-        {
-            TransparentFFN tffn(4,
+            ASSERT_EQ(tffn.size(), layer_sizes.size());
+            for (size_t i = 1; i < layer_sizes.size(); ++i)
             {
-                { 13, ActivationFType::SOFTPLUS },
-            });
-            const auto& lrs = tffn.get_layers();
-            ASSERT_EQ(lrs.size(), 1);
-            expect_layer_structure(lrs[0], 4, 13, ActivationFType::SOFTPLUS);
+                const auto& prev_size = layer_sizes[i-1], curr_size = layer_sizes[i];
+                const Matrix::shape_type m_shape = { curr_size, prev_size };
+                const Vec   ::shape_type v_shape = { curr_size };
+
+                EXPECT_EQ(tffn.get_w()[i].shape(), m_shape);
+                EXPECT_EQ(tffn.get_b()[i].shape(), v_shape);
+                EXPECT_EQ(tffn.get_z()[i].shape(), v_shape);
+                EXPECT_EQ(tffn.get_a()[i].shape(), v_shape);
+
+                EXPECT_EQ(tffn.get_act_types()[i], activations[i]);
+            }
         }
-    
-        TEST(OpennTypesTest, InitNNRandMixed)
+
+        void check_nn_shape(const std::vector<size_t>& layer_sizes, const std::vector<ActivationFType>& activations)
         {
-            TransparentFFN tffn(3,
-            {
-                { 1, ActivationFType::SIGMOID },
-                { 5, ActivationFType::ReLU },
-                { 4, ActivationFType::SOFTPLUS },
-                { 2, ActivationFType::TANH },
-            });
-            const auto& lrs = tffn.get_layers();
-            ASSERT_EQ(lrs.size(), 4);
-            expect_layer_structure(lrs[0], 3, 1, ActivationFType::SIGMOID);
-            expect_layer_structure(lrs[1], 1, 5, ActivationFType::ReLU);
-            expect_layer_structure(lrs[2], 5, 4, ActivationFType::SOFTPLUS);
-            expect_layer_structure(lrs[3], 4, 2, ActivationFType::TANH);
+            TransparentFFN tffn(layer_sizes, activations);
+            check_nn_shape(tffn, layer_sizes, activations);
         }
-    
-        TEST(OpennTypesTest, InitNNRandDefaultActivation)
+
+        void check_nn_shape(const std::vector<size_t>& layer_sizes)
         {
-            TransparentFFN tffn(3,
-            {
-                { 1 },
-                { 5 },
-                { 4 },
-                { 2 },
-            });
-            const auto& lrs = tffn.get_layers();
-            ASSERT_EQ(lrs.size(), 4);
-            expect_layer_structure(lrs[0], 3, 1, ActivationFType::SIGMOID);
-            expect_layer_structure(lrs[1], 1, 5, ActivationFType::SIGMOID);
-            expect_layer_structure(lrs[2], 5, 4, ActivationFType::SIGMOID);
-            expect_layer_structure(lrs[3], 4, 2, ActivationFType::SIGMOID);
+            TransparentFFN tffn(layer_sizes);
+            check_nn_shape(
+                tffn,
+                layer_sizes,
+                std::vector<ActivationFType>(layer_sizes.size(), ActivationFType::SIGMOID)
+            );
         }
-    
+
+
+        TEST(OpennTypesTest, InitNNRandEmpty)
+        {
+            check_nn_shape({});
+        }
+        TEST(OpennTypesTest, InitNNRandUniversalAct)
+        {
+            check_nn_shape({1});
+            check_nn_shape({7,4,1});
+            check_nn_shape({3,0,5,5,6,8});
+        }
+        TEST(OpennTypesTest, InitNNRand)
+        {
+            check_nn_shape({7}, {ActivationFType::ReLU});
+            check_nn_shape({3,5}, {ActivationFType::TANH, ActivationFType::SIGMOID});
+            check_nn_shape({1,1,1,8,9}, {ActivationFType::SOFTPLUS, ActivationFType::ReLU, ActivationFType::SOFTPLUS, ActivationFType::TANH, ActivationFType::ReLU});
+        }
+
+
+
+        void check_val_nn_shape(
+            const TransparentFFN& tffn,
+            Matrixes weights,
+            Vectors biases,
+            std::vector<ActivationFType> activation_types
+        )
+        {
+            std::vector<size_t> layer_sizes;
+            for (const auto& b: biases)
+                layer_sizes.push_back(b.size());
+            check_nn_shape(tffn, layer_sizes, activation_types);
+        }
+
+        void check_val_nn_shape(Matrixes weights, Vectors biases, std::vector<ActivationFType> activation_types)
+        {
+            TransparentFFN tffn(weights, biases, activation_types);
+            check_val_nn_shape(tffn, weights, biases, activation_types);
+        }
+
+        void check_val_nn_shape(Matrixes weights, Vectors biases)
+        {
+            TransparentFFN tffn(weights, biases);
+            check_val_nn_shape(
+                tffn,
+                weights, biases,
+                std::vector<ActivationFType>(biases.size(), ActivationFType::SIGMOID)
+            );
+        }
+
         TEST(OpennTypesTest, InitNNValuesDef)
         {
-            TransparentFFN tffn_def({});
-            const auto& lrs_def = tffn_def.get_layers();
-            ASSERT_EQ(lrs_def.size(), 0);
+            check_val_nn_shape({}, {});
+        }
+
+        TEST(OpennTypesTest, InitNNValuesUniversalAct)
+        {
+            check_val_nn_shape(
+                { core::rand_tensor<Matrix>({5,6}), core::rand_tensor<Matrix>({2,5}), core::rand_tensor<Matrix>({7,2}) },
+                { core::rand_tensor<Vec>({5}), core::rand_tensor<Vec>({2}), core::rand_tensor<Vec>({7}) }
+            );
+        }
+
+        TEST(OpennTypesTest, InitNNValues)
+        {
+            check_val_nn_shape(
+                { core::rand_tensor<Matrix>({1,4}), core::rand_tensor<Matrix>({17,1}), core::rand_tensor<Matrix>({3,17}), core::rand_tensor<Matrix>({10,3}) },
+                { core::rand_tensor<Vec>({1}), core::rand_tensor<Vec>({17}), core::rand_tensor<Vec>({3}), core::rand_tensor<Vec>({10}) },
+                { ActivationFType::SOFTPLUS, ActivationFType::ReLU, ActivationFType::TANH, ActivationFType::SIGMOID }
+            );
         }
     
-        TEST(OpennTypesTest, InitNNValues1)
-        {
-            TransparentFFN tffn({
-                { ActivationFType::SOFTPLUS, {{{.1, .2}, {.1, .2}, {.1, .2}}, {.1, .2, .3} } },
-            });
-            const auto& lrs = tffn.get_layers();
-            ASSERT_EQ(lrs.size(), 1);
-            expect_layer_structure(lrs[0], 2, 3, ActivationFType::SOFTPLUS);
-        }
-    
-        TEST(OpennTypesTest, InitNNValuesDefaultActivation)
-        {
-            TransparentFFN tffn({
-                { .wnb={ {{.1, .2}, {.1, .2}, {.1, .2}}, {.1, .2, .3} } },
-                { .wnb={ {{.1, .2, .3}},                 {.1}         } },
-                { .wnb={ {{.1}, {.1}},                   {.1, .2}     } }
-            });
-            const auto& lrs = tffn.get_layers();
-            ASSERT_EQ(lrs.size(), 3);
-            expect_layer_structure(lrs[0], 2, 3, ActivationFType::SIGMOID);
-            expect_layer_structure(lrs[1], 3, 1, ActivationFType::SIGMOID);
-            expect_layer_structure(lrs[2], 1, 2, ActivationFType::SIGMOID);
-        }
-    
-        TEST(OpennTypesTest, InitNNValuesMixed)
-        {
-            TransparentFFN tffn({
-                { .activation_type=ActivationFType::TANH,    .wnb={{{.1}, {.1}, {.1}}, {.1, .2, .3} } },
-                { .activation_type=ActivationFType::SIGMOID, .wnb={{{.1, .2, .3}, {.1, .2, .3}}, {.1, .2}     } },
-                { .activation_type=ActivationFType::ReLU,    .wnb={ {{.1, .2}, {.1, .2}},           {.1, .2}     } }
-            });
-            const auto& lrs = tffn.get_layers();
-            ASSERT_EQ(lrs.size(), 3);
-            expect_layer_structure(lrs[0], 1, 3, ActivationFType::TANH);
-            expect_layer_structure(lrs[1], 3, 2, ActivationFType::SIGMOID);
-            expect_layer_structure(lrs[2], 2, 2, ActivationFType::ReLU);
-        }
     }
 }

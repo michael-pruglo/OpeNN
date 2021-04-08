@@ -7,28 +7,25 @@ namespace openn
     class FeedForwardNetwork : public NeuralNetwork
     {
     public:
-        struct LayerInitRandData{ size_t size=0; ActivationFType activation_type=ActivationFType::SIGMOID; };
-        FeedForwardNetwork(size_t input_size, const std::vector<LayerInitRandData>& nn_structure);
+        //construct randomized
+        FeedForwardNetwork(const std::vector<size_t>& layer_sizes, std::vector<ActivationFType> activation_types);
+        FeedForwardNetwork(const std::vector<size_t>& layer_sizes, ActivationFType universal_activation = ActivationFType::SIGMOID);
 
-        struct LayerInitValuesData{ ActivationFType activation_type=ActivationFType::SIGMOID; WnB wnb; };
-        FeedForwardNetwork(const std::vector<LayerInitValuesData>& values);
+        //construct with given weights and biases
+        FeedForwardNetwork(Matrixes weights, Vectors biases, std::vector<ActivationFType> activation_types);
+        FeedForwardNetwork(Matrixes weights, Vectors biases, ActivationFType universal_activation = ActivationFType::SIGMOID);
 
         ~FeedForwardNetwork() override = default;
 
     public:
-        Vec operator()(const Vec& input) const override;
-        virtual void update(const Gradient& grad, float_t eta) override;
+        Vec forward(const Vec& input) override;
+        Gradient backprop(const Vec& expected, CostFType cost_f_type) override;
+        void update(const Gradient& grad, float_t eta) override;
 
     protected:
-        struct Layer;
-        std::vector<Layer> layers;
-    };
-
-    struct FeedForwardNetwork::Layer : public WnB
-    {
-        Layer(size_t prev_size, size_t size, ActivationFType activation_type);
-        Layer(ActivationFType activation_type, WnB wnb);
-
-        ActivationFType activation_type;
+        size_t layers_count; //includes the input layer
+        Matrixes w;
+        Vectors b, z, a;
+        std::vector<ActivationFType> activation_types;
     };
 }

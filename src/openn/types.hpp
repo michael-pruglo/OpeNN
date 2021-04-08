@@ -7,29 +7,46 @@ namespace openn
 {
     using core::float_t;
     using core::Vec;
+    using core::Vectors;
     using core::Matrix;
+    using core::Matrixes;
 
-    enum class ActivationFType { SIGMOID, ReLU, SOFTPLUS, TANH };
-    float_t activation_f(ActivationFType type, float_t x);
-    Vec     activation_f(ActivationFType type, const Vec& v);
-    float_t derivative_f(ActivationFType type, float_t x);
-    Vec     derivative_f(ActivationFType type, const Vec& v);
 
-    struct WnB
+    enum class ActivationFType
     {
-        Matrix w;
-        Vec bias;
+        SIGMOID,
+        ReLU,
+        SOFTPLUS,
+        TANH,
     };
-    using Gradient = WnB;
+    Vec activation_f  (ActivationFType type, const Vec& v);
+    Vec activation_der(ActivationFType type, const Vec& v);
 
-    void operator+=(Gradient& grad, const Gradient& addend);
-    void operator/=(Gradient& grad, float_t divisor);
+
+    // cost/loss/objective function
+    enum class CostFType
+    {
+        MEAN_SQUARED_ERROR,
+        CROSS_ENTROPY,
+    };
+    float_t cost_f  (CostFType type, const Vec& v, const Vec& exp);
+    float_t cost_der(CostFType type, const Vec& v, const Vec& exp);
+
+
+    struct Gradient
+    {
+        Matrixes w;
+        Vectors  b;
+    };
+
 
     class NeuralNetwork
     {
     public:
         virtual ~NeuralNetwork() = default;
-        virtual Vec operator()(const Vec& input) const = 0;
-        virtual void update(const Gradient& grad, float_t eta) = 0;
+
+        virtual Vec      forward (const Vec& input) = 0;
+        virtual Gradient backprop(const Vec& expected, CostFType cost_f_type) = 0;
+        virtual void     update  (const Gradient& grad, float_t eta) = 0;
     };
 }

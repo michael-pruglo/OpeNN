@@ -4,56 +4,118 @@
 using namespace openn;
 using xt::linalg::dot;
 
-FeedForwardNetwork::FeedForwardNetwork(size_t input_size, const std::vector<LayerInitRandData>& nn_structure)
+
+FeedForwardNetwork::FeedForwardNetwork(
+    const std::vector<size_t>& layer_sizes,
+    std::vector<ActivationFType> activation_functions
+)
+    : FeedForwardNetwork(
+        [&layer_sizes](){
+            const size_t L = layer_sizes.size();
+            Matrixes weights({L});
+
+            for (size_t i = 1; i < L; ++i)
+                weights[i-1] = core::rand_tensor<Matrix>({layer_sizes[i], layer_sizes[i-1]});
+
+            return weights;
+        }(),
+        [&layer_sizes](){
+            const size_t L = layer_sizes.size();
+            Vectors biases({L});
+
+            for (size_t i = 1; i < L; ++i)
+                biases[i-1] = core::rand_tensor<Vec>({layer_sizes[i]});
+
+            return biases;
+        }(),
+        std::move(activation_functions)
+    )
 {
-    const size_t n = nn_structure.size();
-    layers.reserve(n);
-    for (size_t i = 0; i < n; ++i)
+}
+
+FeedForwardNetwork::FeedForwardNetwork(const std::vector<size_t>& layer_sizes, ActivationFType universal_activation)
+    : FeedForwardNetwork(
+        layer_sizes,
+        std::vector<ActivationFType>(layer_sizes.size(), universal_activation)
+    )
+{
+}
+
+FeedForwardNetwork::FeedForwardNetwork(Matrixes weights, Vectors biases, std::vector<ActivationFType> activation_types)
+    : layers_count(activation_types.size()+1)
+    , w(std::move(weights))
+    , b(std::move(biases))
+    , z({layers_count})
+    , a({layers_count})
+    , activation_types(std::move(activation_types))
+{
+    assert(weights.size() == layers_count);
+    assert(biases.size()  == layers_count);
+
+    for (size_t i = 0; i < layers_count; ++i)
     {
-        layers.emplace_back(
-            i ? nn_structure[i-1].size : input_size,
-            nn_structure[i].size,
-            nn_structure[i].activation_type
-        );
+        z[i] = xt::zeros_like(b[i]);
+        a[i] = xt::zeros_like(b[i]);
     }
 }
 
-FeedForwardNetwork::FeedForwardNetwork(const std::vector<LayerInitValuesData>& values)
+FeedForwardNetwork::FeedForwardNetwork(Matrixes weights, Vectors biases, ActivationFType universal_activation)
+    : FeedForwardNetwork(
+        std::move(weights),
+        std::move(biases),
+        std::vector<ActivationFType>(weights.size(), universal_activation)
+    )
 {
-    const size_t n = values.size();
-    layers.reserve(n);
-    for (size_t i = 0; i < n; ++i)
-        layers.emplace_back(values[i].activation_type, values[i].wnb);
+    assert(weights.size() == biases.size());
 }
 
-Vec FeedForwardNetwork::operator()(const Vec& input) const
+
+Vec FeedForwardNetwork::forward(const Vec& input)
 {
-    auto a = input;
-    for (const auto& layer: layers)
+    a[0] = input;
+    for (int i = 1; i < layers_count; ++i)
     {
-        const auto z = dot(layer.w, a) + layer.bias;
-        a = activation_f(layer.activation_type, z);
+        z[i] = dot(w[i], a[i-1]) + b[i];
+        a[i] = activation_f(activation_types[i], z[i]);
     }
-    return a;
+    return a[-1];
+}
+
+Gradient FeedForwardNetwork::backprop(const Vec& expected, CostFType cost_f_type)
+{
+    Gradient grad{ .w = Matrixes({layers_count}), .b = Vectors({layers_count}) };
+    for (size_t i = 0; i < layers_count; ++i)
+    {
+        grad.w[i] = xt::zeros_like(w[i]);
+        grad.b[i] = xt::zeros_like(b[i]);
+    }
+
+
+    //last layer
+    Vec delta = cost_der(cost_f_type, a[-1], expected)
+        * activation_der(activation_types.back(), z[-1]);
+    grad.w[-1] = dot(delta, xt::transpose(a[-2]));
+    grad.b[-1] = delta;
+
+    //prev layers
+    for (int l = 2; l < layers_count; ++l)
+    {
+        const auto& trans = xt::transpose(w[-l+1]);
+        const Vec dotpr = dot(trans, delta);
+        const Vec sp = activation_der(activation_types[-l], z[-l]);
+        const auto& res = dotpr * sp;
+        const Vec vec_res = res;
+        delta = vec_res;
+        grad.w[-l] = dot(delta, xt::transpose(a[-l-1]));
+        grad.b[-l] = delta;
+    }
+
+    return grad;
 }
 
 void FeedForwardNetwork::update(const Gradient& grad, float_t eta)
 {
-    throw "not implemented";
+    w += -eta * grad.w;
+    b += -eta * grad.b;
 }
 
-
-FeedForwardNetwork::Layer::Layer(size_t prev_size, size_t size, ActivationFType activation_type)
-    : WnB{
-        .w = core::rand_tensor<Matrix>({size, prev_size}),
-        .bias = core::rand_tensor<Vec>({size})
-    }
-    , activation_type(activation_type)
-{
-}
-
-FeedForwardNetwork::Layer::Layer(ActivationFType activation_type, WnB wnb)
-    : WnB(std::move(wnb))
-    , activation_type(activation_type)
-{
-}

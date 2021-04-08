@@ -30,20 +30,36 @@ Vec openn::activation_f(ActivationFType type, const Vec& v)
     return f(v);
 }
 
-Vec openn::derivative_f(ActivationFType type, const Vec& v)
+Vec openn::activation_der(ActivationFType type, const Vec& v)
 {
     const auto& f = DERIVATIVE_FUNCTIONS.at(type);
     return f(v);
 }
 
-void openn::operator+=(Gradient& grad, const Gradient& addend)
+
+namespace
 {
-    grad.w = grad.w + addend.w;
-    grad.bias = grad.bias + addend.bias;
+    using CostF = std::function<openn::float_t(const Vec&,const Vec&)>;
+
+    const std::unordered_map<CostFType, CostF> COST_FUNCTIONS = {
+        { CostFType::MEAN_SQUARED_ERROR, core::mean_squared_eror },
+        { CostFType::CROSS_ENTROPY,      core::cross_entropy },
+    };
+
+    const std::unordered_map<CostFType, CostF> COST_DERIVATIVES = {
+        { CostFType::MEAN_SQUARED_ERROR, core::der_mean_squared_eror },
+        { CostFType::CROSS_ENTROPY,      core::der_cross_entropy },
+    };
 }
 
-void openn::operator/=(Gradient& grad, float_t divisor)
+core::float_t openn::cost_f(CostFType type, const Vec &v, const Vec &exp)
 {
-    grad.w = grad.w / divisor;
-    grad.bias = grad.bias / divisor;
+    const auto& f = COST_FUNCTIONS.at(type);
+    return f(v, exp);
+}
+
+core::float_t openn::cost_der(CostFType type, const Vec &v, const Vec &exp)
+{
+    const auto& f = COST_DERIVATIVES.at(type);
+    return f(v, exp);
 }

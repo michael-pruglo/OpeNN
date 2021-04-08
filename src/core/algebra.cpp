@@ -36,25 +36,53 @@ core::Vec core::der_softplus(const Vec& x)
 }
 core::Vec core::der_tanh(const Vec& x)
 {
-    return 1. - xt::pow(xt::tanh(x), 2);
+    return 1. - xt::pow<2>(xt::tanh(x));
+}
+
+namespace
+{
+    inline core::float_t eval_sum(const Vec& v)
+    {
+        return xt::sum(v)[0];
+    }
 }
 
 core::float_t core::mean_squared_eror(const Vec& a, const Vec& y)
 {
     assert(a.size() == y.size());
 
-    float_t cost = 0.;
-    for (size_t i = 0; i < y.size(); ++i)
-        cost += std::pow(a[i]-y[i], 2);
-    return cost;
+    const auto& c = xt::pow<2>(a-y);
+
+    return eval_sum(c);
 }
 
 core::float_t core::cross_entropy(const Vec& a, const Vec& y)
 {
     assert(a.size() == y.size());
 
-    float_t cost = 0.;
-    for (size_t i = 0; i < y.size(); ++i)
-        cost += -( y[i]*log(a[i]) + (1.-y[i])*log(1.-a[i]) );
-    return cost;
+    const auto& ones = xt::ones<float_t>({a.size()});
+    const auto& c = -( y*xt::log(a) + (ones-y)*xt::log(ones-a));
+
+    return eval_sum(c);
+}
+
+
+core::float_t core::der_mean_squared_eror(const Vec& a, const Vec& y)
+{
+    assert(a.size() == y.size());
+
+    const auto& c = 2 * (a-y);
+
+    return eval_sum(c);
+}
+
+core::float_t core::der_cross_entropy(const Vec& a, const Vec& y)
+{
+    assert(a.size() == y.size());
+
+    throw "not implemented";
+
+    //const auto& c = a;
+
+    //return eval_sum(c);
 }

@@ -5,23 +5,6 @@
 
 using namespace openn;
 
-namespace
-{
-    using openn::float_t;
-    using CostF = std::function<float_t(const Vec&, const Vec&)>;
-
-    const std::unordered_map<CostFType, CostF> COST_FUNCTIONS = {
-        { CostFType::MEAN_SQUARED_ERROR, core::mean_squared_eror },
-        { CostFType::CROSS_ENTROPY,      core::cross_entropy },
-    };
-}
-
-core::float_t openn::cost_f(CostFType type, const Vec &v, const Vec &exp)
-{
-    const auto& f = COST_FUNCTIONS.at(type);
-    return f(v, exp);
-}
-
 
 
 void FeedForwardNetworkTrainer::set_network(std::shared_ptr<NeuralNetwork> network)
@@ -49,7 +32,7 @@ void FeedForwardNetworkTrainer::set_test_data(TrainingDataPtr const tst_data)
     test_data = tst_data;
 }
 
-void FeedForwardNetworkTrainer::train(bool verbose)
+void FeedForwardNetworkTrainer::train(bool verbose) const
 {
     assert(nn);
     assert(training_data);
@@ -72,29 +55,35 @@ void FeedForwardNetworkTrainer::train(bool verbose)
     }
 }
 
-void FeedForwardNetworkTrainer::epoch_full_gradient_descent(TrainingConstIt first, TrainingConstIt last)
+void FeedForwardNetworkTrainer::epoch_full_gradient_descent(TrainingConstIt first, TrainingConstIt last) const
 {
     Gradient total_grad;
     for (auto tr_sample = first; tr_sample != last; ++tr_sample)
     {
-        const auto& grad = backprop(*tr_sample);
+        const auto& grad = process_sample(*tr_sample);
+
         if (tr_sample == first)
             total_grad = grad;
         else
-            total_grad += grad;
+        {
+            total_grad.w += grad.w;
+            total_grad.b += grad.b;
+        }
     }
-    total_grad /= std::distance(first, last);
+    const auto& N = std::distance(first, last);
+    total_grad.w /= N;
+    total_grad.b /= N;
 
     nn->update(total_grad, hyper_parameters.eta);
 }
 
-void FeedForwardNetworkTrainer::epoch_stochastic_gradient_descent(TrainingConstIt first, TrainingConstIt last, size_t batch_size)
+void FeedForwardNetworkTrainer::epoch_stochastic_gradient_descent(TrainingConstIt first, TrainingConstIt last, size_t batch_size) const
 {
     std::vector<TrainingSample> tr_data_copy{first, last};
     epoch_sgd_destructive(tr_data_copy.begin(), tr_data_copy.end(), batch_size);
 }
 
-void FeedForwardNetworkTrainer::epoch_sgd_destructive(TrainingIt first, TrainingIt last, size_t batch_size)
+void FeedForwardNetworkTrainer::epoch_sgd_destructive(TrainingIt first, TrainingIt last, size_t batch_size) const
 {
     std::shuffle(first, last, core::rnd_engine);
     for (TrainingIt batch_start = first, batch_end; batch_start < last; batch_start = batch_end)
@@ -104,26 +93,30 @@ void FeedForwardNetworkTrainer::epoch_sgd_destructive(TrainingIt first, Training
     }
 }
 
-void FeedForwardNetworkTrainer::epoch_online_learning(TrainingConstIt first, TrainingConstIt last)
+void FeedForwardNetworkTrainer::epoch_online_learning(TrainingConstIt first, TrainingConstIt last) const
 {
     epoch_stochastic_gradient_descent(first, last, 1); //unless we can get a significant speed up
 }
 
-Gradient FeedForwardNetworkTrainer::backprop(const TrainingSample& sample)
+Gradient FeedForwardNetworkTrainer::process_sample(const TrainingSample& sample) const
 {
-    throw "not implemented";
+    nn->forward(sample.input);
+    const auto& grad = nn->backprop(sample.expected, hyper_parameters.cost_f_type);
+    return grad;
 }
 
 core::float_t FeedForwardNetworkTrainer::eval_average_cost()
 {
     core::float_t total_cost = 0.0;
     for (const auto& [input, expected]: *test_data)
-        total_cost += cost_f(hyper_parameters.cost_f_type, (*nn)(input), expected);
+        total_cost += cost_f(hyper_parameters.cost_f_type, nn->forward(input), expected);
     return total_cost / test_data->size();  //may be omitted, rescaling the learning rate
 }
 
 namespace
 {
+    using core::float_t;
+
     bool is_classification_problem(TrainingDataPtr test_data)
     {
         for (const auto& [_, expected]: *test_data)
@@ -153,7 +146,7 @@ size_t FeedForwardNetworkTrainer::eval_correct_guesses()
 
     size_t correct_guesses = 0;
     for (const auto& [input, expected]: *test_data)
-        correct_guesses += is_correct_guess((*nn)(input), expected);
+        correct_guesses += is_correct_guess(nn->forward(input), expected);
     return correct_guesses;
 }
 

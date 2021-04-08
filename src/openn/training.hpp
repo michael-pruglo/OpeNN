@@ -4,14 +4,6 @@
 
 namespace openn
 {
-    // cost/loss/objective function
-    enum class CostFType
-    {
-        MEAN_SQUARED_ERROR,
-        CROSS_ENTROPY,
-    };
-    float_t cost_f(CostFType type, const Vec& v, const Vec& exp);
-    
     struct TrainingSample
     {
         Vec input, expected;
@@ -49,7 +41,7 @@ namespace openn
         virtual void    set_test_data          (TrainingDataPtr test_data) = 0;
 
         //training
-        virtual void    train(bool verbose = false) = 0;
+        virtual void    train(bool verbose = false) const = 0;
 
         //evaluation
         virtual float_t eval_average_cost() = 0;
@@ -73,19 +65,18 @@ namespace openn
         void    set_validation_data    (TrainingDataPtr validation_data) override;
         void    set_test_data          (TrainingDataPtr test_data) override;
 
-        void    train(bool verbose = false) override;
+        void    train(bool verbose = false) const override;
 
         float_t eval_average_cost() override;
         size_t  eval_correct_guesses() override;
 
     protected:
-        void epoch_full_gradient_descent       (TrainingConstIt first, TrainingConstIt last);
-        void epoch_stochastic_gradient_descent (TrainingConstIt first, TrainingConstIt last, size_t batch_size);
-        void epoch_online_learning             (TrainingConstIt first, TrainingConstIt last);
+        void epoch_full_gradient_descent      (TrainingConstIt first, TrainingConstIt last) const;
+        void epoch_stochastic_gradient_descent(TrainingConstIt first, TrainingConstIt last, size_t batch_size) const;
+        void epoch_online_learning            (TrainingConstIt first, TrainingConstIt last) const;
+        void epoch_sgd_destructive            (TrainingIt first, TrainingIt last, size_t batch_size) const;
 
-        void epoch_sgd_destructive(TrainingIt first, TrainingIt last, size_t batch_size);
-
-        Gradient backprop(const TrainingSample& sample);
+        Gradient process_sample(const TrainingSample& sample) const;
     };
 
 
