@@ -24,6 +24,12 @@ namespace openn
 
     protected:
         size_t layers_count; //includes the input layer
+        //matrixes and vectors are indexed as follows:
+        //[0] - input layer
+        //[1] - first hidden layer
+        //[2] - second hidden layer
+        //...
+        //[layers_count-1] - output layer
         Matrixes w;
         Vectors b, z, a;
         std::vector<ActivationFType> activation_types;

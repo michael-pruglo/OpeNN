@@ -12,5 +12,6 @@ Note:
 https://lecture-demo.ira.uka.de/neural-network-demo/
 
 TODO:
-maybe replace assertions in src/ by exceptions?
-
+- maybe replace assertions in `src/` by exceptions?
+- how to get rid of ugly `{}` first layer when initializing with values?
+- maybe change `activation_types` from `vector` to `xtensor`?
