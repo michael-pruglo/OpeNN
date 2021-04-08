@@ -35,8 +35,8 @@ namespace openn::types
         ASSERT_EQ(tffn.size(), N);
 
         tffn.forward(input);
-        for (size_t i = 0; i < N; ++i)
-            expect_double_vec_eq(tffn.get_a()[i], intermediate_results[i]);
+        for (size_t i = 1; i < N; ++i)
+            expect_double_vec_eq(tffn.get_a()[i], intermediate_results[i], 0.01);
     }
 
     TEST(OpennTest, NeuralNetComputationSmallSigmoid)
@@ -86,6 +86,7 @@ namespace openn::types
                 ActivationFType::ReLU,
                 ActivationFType::ReLU,
                 ActivationFType::ReLU,
+                ActivationFType::ReLU,
             }
         );
         test_forwardpass_intermediate_results(
@@ -116,6 +117,7 @@ namespace openn::types
                 {.5, -.03, 1.02},
             },
             {
+                ActivationFType::TANH,
                 ActivationFType::TANH,
                 ActivationFType::TANH,
                 ActivationFType::TANH,
@@ -153,6 +155,7 @@ namespace openn::types
                 {-1.7, -.82, .23}
             },
             {
+                ActivationFType::TANH,
                 ActivationFType::TANH,
                 ActivationFType::SIGMOID,
                 ActivationFType::ReLU,
