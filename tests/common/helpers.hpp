@@ -2,34 +2,33 @@
 
 #include <gtest/gtest.h>
 
-template<typename Vec>
-inline void expect_double_vec_eq(const Vec& v1, const Vec& v2)
-{
-    ASSERT_EQ(v1.size(), v2.size());
-    for (int i = 0; i < v1.size(); ++i)
-        EXPECT_DOUBLE_EQ(v1[i], v2[i]) << "i = " << i;
+#define EXPECT_CONTAINER_EQ_IMPL(GOOGLETEST_LINE) \
+{  \
+    ASSERT_EQ(a1.size(), a2.size());  \
+    auto it1 = a1.begin();  \
+    auto it2 = a2.begin();  \
+    for ( ; it1 != a1.end(); ++it1, ++it2)  \
+    {  \
+        GOOGLETEST_LINE  \
+            << "i = " << std::distance(a1.begin(), it1) << "\n"  \
+            ;  \
+    }  \
 }
 
-template<typename Vec>
-inline void expect_double_vec_eq(const Vec& v1, const Vec& v2, double tolerance)
+
+
+template<typename Iterable1, typename Iterable2 = Iterable1>
+inline void expect_container_eq(const Iterable1& a1, const Iterable2& a2)
 {
-    ASSERT_EQ(v1.size(), v2.size());
-    for (int i = 0; i < v1.size(); ++i)
-        EXPECT_NEAR(v1[i], v2[i], tolerance) << "i = " << i;
+    EXPECT_CONTAINER_EQ_IMPL(
+        EXPECT_DOUBLE_EQ(*it1, *it2)
+    )
 }
 
-template<typename Matrix>
-inline void expect_double_matrix_eq(const Matrix& m1, const Matrix& m2)
+template<typename Iterable1, typename Iterable2 = Iterable1>
+inline void expect_container_eq(const Iterable1& a1, const Iterable2& a2, double tolerance)
 {
-    ASSERT_EQ(m1.size(), m2.size());
-    for (size_t i = 0; i < m1.size(); ++i)
-        expect_double_vec_eq(m1[i], m2[i]);
-}
-
-template<typename Matrix>
-inline void expect_double_matrix_eq(const Matrix& m1, const Matrix& m2, double tolerance)
-{
-    ASSERT_EQ(m1.size(), m2.size());
-    for (size_t i = 0; i < m1.size(); ++i)
-        expect_double_vec_eq(m1[i], m2[i], tolerance);
+    EXPECT_CONTAINER_EQ_IMPL(
+        EXPECT_NEAR(*it1, *it2, tolerance)
+    )
 }

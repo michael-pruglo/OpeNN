@@ -2,7 +2,7 @@
 
 namespace openn
 {
-    TEST(OpennTest, NeuralNetComputationSmallSigmoidMultiInput)
+    TEST(NNComputationTest, FwdSmallSigmoidMultiInput)
     {
         FeedForwardNetwork nn(
             Matrixes{
@@ -14,14 +14,14 @@ namespace openn
                 {0.}
             }
         );
-        expect_double_vec_eq(nn.forward({22.,0.,1.}), (core::Vec{0.38}), 0.01);
-        expect_double_vec_eq(nn.forward({38.,1.,1.}), (core::Vec{0.49}), 0.01);
-        expect_double_vec_eq(nn.forward({26.,1.,1.}), (core::Vec{0.54}), 0.01);
-        expect_double_vec_eq(nn.forward({35.,1.,1.}), (core::Vec{0.50}), 0.01);
-        expect_double_vec_eq(nn.forward({35.,0.,1.}), (core::Vec{0.33}), 0.01);
-        expect_double_vec_eq(nn.forward({14.,1.,1.}), (core::Vec{0.59}), 0.01);
-        expect_double_vec_eq(nn.forward({25.,0.,1.}), (core::Vec{0.37}), 0.01);
-        expect_double_vec_eq(nn.forward({54.,0.,1.}), (core::Vec{0.26}), 0.01);
+        expect_container_eq(nn.forward({22., 0., 1.}), (core::Vec{0.38}), 0.01);
+        expect_container_eq(nn.forward({38., 1., 1.}), (core::Vec{0.49}), 0.01);
+        expect_container_eq(nn.forward({26., 1., 1.}), (core::Vec{0.54}), 0.01);
+        expect_container_eq(nn.forward({35., 1., 1.}), (core::Vec{0.50}), 0.01);
+        expect_container_eq(nn.forward({35., 0., 1.}), (core::Vec{0.33}), 0.01);
+        expect_container_eq(nn.forward({14., 1., 1.}), (core::Vec{0.59}), 0.01);
+        expect_container_eq(nn.forward({25., 0., 1.}), (core::Vec{0.37}), 0.01);
+        expect_container_eq(nn.forward({54., 0., 1.}), (core::Vec{0.26}), 0.01);
     }
 
     void test_forwardpass_intermediate_results(
@@ -36,10 +36,10 @@ namespace openn
 
         tffn.forward(input);
         for (size_t i = 1; i < N; ++i)
-            expect_double_vec_eq(tffn.get_a()[i], intermediate_results[i], tolerance);
+            expect_container_eq(tffn.get_a()[i], intermediate_results[i], tolerance);
     }
 
-    TEST(OpennTest, NeuralNetComputationSmallSigmoid)
+    TEST(NNComputationTest, FwdSmallSigmoid)
     {
         TransparentFFN ttfn(
             {
@@ -67,7 +67,7 @@ namespace openn
         );
     }
 
-    TEST(OpennTest, NeuralNetComputationSmallReLU)
+    TEST(NNComputationTest, FwdSmallReLU)
     {
         TransparentFFN tffn(
             {
@@ -101,7 +101,7 @@ namespace openn
         );
     }
 
-    TEST(OpennTest, NeuralNetComputationSmallTanh)
+    TEST(NNComputationTest, FwdSmallTanh)
     {
         TransparentFFN tffn(
             {
@@ -135,7 +135,7 @@ namespace openn
         );
     }
 
-    TEST(OpennTest, NeuralNetComputationMeduimMixed)
+    TEST(NNComputationTest, FwdMeduimMixed)
     {
         TransparentFFN tffn(
             {
@@ -175,5 +175,47 @@ namespace openn
                 {.16, .31, .56}
             }
         );
+    }
+
+    TEST(NNComputationTest, FwdBckSmallSigmoid)
+    {
+        // https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/
+        TransparentFFN tffn(
+            {
+                {},
+                { { .15, .2 }, { .25, .3 } },
+                { { .4, .45 }, { .5, .55 } },
+            },
+            {
+                {},
+                { .35, .35 },
+                { .6, .6 },
+            }
+        );
+        constexpr float_t TOLERANCE = 1e-8;
+
+
+        tffn.forward({ .05, .1 });
+        const auto& z = tffn.get_z();
+        const auto& a = tffn.get_a();
+        EXPECT_NEAR(z[1][0], .3775, TOLERANCE);
+        expect_container_eq(a[1], (Vec{.593269992, .596884378}), TOLERANCE);
+        EXPECT_NEAR(z[2][0], 1.105905967, TOLERANCE);
+        expect_container_eq(a[2], (Vec{.75136507, .772928465}), TOLERANCE);
+
+
+        const Gradient& grad = tffn.backprop({ .01, .99 }, CostFType::MEAN_SQUARED_ERROR);
+        ASSERT_EQ(grad.w.shape(), (std::array<size_t, 1>{ 3 }));
+        ASSERT_EQ(grad.w[1].shape(), (std::array<size_t, 2>{ 2, 2 }));
+        ASSERT_EQ(grad.w[2].shape(), (std::array<size_t, 2>{ 2, 2 }));
+        ASSERT_EQ(grad.b.shape(), (std::array<size_t, 1>{ 3 }));
+        ASSERT_EQ(grad.b[1].shape(), (std::array<size_t, 1>{ 2 }));
+        ASSERT_EQ(grad.b[2].shape(), (std::array<size_t, 1>{ 2 }));
+        expect_container_eq(grad.w[2], (Matrix{ { 2.*.082167041, 2.*.082667628 }, { 2.*-.02260254, 2.*-.022740242 } }), TOLERANCE);
+
+        tffn.update(grad, .25);
+        const auto& w = tffn.get_w();
+        expect_container_eq(w[1], (Matrix{{.149780716, .19956143},{.24975114,  .29950229}}), TOLERANCE);
+        expect_container_eq(w[2], (Matrix{{.35891648,  .408666186},{.511301270, .561370121}}), TOLERANCE);
     }
 }

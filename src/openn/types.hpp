@@ -14,7 +14,7 @@ namespace openn
 
     enum class ActivationFType
     {
-        SIGMOID,
+        SIGMOID, //a.k.a. logistic
         ReLU,
         SOFTPLUS,
         TANH,
