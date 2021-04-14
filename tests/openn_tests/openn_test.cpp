@@ -212,6 +212,9 @@ namespace openn
         ASSERT_EQ(grad.b[1].shape(), (std::array<size_t, 1>{ 2 }));
         ASSERT_EQ(grad.b[2].shape(), (std::array<size_t, 1>{ 2 }));
         expect_container_eq(grad.w[2], (Matrix{ { 2.*.082167041, 2.*.082667628 }, { 2.*-.02260254, 2.*-.022740242 } }), TOLERANCE);
+        EXPECT_NEAR(grad.w[1](0,0), 2.*.000438568, TOLERANCE);
+        EXPECT_NEAR(grad.b[2](0), .27699712370764428, TOLERANCE);
+        EXPECT_NEAR(grad.b[1](0), .017542709220333908, TOLERANCE);
 
         tffn.update(grad, .25);
         const auto& w = tffn.get_w();
