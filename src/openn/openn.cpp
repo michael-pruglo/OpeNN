@@ -83,26 +83,31 @@ Vec FeedForwardNetwork::forward(const Vec& input)
 Gradient FeedForwardNetwork::backprop(const Vec& expected, CostFType cost_f_type)
 {
     Gradient grad{ .w = Matrixes({layers_count}), .b = Vectors({layers_count}) };
-    for (size_t i = 0; i < layers_count - 1; ++i)
+    for (size_t i = 0; i < layers_count; ++i)
     {
         grad.w[i] = xt::zeros_like(w[i]);
         grad.b[i] = xt::zeros_like(b[i]);
     }
 
-
     //last layer
     Vec delta = cost_der(cost_f_type, a.periodic(-1), expected)
         * activation_der(activation_types.back(), z.periodic(-1));
-    grad.w.periodic(-1) = dot(delta, xt::transpose(a.periodic(-2)));
+    auto tdelta = xt::view(delta, xt::all(), xt::newaxis());
+    auto ta = xt::view(a.periodic(-2), xt::newaxis(), xt::all());
+
+    grad.w.periodic(-1) = dot(tdelta, ta);
     grad.b.periodic(-1) = delta;
 
     //prev layers
-    for (int l = 2; l < layers_count - 1; ++l)
+    for (size_t l = layers_count-2; l > 0; --l)
     {
-        delta = dot(xt::transpose(w.periodic(-l+1)), delta)
-            * activation_der(activation_types.at(layers_count-l), z.periodic(-l));
-        grad.w.periodic(-l) = dot(delta, xt::transpose(a.periodic(-l-1)));
-        grad.b.periodic(-l) = delta;
+        delta = dot(xt::transpose(w[l+1]), delta)
+            * activation_der(activation_types[l], z[l]);
+        tdelta = xt::view(delta, xt::all(), xt::newaxis());
+        ta = xt::view(a[l-1], xt::newaxis(), xt::all());
+
+        grad.w[l] = dot(tdelta, ta);
+        grad.b[l] = delta;
     }
 
     return grad;
