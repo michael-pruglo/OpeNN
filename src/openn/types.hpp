@@ -29,8 +29,8 @@ namespace openn
         MEAN_SQUARED_ERROR,
         CROSS_ENTROPY,
     };
-    float_t cost_f  (CostFType type, const Vec& v, const Vec& exp);
-    float_t cost_der(CostFType type, const Vec& v, const Vec& exp);
+    Vec cost_f  (CostFType type, const Vec& v, const Vec& exp);
+    Vec cost_der(CostFType type, const Vec& v, const Vec& exp);
 
 
     struct Gradient

@@ -90,11 +90,11 @@ namespace core::algebra
     {
         TEST(CoreAlgebraDeathTest, MSESmall)
         {
-            EXPECT_DOUBLE_EQ(core::mean_squared_eror(core::Vec{}, core::Vec{}), 0.);
-            EXPECT_DOUBLE_EQ(core::mean_squared_eror(core::Vec{7.}, core::Vec{7.}), 0.);
-            EXPECT_DOUBLE_EQ(core::mean_squared_eror(core::Vec{2., 5., 3.}, core::Vec{1., 7., 0.}), 14.);
-            EXPECT_DOUBLE_EQ(core::mean_squared_eror(core::Vec{-2., -5., -3.}, core::Vec{-1., -7., 0.}), 14.);
-            EXPECT_DOUBLE_EQ(core::mean_squared_eror(core::Vec{-5., 0., -1., 7.}, core::Vec{-4., 3., -5., 6.}), 27.);
+            EXPECT_DOUBLE_EQ(xt::sum(core::mean_squared_eror(core::Vec{}, core::Vec{}))[0], 0.);
+            EXPECT_DOUBLE_EQ(xt::sum(core::mean_squared_eror(core::Vec{7.}, core::Vec{7.}))[0], 0.);
+            EXPECT_DOUBLE_EQ(xt::sum(core::mean_squared_eror(core::Vec{2., 5., 3.}, core::Vec{1., 7., 0.}))[0], 14.);
+            EXPECT_DOUBLE_EQ(xt::sum(core::mean_squared_eror(core::Vec{-2., -5., -3.}, core::Vec{-1., -7., 0.}))[0], 14.);
+            EXPECT_DOUBLE_EQ(xt::sum(core::mean_squared_eror(core::Vec{-5., 0., -1., 7.}, core::Vec{-4., 3., -5., 6.}))[0], 27.);
         }
 
         TEST(CoreAlgebraDeathTest, MSEDeath)
@@ -107,16 +107,16 @@ namespace core::algebra
 
         TEST(CoreAlgebraDeathTest, CrossEntropySmall)
         {
-            EXPECT_DOUBLE_EQ(core::cross_entropy(core::Vec{}, core::Vec{}), 0.);
-            EXPECT_NEAR(core::cross_entropy(core::Vec{0.1}, core::Vec{0.1}), 0.32508297, 1e-8);
-            EXPECT_NEAR(core::cross_entropy(core::Vec{0.1}, core::Vec{0.2}), 0.54480543, 1e-8);
-            EXPECT_NEAR(core::cross_entropy(core::Vec{0.1}, core::Vec{0.3}), 0.76452789, 1e-8);
-            EXPECT_NEAR(core::cross_entropy(core::Vec{0.1}, core::Vec{0.4}), 0.98425035, 1e-8);
-            EXPECT_NEAR(core::cross_entropy(core::Vec{0.1}, core::Vec{0.9}), 2.08286264, 1e-8);
-            EXPECT_NEAR(core::cross_entropy(core::Vec{0.1}, core::Vec{1.9}), 4.28008721, 1e-8);
-            EXPECT_NEAR(core::cross_entropy(core::Vec{0.1}, core::Vec{-0.1}), -0.11436194, 1e-8);
-            EXPECT_NEAR(core::cross_entropy(core::Vec{0.1,0.999}, core::Vec{0.,1.}), 0.1063610203, 1e-8);
-            EXPECT_NEAR(core::cross_entropy(core::Vec{.001,.5,.7,.9,.75}, core::Vec{0.,.5,.3,.2,44.}), -43.44557503, 1e-8);
+            expect_container_eq(core::cross_entropy(core::Vec{}, core::Vec{}), core::Vec{});
+            expect_container_eq(core::cross_entropy(core::Vec{0.1}, core::Vec{0.1}),  core::Vec{0.32508297}, 1e-8);
+            expect_container_eq(core::cross_entropy(core::Vec{0.1}, core::Vec{0.2}),  core::Vec{0.54480543}, 1e-8);
+            expect_container_eq(core::cross_entropy(core::Vec{0.1}, core::Vec{0.3}),  core::Vec{0.76452789}, 1e-8);
+            expect_container_eq(core::cross_entropy(core::Vec{0.1}, core::Vec{0.4}),  core::Vec{0.98425035}, 1e-8);
+            expect_container_eq(core::cross_entropy(core::Vec{0.1}, core::Vec{0.9}),  core::Vec{2.08286264}, 1e-8);
+            expect_container_eq(core::cross_entropy(core::Vec{0.1}, core::Vec{1.9}),  core::Vec{4.28008721}, 1e-8);
+            expect_container_eq(core::cross_entropy(core::Vec{0.1}, core::Vec{-0.1}), core::Vec{-0.11436194}, 1e-8);
+            EXPECT_NEAR(xt::sum(core::cross_entropy(core::Vec{0.1,0.999}, core::Vec{0.,1.}))[0], 0.1063610203, 1e-8);
+            EXPECT_NEAR(xt::sum(core::cross_entropy(core::Vec{.001,.5,.7,.9,.75}, core::Vec{0.,.5,.3,.2,44.}))[0], -43.44557503, 1e-8);
         }
 
         TEST(CoreAlgebraDeathTest, CrossEntropyDeath)

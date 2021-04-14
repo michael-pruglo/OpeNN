@@ -15,11 +15,11 @@ namespace core
     Vec der_tanh    (const Vec& x);
 
     //`a` = given, `y` = expected
-    float_t mean_squared_eror(const Vec& a, const Vec& y);
-    float_t cross_entropy    (const Vec& a, const Vec& y);
+    Vec mean_squared_eror(const Vec& a, const Vec& y);
+    Vec cross_entropy    (const Vec& a, const Vec& y);
 
-    float_t der_mean_squared_eror(const Vec& a, const Vec& y);
-    float_t der_cross_entropy    (const Vec& a, const Vec& y);
+    Vec der_mean_squared_eror(const Vec& a, const Vec& y);
+    Vec der_cross_entropy    (const Vec& a, const Vec& y);
 
     //hadamard product is element-wise prod of two vectors
 }

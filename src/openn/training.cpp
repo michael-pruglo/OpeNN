@@ -109,7 +109,7 @@ core::float_t FeedForwardNetworkTrainer::eval_average_cost()
 {
     core::float_t total_cost = 0.0;
     for (const auto& [input, expected]: *test_data)
-        total_cost += cost_f(hyper_parameters.cost_f_type, nn->forward(input), expected);
+        total_cost += xt::sum(cost_f(hyper_parameters.cost_f_type, nn->forward(input), expected))[0];
     return total_cost / test_data->size();  //may be omitted, rescaling the learning rate
 }
 

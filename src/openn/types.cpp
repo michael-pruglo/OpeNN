@@ -39,7 +39,7 @@ Vec openn::activation_der(ActivationFType type, const Vec& v)
 
 namespace
 {
-    using CostF = std::function<openn::float_t(const Vec&,const Vec&)>;
+    using CostF = std::function<Vec(const Vec&,const Vec&)>;
 
     const std::unordered_map<CostFType, CostF> COST_FUNCTIONS = {
         { CostFType::MEAN_SQUARED_ERROR, core::mean_squared_eror },
@@ -52,13 +52,13 @@ namespace
     };
 }
 
-core::float_t openn::cost_f(CostFType type, const Vec &v, const Vec &exp)
+Vec openn::cost_f(CostFType type, const Vec &v, const Vec &exp)
 {
     const auto& f = COST_FUNCTIONS.at(type);
     return f(v, exp);
 }
 
-core::float_t openn::cost_der(CostFType type, const Vec &v, const Vec &exp)
+Vec openn::cost_der(CostFType type, const Vec &v, const Vec &exp)
 {
     const auto& f = COST_DERIVATIVES.at(type);
     return f(v, exp);

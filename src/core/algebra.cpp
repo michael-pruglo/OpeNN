@@ -47,36 +47,36 @@ namespace
     }
 }
 
-core::float_t core::mean_squared_eror(const Vec& a, const Vec& y)
+Vec core::mean_squared_eror(const Vec& a, const Vec& y)
 {
     assert(a.size() == y.size());
 
     const auto& c = xt::pow<2>(a-y);
 
-    return eval_sum(c);
+    return c;
 }
 
-core::float_t core::cross_entropy(const Vec& a, const Vec& y)
+Vec core::cross_entropy(const Vec& a, const Vec& y)
 {
     assert(a.size() == y.size());
 
     const auto& ones = xt::ones<float_t>({a.size()});
     const auto& c = -( y*xt::log(a) + (ones-y)*xt::log(ones-a));
 
-    return eval_sum(c);
+    return c;
 }
 
 
-core::float_t core::der_mean_squared_eror(const Vec& a, const Vec& y)
+Vec core::der_mean_squared_eror(const Vec& a, const Vec& y)
 {
     assert(a.size() == y.size());
 
     const auto& c = 2 * (a-y);
 
-    return eval_sum(c);
+    return c;
 }
 
-core::float_t core::der_cross_entropy(const Vec& a, const Vec& y)
+Vec core::der_cross_entropy(const Vec& a, const Vec& y)
 {
     assert(a.size() == y.size());
 
