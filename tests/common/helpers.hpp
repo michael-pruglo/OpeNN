@@ -30,5 +30,5 @@ inline void expect_container_eq(const Iterable1& a1, const Iterable2& a2, double
 {
     EXPECT_CONTAINER_EQ_IMPL(
         EXPECT_NEAR(*it1, *it2, tolerance)
-    )
+        )
 }

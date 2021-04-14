@@ -177,7 +177,7 @@ namespace openn
         );
     }
 
-    TEST(NNComputationTest, FwdBckSmallSigmoid)
+    TEST(NNComputationTest, FwdBckSmallSigmoid1)
     {
         // https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/
         TransparentFFN tffn(
@@ -220,5 +220,90 @@ namespace openn
         const auto& w = tffn.get_w();
         expect_container_eq(w[1], (Matrix{{.149780716, .19956143},{.24975114,  .29950229}}), TOLERANCE);
         expect_container_eq(w[2], (Matrix{{.35891648,  .408666186},{.511301270, .561370121}}), TOLERANCE);
+    }
+
+    TEST(NNComputationTest, FwdBckSmallSigmoid2)
+    {
+        // https://alexander-schiendorfer.github.io/2020/02/24/a-worked-example-of-backprop.html
+        TransparentFFN tffn(
+            {
+                {},
+                {{6., -2.},  {-3., 5.}},
+                {{1., .25}, {-2., 2.}},
+            },
+            {
+                {},
+                {0., 0.},
+                {0., 0.},
+            }
+        );
+        constexpr float_t TOLERANCE = 1e-8;
+
+        Gradient total_grad;
+        {
+            tffn.forward({ 3., 1. });
+            const auto& z = tffn.get_z();
+            const auto& a = tffn.get_a();
+            expect_container_eq(z[1], (Vec{16., -4.}), .005);
+            expect_container_eq(a[1], (Vec{.9999998874648379, .017986209962091558}), TOLERANCE);
+            expect_container_eq(z[2], (Vec{1.004, -1.96}), .005);
+            expect_container_eq(a[2], (Vec{0.73194171, 0.12303186}), TOLERANCE);
+
+            const Gradient& grad = tffn.backprop({ 1., 0. }, CostFType::MEAN_SQUARED_ERROR);
+            ASSERT_EQ(grad.w.shape(), (std::array<size_t, 1>{ 3 }));
+            ASSERT_EQ(grad.w[1].shape(), (std::array<size_t, 2>{ 2, 2 }));
+            ASSERT_EQ(grad.w[2].shape(), (std::array<size_t, 2>{ 2, 2 }));
+            ASSERT_EQ(grad.b.shape(), (std::array<size_t, 1>{ 3 }));
+            ASSERT_EQ(grad.b[1].shape(), (std::array<size_t, 1>{ 2 }));
+            ASSERT_EQ(grad.b[2].shape(), (std::array<size_t, 1>{ 2 }));
+            expect_container_eq(grad.w[2], (Matrix{ { -0.10518769048825163, -0.0018919280994576303 }, { 0.02654904571226164, 0.0004775167642113309 } }), TOLERANCE);
+            expect_container_eq(grad.w[1], (Matrix{ { -5.34381483665323e-08, -1.7812716122177433e-08 }, { 0.0014201436720081408, 0.0004733812240027136 } }), TOLERANCE);
+
+            constexpr size_t layers_count = 3;
+            total_grad.w = grad.w;
+            total_grad.b = Vectors({layers_count});
+            for (size_t i = 0; i < layers_count; ++i)
+                total_grad.b[i] = xt::zeros_like(grad.b[i]);
+        }
+        {
+            tffn.forward({ -1., 4. });
+            const auto& z = tffn.get_z();
+            const auto& a = tffn.get_a();
+            expect_container_eq(z[1], (Vec{-14., 23.}), .005);
+            expect_container_eq(a[1], (Vec{0., 1.}), .005);
+            expect_container_eq(z[2], (Vec{0.25, 2.}), .005);
+            expect_container_eq(a[2], (Vec{.56, .88}), .005);
+
+            const Gradient& grad = tffn.backprop({ 0., 1. }, CostFType::MEAN_SQUARED_ERROR);
+            ASSERT_EQ(grad.w.shape(), (std::array<size_t, 1>{ 3 }));
+            ASSERT_EQ(grad.w[1].shape(), (std::array<size_t, 2>{ 2, 2 }));
+            ASSERT_EQ(grad.w[2].shape(), (std::array<size_t, 2>{ 2, 2 }));
+            ASSERT_EQ(grad.b.shape(), (std::array<size_t, 1>{ 3 }));
+            ASSERT_EQ(grad.b[1].shape(), (std::array<size_t, 1>{ 2 }));
+            ASSERT_EQ(grad.b[2].shape(), (std::array<size_t, 1>{ 2 }));
+            expect_container_eq(grad.w[2], (Matrix{ { 0., 0.275 }, { 0., -0.025 } }), .005);
+            expect_container_eq(grad.w[1], (Matrix{ { 0., 0. }, { 0., 0. } }), .005);
+
+            total_grad.w += grad.w;
+        }
+
+        expect_container_eq(total_grad.w[2], (Matrix{ { -0.10518769048825163, 0.2731 }, { 0.02654904571226164, -0.024 } }), 0.005);
+        expect_container_eq(total_grad.w[1], (Matrix{ { -5.34381483665323e-08, 1.0712716122177433e-06 }, { 0.0014201436720081408, 0.0004733812240027136 } }), 1e-6);
+
+        tffn.update(total_grad, 0.5);
+        const auto& new_w = tffn.get_w();
+        expect_container_eq(new_w[2], (Matrix{ { 1.052593845244125815, 0.11 }, { -2.01725687, 2.01595986 } }), .005);
+        expect_container_eq(new_w[1], (Matrix{ { 6., -2. }, { -3.001, 4.9995 } }), .0005);
+
+        {
+            tffn.forward({ 3., 1. });
+            const auto& new_res = tffn.get_a()[2];
+            expect_container_eq(new_res, (Vec{0.74165987, 0.12162137}), TOLERANCE);
+        }
+        {
+            tffn.forward({ -1., 4. });
+            const auto& new_res = tffn.get_a()[2];
+            expect_container_eq(new_res, (Vec{0.52811432, 0.88207988}), TOLERANCE);
+        }
     }
 }
