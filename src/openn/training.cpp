@@ -209,6 +209,6 @@ void FFNTrainingVisualizer::show_epoch_no(size_t i)
 void FFNTrainingVisualizer::show_epoch_results(float_t average_cost)
 {
     std::cout << "done. Average cost: "
-              << std::setprecision(3) << std::fixed << std::setw(10) << average_cost
+              << std::fixed << std::setw(10) << average_cost
               << "\n";
 }

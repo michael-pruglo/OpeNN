@@ -8,9 +8,9 @@ void XorEnvironment::run()
         std::vector<size_t>{ 2, 2, 1 }
     ));
     trainer.set_hyper_parameters({
-        .epochs     = 160,
-        .eta        = 0.1,
-        .method     = openn::TrainingMethod::FULL_GRAD_DESCENT,
+        .epochs     = 15'000,
+        .eta        = 0.05,
+        .method     = openn::TrainingMethod::ONLINE_LEARNING,
     });
     const std::vector<openn::TrainingSample> trn_vec {
         openn::TrainingSample{ {0., 0.}, {0.} },
