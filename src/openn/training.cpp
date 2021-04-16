@@ -17,17 +17,17 @@ void FeedForwardNetworkTrainer::set_hyper_parameters(TrainingHyperParameters hyp
     hyper_parameters = hyper_params;
 }
 
-void FeedForwardNetworkTrainer::set_training_data(TrainingDataPtr const tr_data)
+void FeedForwardNetworkTrainer::set_training_data(TrainingDataPtr tr_data)
 {
     training_data = tr_data;
 }
 
-void FeedForwardNetworkTrainer::set_validation_data(TrainingDataPtr const val_data)
+void FeedForwardNetworkTrainer::set_validation_data(TrainingDataPtr val_data)
 {
     validation_data = val_data;
 }
 
-void FeedForwardNetworkTrainer::set_test_data(TrainingDataPtr const tst_data)
+void FeedForwardNetworkTrainer::set_test_data(TrainingDataPtr tst_data)
 {
     test_data = tst_data;
 }
@@ -37,21 +37,35 @@ void FeedForwardNetworkTrainer::train(bool verbose) const
     assert(nn);
     assert(training_data);
 
+    if (verbose) FFNTrainingVisualizer::show_hyper_parameters(hyper_parameters);
+
     for (size_t i = 0; i < hyper_parameters.epochs; ++i)
     {
-        switch (hyper_parameters.method)
+        if (!verbose)
+            epoch();
+        else
         {
-        case TrainingMethod::FULL_GRAD_DESCENT:
-            epoch_full_gradient_descent(training_data->begin(), training_data->end());
-            break;
-        case TrainingMethod::STOCHASTIC_GRAD_DESCENT:
-            epoch_stochastic_gradient_descent(training_data->begin(), training_data->end(),
-                hyper_parameters.batch_size);
-            break;
-        case TrainingMethod::ONLINE_LEARNING:
-            epoch_online_learning(training_data->begin(), training_data->end());
-            break;
+            FFNTrainingVisualizer::show_epoch_no(i);
+            epoch();
+            FFNTrainingVisualizer::show_epoch_results(eval_average_cost());
         }
+    }
+}
+
+void FeedForwardNetworkTrainer::epoch() const
+{
+    switch (hyper_parameters.method)
+    {
+    case TrainingMethod::FULL_GRAD_DESCENT:
+        epoch_full_gradient_descent(training_data->begin(), training_data->end());
+        break;
+    case TrainingMethod::STOCHASTIC_GRAD_DESCENT:
+        epoch_stochastic_gradient_descent(training_data->begin(), training_data->end(),
+            hyper_parameters.batch_size);
+        break;
+    case TrainingMethod::ONLINE_LEARNING:
+        epoch_online_learning(training_data->begin(), training_data->end());
+        break;
     }
 }
 
@@ -105,7 +119,7 @@ Gradient FeedForwardNetworkTrainer::process_sample(const TrainingSample& sample)
     return grad;
 }
 
-core::float_t FeedForwardNetworkTrainer::eval_average_cost()
+core::float_t FeedForwardNetworkTrainer::eval_average_cost() const
 {
     core::float_t total_cost = 0.0;
     for (const auto& [input, expected]: *test_data)
@@ -140,7 +154,7 @@ namespace
     }
 }
 
-size_t FeedForwardNetworkTrainer::eval_correct_guesses()
+size_t FeedForwardNetworkTrainer::eval_correct_guesses() const
 {
     assert(is_classification_problem(test_data));
 
@@ -151,3 +165,50 @@ size_t FeedForwardNetworkTrainer::eval_correct_guesses()
 }
 
 
+
+void FFNTrainingVisualizer::show_hyper_parameters(const TrainingHyperParameters& hyper_parameters)
+{
+    std::cout << "Learning hyper parameters:\n"
+              << "\t epochs: "          << hyper_parameters.epochs              << "\n"
+              << "\t learning rate: "   << hyper_parameters.eta                 << "\n"
+              << "\t cost function: "   << to_str(hyper_parameters.cost_f_type) << "\n"
+              << "\t learning method: " << to_str(hyper_parameters.method)      << "\n";
+
+    if (hyper_parameters.method == TrainingMethod::STOCHASTIC_GRAD_DESCENT)
+        std::cout << "\t batch_size: "      << hyper_parameters.batch_size          << "\n";
+}
+
+std::string FFNTrainingVisualizer::to_str(CostFType cost_f_type)
+{
+    switch (cost_f_type)
+    {
+    case CostFType::MEAN_SQUARED_ERROR: return "mean squared error";
+    case CostFType::CROSS_ENTROPY:      return "cross entropy";
+    default:
+        return " Error ";
+    }
+}
+
+std::string FFNTrainingVisualizer::to_str(TrainingMethod method)
+{
+    switch (method)
+    {
+    case TrainingMethod::FULL_GRAD_DESCENT:       return "full gradient descent";
+    case TrainingMethod::STOCHASTIC_GRAD_DESCENT: return "stochastic gradient descent";
+    case TrainingMethod::ONLINE_LEARNING:         return "online learning a.k.a. incremental learning";
+    default:
+        return " Error ";
+    }
+}
+
+void FFNTrainingVisualizer::show_epoch_no(size_t i)
+{
+    std::cout << "epoch " << std::setw(3) << i << "..";
+}
+
+void FFNTrainingVisualizer::show_epoch_results(float_t average_cost)
+{
+    std::cout << "done. Average cost: "
+              << std::setprecision(3) << std::fixed << std::setw(10) << average_cost
+              << "\n";
+}

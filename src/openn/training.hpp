@@ -8,7 +8,7 @@ namespace openn
     {
         Vec input, expected;
     };
-    using TrainingDataPtr   = std::shared_ptr<const std::vector<TrainingSample>>;
+    using TrainingDataPtr   = const std::vector<TrainingSample>*;
     using TrainingConstIt   = std::vector<TrainingSample>::const_iterator;
     using TrainingIt        = std::vector<TrainingSample>::iterator;
 
@@ -44,8 +44,8 @@ namespace openn
         virtual void    train(bool verbose = false) const = 0;
 
         //evaluation
-        virtual float_t eval_average_cost() = 0;
-        virtual size_t  eval_correct_guesses() = 0;
+        virtual float_t eval_average_cost() const = 0;
+        virtual size_t  eval_correct_guesses() const = 0;
 
     protected:
         std::shared_ptr<NeuralNetwork> nn;
@@ -67,16 +67,28 @@ namespace openn
 
         void    train(bool verbose = false) const override;
 
-        float_t eval_average_cost() override;
-        size_t  eval_correct_guesses() override;
+        float_t eval_average_cost() const override;
+        size_t  eval_correct_guesses() const override;
 
     protected:
+        void epoch() const;
         void epoch_full_gradient_descent      (TrainingConstIt first, TrainingConstIt last) const;
         void epoch_stochastic_gradient_descent(TrainingConstIt first, TrainingConstIt last, size_t batch_size) const;
         void epoch_online_learning            (TrainingConstIt first, TrainingConstIt last) const;
         void epoch_sgd_destructive            (TrainingIt first, TrainingIt last, size_t batch_size) const;
 
         Gradient process_sample(const TrainingSample& sample) const;
+    };
+
+
+    struct FFNTrainingVisualizer
+    {
+        static void show_hyper_parameters(const TrainingHyperParameters& hyper_parameters);
+        static void show_epoch_no(size_t i);
+        static void show_epoch_results(float_t average_cost);
+
+        static std::string to_str(CostFType cost_f_type);
+        static std::string to_str(TrainingMethod method);
     };
 
 
