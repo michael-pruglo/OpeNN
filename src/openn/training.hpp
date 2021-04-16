@@ -85,7 +85,7 @@ namespace openn
     {
         static void show_hyper_parameters(const TrainingHyperParameters& hyper_parameters);
         static void show_epoch_no(size_t i);
-        static void show_epoch_results(float_t average_cost);
+        static void show_epoch_results(float_t average_cost, size_t correct_guesses, size_t test_data_size);
 
         static std::string to_str(CostFType cost_f_type);
         static std::string to_str(TrainingMethod method);

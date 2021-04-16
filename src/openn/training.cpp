@@ -45,9 +45,9 @@ void FeedForwardNetworkTrainer::train(bool verbose) const
             epoch();
         else
         {
-            FFNTrainingVisualizer::show_epoch_no(i);
+            FFNTrainingVisualizer::show_epoch_no(i); 
             epoch();
-            FFNTrainingVisualizer::show_epoch_results(eval_average_cost());
+            FFNTrainingVisualizer::show_epoch_results(eval_average_cost(), eval_correct_guesses(), test_data->size());
         }
     }
 }
@@ -156,7 +156,7 @@ namespace
 
 size_t FeedForwardNetworkTrainer::eval_correct_guesses() const
 {
-    assert(is_classification_problem(test_data));
+    //assert(is_classification_problem(test_data));
 
     size_t correct_guesses = 0;
     for (const auto& [input, expected]: *test_data)
@@ -206,9 +206,10 @@ void FFNTrainingVisualizer::show_epoch_no(size_t i)
     std::cout << "epoch " << std::setw(3) << i << "..";
 }
 
-void FFNTrainingVisualizer::show_epoch_results(float_t average_cost)
+void FFNTrainingVisualizer::show_epoch_results(float_t average_cost, size_t correct_guesses, size_t test_data_size)
 {
     std::cout << "done. Average cost: "
               << std::fixed << std::setw(10) << average_cost
+              << "  guessed: " << correct_guesses << "/" << test_data_size
               << "\n";
 }
